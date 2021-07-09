@@ -1,5 +1,5 @@
-INSTALLATION
-=============
+Installation
+============
 
 1. `composer require drupal/cloud`
 2. Enable these modules.
