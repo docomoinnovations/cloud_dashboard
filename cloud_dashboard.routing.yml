@@ -1,0 +1,26 @@
+# Cloud Dashboard Login Form
+cloud_dashboard.login:
+  path: '/clouds/dashboard'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
+# Cloud Dashboard Main Form
+cloud_dashboard.route:
+  path: '/clouds/dashboard/main'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
+# Callback endpoint
+cloud_dashboard.callback:
+  path: '/clouds/dashboard/callback'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'

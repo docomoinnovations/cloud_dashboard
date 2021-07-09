@@ -1,0 +1,6 @@
+react_app:
+  js:
+    js/2.chunk.js: { minified: true }
+    js/3.chunk.js: { minified: true }
+    js/main.chunk.js: { minified: true }
+    js/runtime-main.js: { minified: true }
