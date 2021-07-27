@@ -4,6 +4,7 @@ import { ROUTE_URL } from 'constant';
 import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import MainForm from 'container/MainForm';
+import K8sPodForm from 'container/K8sPodForm';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
@@ -20,6 +21,7 @@ const App: React.VFC = () => {
       <Route exact path="/main">
         <div className="container">
           <MainForm />
+          <K8sPodForm />
         </div>
       </Route>
       <Route exact path="/">
