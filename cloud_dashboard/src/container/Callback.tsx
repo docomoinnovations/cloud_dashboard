@@ -2,7 +2,7 @@ import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
 import React, { useEffect } from 'react';
 
 const CallbackView: React.VFC = () => {
-  const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri :string) => {
+  const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri: string) => {
     // request Access token
     const formData = new FormData();
     formData.append('grant_type', 'authorization_code');
@@ -66,7 +66,7 @@ const CallbackView: React.VFC = () => {
     requestTokenByCodeGrant(code, clientId, redirectUri).then(() => {
       console.log('Access token : Yes');
       console.groupEnd();
-      window.location.href = ROUTE_URL + '/main';
+      window.location.href = ROUTE_URL + '/aws_cloud/instance';
     }).catch(() => {
       console.log('Access token : No');
       console.error('Authorization failed.');
@@ -75,9 +75,11 @@ const CallbackView: React.VFC = () => {
     });
   }, []);
 
-  return (
-    <h2>Please waiting...</h2>
-  );
+  return <div className="row">
+    <div className="col">
+      <h2>Please waiting...</h2>
+    </div>
+  </div>;
 }
 
 export default CallbackView;

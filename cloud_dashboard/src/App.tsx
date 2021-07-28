@@ -5,32 +5,31 @@ import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import MainForm from 'container/MainForm';
 import K8sPodForm from 'container/K8sPodForm';
+import AwsInstanceForm from 'container/AwsInstanceForm';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
-      <Route exact path="/callback">
+      <Route exact path="/aws_cloud/instance">
         <div className="container">
-          <div className="row">
-            <div className="col">
-              <CallbackView />
-            </div>
-          </div>
+          <MainForm selectedMenuName="AWS instance" />
+          <AwsInstanceForm />
         </div>
       </Route>
-      <Route exact path="/main">
+      <Route exact path="/callback">
         <div className="container">
-          <MainForm />
+          <CallbackView />
+        </div>
+      </Route>
+      <Route exact path="/k8s/pod">
+        <div className="container">
+          <MainForm selectedMenuName="K8s Pod"/>
           <K8sPodForm />
         </div>
       </Route>
       <Route exact path="/">
         <div className="container">
-          <div className="row">
-            <div className="col">
-              <LoginForm />
-            </div>
-          </div>
+          <LoginForm />
         </div>
       </Route>
     </Switch>

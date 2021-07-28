@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
-import { ROUTE_URL } from 'constant';
+import React, { useEffect, useState } from 'react';
+import { MENU_LIST, ROUTE_URL } from 'constant';
 
-const MainForm: React.VFC = () => {
+const MainForm: React.VFC<{
+  selectedMenuName: string
+}> = ({selectedMenuName}) => {
   useEffect(() => {
     // If you don't have the access token, redirect route URL.
     const accessToken = window.localStorage.getItem('accessToken');
@@ -25,14 +27,20 @@ const MainForm: React.VFC = () => {
     window.location.href = ROUTE_URL;
   };
 
-  return <div className="row">
-    <div className="col">
-      <form>
-        <button type="button" className="btn btn-default"
-          onClick={logout}>logout</button>
-      </form>
-    </div>
-  </div>;
+  return <>
+    <ul className="nav nav-tabs">
+      {MENU_LIST.map((menu) => {
+        return <li key={menu.name} role="presentation"
+          className={menu.name === selectedMenuName ? 'active' : ''}>
+          <a href={`${ROUTE_URL}${menu.url}`}>
+            {menu.name}
+          </a>
+        </li>;
+      })}
+      <li role="presentation">
+        <a href="#" onClick={logout}>logout</a></li>
+    </ul>
+  </>;
 }
 
 export default MainForm;
