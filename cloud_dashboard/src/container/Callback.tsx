@@ -2,7 +2,7 @@ import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
 import React, { useEffect } from 'react';
 
 const CallbackView: React.VFC = () => {
-  const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri :string) => {
+  const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri: string) => {
     // request Access token
     const formData = new FormData();
     formData.append('grant_type', 'authorization_code');
