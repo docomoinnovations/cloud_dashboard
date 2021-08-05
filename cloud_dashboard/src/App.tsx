@@ -5,15 +5,15 @@ import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import MainForm from 'container/MainForm';
 import K8sPodForm from 'container/K8sPodForm';
-import AwsInstanceForm from 'container/AwsInstanceForm';
+import AwsCloudInstanceForm from 'container/AwsInstanceForm';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
       <Route exact path="/aws_cloud/instance">
         <div className="container">
-          <MainForm selectedMenuName="AWS instance" />
-          <AwsInstanceForm />
+          <MainForm selectedMenuName="AWS Cloud instance" />
+          <AwsCloudInstanceForm />
         </div>
       </Route>
       <Route exact path="/callback">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ROUTE_URL } from 'constant';
 
-interface AwsInstance {
+interface AwsCloudInstance {
   drupal_internal__id: number;
   cloud_context: string;
   name: string;
@@ -23,8 +23,8 @@ interface SortInfo {
   direction: SortDirection;
 }
 
-const AwsInstanceForm: React.VFC = () => {
-  const [instanceList, setInstanceList] = useState<AwsInstance[]>([]);
+const AwsCloudInstanceForm: React.VFC = () => {
+  const [instanceList, setInstanceList] = useState<AwsCloudInstance[]>([]);
   const [itemsPerPage] = useState(30);
   const [pageIndex, setPageIndex] = useState(0);
   const [cloudContextList, setCloudContextList] = useState<string[]>([]);
@@ -249,4 +249,4 @@ const AwsInstanceForm: React.VFC = () => {
   </div>;
 }
 
-export default AwsInstanceForm;
+export default AwsCloudInstanceForm;
