@@ -7,18 +7,27 @@ cloud_dashboard.login:
   requirements:
     _permission: 'administer'
 
-# Cloud Dashboard Main Form
-cloud_dashboard.route:
-  path: '/clouds/dashboard/main'
+# Callback endpoint
+cloud_dashboard.callback:
+  path: '/clouds/dashboard/callback'
   defaults:
     _title: Cloud Dashboard
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
   requirements:
     _permission: 'administer'
 
-# Callback endpoint
-cloud_dashboard.callback:
-  path: '/clouds/dashboard/callback'
+# form for AWS
+cloud_dashboard.aws_cloud.form:
+  path: '/clouds/dashboard/aws_cloud/{parameter}'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
+# form for K8s
+cloud_dashboard.k8s.form:
+  path: '/clouds/dashboard/k8s/{parameter}'
   defaults:
     _title: Cloud Dashboard
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
