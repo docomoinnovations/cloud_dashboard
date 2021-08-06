@@ -26,6 +26,7 @@ interface SortInfo {
 const AwsCloudInstanceForm: React.VFC = () => {
   const [instanceList, setInstanceList] = useState<AwsCloudInstance[]>([]);
   const [itemsPerPage] = useState(30);
+  const [itemCount, setItemCount] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
   const [cloudContextList, setCloudContextList] = useState<string[]>([]);
   const [selectedCloudContext, setSelectedCloudContext] = useState<string>('');
@@ -36,14 +37,14 @@ const AwsCloudInstanceForm: React.VFC = () => {
 
   const changeSortMode = (key: SortKey) => {
     if (sortInfo.key !== key) {
-      setSortInfo({key, direction: 'ASC'});
+      setSortInfo({ key, direction: 'ASC' });
       return;
     }
     if (sortInfo.direction === 'ASC') {
-      setSortInfo({key, direction: 'DESC'});
+      setSortInfo({ key, direction: 'DESC' });
       return;
     }
-    setSortInfo({key: '', direction: 'ASC'});
+    setSortInfo({ key: '', direction: 'ASC' });
   };
 
   const paddingZero = (data: any, length: number) => {
@@ -128,6 +129,18 @@ const AwsCloudInstanceForm: React.VFC = () => {
     });
   }, []);
 
+  // set item count
+  useEffect(() => {
+    // make URL
+    let url = `/cloud_dashboard/aws_cloud/${selectedCloudContext}/aws_cloud_instance/entity/count`;
+    // refresh item count
+    fetch(url).then((res) => {
+      return res.json();
+    }).then((res) => {
+      setItemCount(res.count);
+    });
+  }, [selectedCloudContext]);
+
   useEffect(() => {
     // set default cloud_context
     if (selectedCloudContext === '' || !cloudContextList.includes(selectedCloudContext)) {
@@ -150,6 +163,9 @@ const AwsCloudInstanceForm: React.VFC = () => {
               return <option value={cloudContext} key={cloudContext}>{cloudContext}</option>
             })}
           </select>
+        </div>
+        <div className="form-group">
+          <label className="control-label">Item Count: {itemCount}</label>
         </div>
         <div className="table-responsive">
           <table className="table table-hover table-striped sticky-enabled sticky-table">
@@ -240,6 +256,16 @@ const AwsCloudInstanceForm: React.VFC = () => {
                 }
               }}>
                 <span aria-hidden="true">＞</span>
+              </a>
+            </li>
+            <li className={itemCount !== 0 && hasNextFlg ? '' : 'disabled'}>
+              <a href="#" aria-label="最後のページへ" onClick={() => {
+                if (itemCount !== 0 && hasNextFlg) {
+                  const pageCount = Math.floor(1.0 * (itemCount + itemsPerPage - 1) / itemsPerPage);
+                  setPageIndex(pageCount - 1);
+                }
+              }}>
+                <span aria-hidden="true">»</span>
               </a>
             </li>
           </ul>
