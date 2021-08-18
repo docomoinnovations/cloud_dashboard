@@ -64,23 +64,25 @@ const convertDateString = (dateString: string) => {
  * @returns fixed value string
  */
 const roundNumber = (value: number, digit: number) => {
+  // This code means "x = 10 ^ digit".
   let x = 1.0;
   for (let i = 0; i < digit; i += 1) {
     x *= 10;
   }
 
-  if (Math.floor(value) === value) {
-    let temp = `${value}`;
-    if (digit !== 0) {
-      temp += '.';
-      for (let i = 0; i < digit; i += 1) {
-        temp += '0';
-      }
-    }
-    return temp;
-  } else {
+  // Use guard clause.
+  if (Math.floor(value) !== value) {
     return `${Math.round(value * x) / x}`;
   }
+
+  let temp = `${value}`;
+  if (digit !== 0) {
+    temp += '.';
+    for (let i = 0; i < digit; i += 1) {
+      temp += '0';
+    }
+  }
+  return temp;
 };
 
 /**
@@ -107,7 +109,7 @@ const CloudContextSelect: React.VFC<{
 
   // Set default cloud context.
   useEffect(() => {
-    if (cloudContext === '' || !cloudContextList.includes(cloudContext)) {
+    if (!cloudContextList.includes(cloudContext)) {
       if (cloudContextList.length >= 1) {
         setCloudContext(cloudContextList[0]);
       }
@@ -270,11 +272,11 @@ const EntityTable: React.VFC<{
       parameters.push({ key: 'filter[cloud_context]', value: cloudContext });
     }
     if (sortInfo.key !== '') {
-      if (sortInfo.direction === 'ASC') {
-        parameters.push({ key: 'sort', value: sortInfo.key });
-      } else {
-        parameters.push({ key: 'sort', value: '-' + sortInfo.key });
-      }
+      parameters.push(
+        sortInfo.direction === 'ASC'
+          ? { key: 'sort', value: sortInfo.key }
+          : { key: 'sort', value: '-' + sortInfo.key }
+      );
     }
     if (parameters.length > 0) {
       url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
