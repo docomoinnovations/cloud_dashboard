@@ -1,16 +1,7 @@
 import { ITEMS_PER_PAGE } from 'constant';
+import EntityColumn from 'model/EntityColumn';
+import EntityColumnType from 'model/EntityColumnType';
 import React, { useEffect, useState } from 'react';
-
-type EntityColumnType = 'default' | 'datetime' | 'memory';
-
-/**
- * Label name and data attribute's key of entity.
- */
-interface EntityColumn {
-  labelName: string;
-  name: string;
-  type: EntityColumnType;
-}
 
 /**
  * Information of soring parameter for entity table.
@@ -125,40 +116,41 @@ const CloudContextSelect: React.VFC<{
 }
 
 /**
- * Selector of namespace.
+ * Selector of field column.
  * @param cloudContext Value of cloud context.
- * @param namespace Value of namespace.
- * @param setNamespace Setter method of namespace.
+ * @param columnName Value of field column.
+ * @param setColumnName Setter method of field column.
  */
-const NamespaceSelect: React.VFC<{
+const FieldSelect: React.VFC<{
   cloudContext: string,
-  namespace: string,
-  setNamespace: (s: string) => void
-}> = ({ cloudContext, namespace, setNamespace }) => {
-  const [namespaceList, setNamespaceList] = useState<string[]>([]);
+  columnKey: string,
+  columnName: string,
+  setColumnName: (s: string) => void
+}> = ({ cloudContext, columnKey, columnName, setColumnName }) => {
+  const [dataList, setDataList] = useState<string[]>([]);
 
-  // Set namespace list.
+  // Set columnData list.
   useEffect(() => {
-    let url = `/jsonapi/k8s_namespace/k8s_namespace`;
+    let url = `/jsonapi/k8s_${columnKey}/k8s_${columnKey}`;
     if (cloudContext !== '') {
       url += `?cloudContext=${cloudContext}`;
     }
     fetch(url).then((res) => {
       return res.json();
     }).then((res) => {
-      setNamespaceList(res.data.map((record: any) => {
+      setDataList(res.data.map((record: any) => {
         return record.attributes.name;
       }));
     });
   }, [cloudContext]);
 
-  return <select className="form-select form-control" value={namespace}
+  return <select className="form-select form-control" value={columnName}
     onChange={(e) => {
-      setNamespace(e.currentTarget.value);
+      setColumnName(e.currentTarget.value);
     }}>
     <option value="">- すべて -</option>
-    {namespaceList.map((namespace) => {
-      return <option value={namespace} key={namespace}>{namespace}</option>
+    {dataList.map((data) => {
+      return <option value={data} key={data}>{data}</option>
     })}
   </select>;
 }
@@ -168,6 +160,7 @@ const NamespaceSelect: React.VFC<{
  * @param cloudContext Value of cloud context.
  * @param entityTypeId Entity type ID.
  * @param namespace Value of namespace.
+ * @param namespaceName Value of namespace.
  * @param itemCount Entity item's count.
  * @param setItemCount Setter of itemCount.
  */
@@ -175,9 +168,10 @@ const ItemCountLabel: React.VFC<{
   entityTypeId: string,
   cloudContext: string,
   namespace: string,
+  namespaceName: string,
   itemCount: number,
   setItemCount: (n: number) => void
-}> = ({ cloudContext, entityTypeId, namespace, itemCount, setItemCount }) => {
+}> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
   // Set entity item's count.
   useEffect(() => {
     if (cloudContext === '') {
@@ -187,13 +181,16 @@ const ItemCountLabel: React.VFC<{
       if (namespace !== '') {
         url += `?namespace=${namespace}`;
       }
+      if (namespaceName !== '') {
+        url += `?namespace_name=${namespaceName}`;
+      }
       fetch(url).then((res) => {
         return res.json();
       }).then((res) => {
         setItemCount(res.count);
       });
     }
-  }, [cloudContext, namespace]);
+  }, [cloudContext, namespace, namespaceName]);
 
   return <label className="control-label">Item Count: {itemCount}</label>;
 };
@@ -204,6 +201,7 @@ const ItemCountLabel: React.VFC<{
  * @param column Entity's name list.
  * @param cloudContext Value of cloud context.
  * @param namespace Value of namespace.
+ * @param namespaceName Value of namespace.
  * @param sortInfo Information of soring parameter.
  * @param setSortInfo Setter of sortInfo.
  * @param pageIndex Entity item's page index.
@@ -213,10 +211,12 @@ const EntityTable: React.VFC<{
   column: EntityColumn[],
   cloudContext: string,
   namespace: string,
+  namespaceName: string,
   sortInfo: SortInfo,
   setSortInfo: (s: SortInfo) => void
   pageIndex: number
-}> = ({ entityTypeId, column, cloudContext, namespace, sortInfo, setSortInfo, pageIndex }) => {
+}> = ({ entityTypeId, column, cloudContext, namespace, namespaceName,
+  sortInfo, setSortInfo, pageIndex }) => {
   const [entityList, setEntityList] = useState<K8sEntity[]>([]);
 
   /**
@@ -254,6 +254,22 @@ const EntityTable: React.VFC<{
         }
         return roundNumber(data, 2);
       }
+      case 'boolean':
+        if (data) {
+          return 'TRUE';
+        } else {
+          return 'FALSE';
+        }
+      case 'key-value': {
+        let log = '';
+        for (const record of data) {
+          if (log !== '') {
+            log += ', ';
+          }
+          log += `${record['item_key']}:${record['item_value']}`;
+        }
+        return log;
+      }
       default:
         return data;
     }
@@ -267,6 +283,9 @@ const EntityTable: React.VFC<{
     parameters.push({key: 'page[offset]', value: `${pageIndex * ITEMS_PER_PAGE}`});
     if (namespace !== '') {
       parameters.push({ key: 'filter[namespace]', value: namespace });
+    }
+    if (namespaceName !== '') {
+      parameters.push({ key: 'filter[namespace_name]', value: namespaceName });
     }
     if (cloudContext !== '') {
       parameters.push({ key: 'filter[cloud_context]', value: cloudContext });
@@ -287,7 +306,7 @@ const EntityTable: React.VFC<{
     }).then((res) => {
       setEntityList(res.data);
     });
-  }, [namespace, cloudContext, sortInfo, pageIndex]);
+  }, [namespace, namespaceName, cloudContext, sortInfo, pageIndex]);
 
   return <table className="table table-hover table-striped sticky-enabled sticky-table">
     <thead>
@@ -371,21 +390,35 @@ const PageSelector: React.VFC<{
 /**
  * Form of K8s entity.
  * @param entityTypeId Entity type ID.
- * @param namespaceFlg Flag of showing namespace selector.
  * @param column Entity's name list.
 */
 const K8sEntityForm: React.VFC<{
   entityTypeId: string,
-  namespaceFlg: boolean,
   column: EntityColumn[]
-}> = ({ entityTypeId, namespaceFlg, column }) => {
+}> = ({ entityTypeId, column }) => {
   const [cloudContext, setCloudContext] = useState<string>('');
   const [namespace, setNamespace] = useState<string>('');
+  const [namespaceName, setNamespaceName] = useState<string>('');
   const [itemCount, setItemCount] = useState(0);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
     key: '', direction: 'ASC'
   });
   const [pageIndex, setPageIndex] = useState(0);
+
+  useEffect(() => {
+    if (namespace !== '') {
+      setNamespaceName('');
+    }
+  }, [namespace]);
+
+  useEffect(() => {
+    if (namespaceName !== '') {
+      setNamespace('');
+    }
+  }, [namespaceName]);
+
+  const namespaceFlg = column.map((c) => c.labelName).includes('Namespace');
+  const namespaceNameFlg = column.map((c) => c.labelName).includes('Namespace Name');
 
   return <div className="row" style={{ marginTop: '2rem' }}>
     <div className="col">
@@ -399,10 +432,21 @@ const K8sEntityForm: React.VFC<{
         {namespaceFlg
           ? <div className="form-group">
             <label className="control-label">Namespace</label>
-            <NamespaceSelect
+            <FieldSelect
               cloudContext={cloudContext}
-              namespace={namespace}
-              setNamespace={setNamespace} />
+              columnKey="namespace"
+              columnName={namespace}
+              setColumnName={setNamespace} />
+          </div>
+          : <></>}
+        {namespaceNameFlg
+          ? <div className="form-group">
+            <label className="control-label">Namespace Name</label>
+            <FieldSelect
+              cloudContext={cloudContext}
+              columnKey="namespace_name"
+              columnName={namespaceName}
+              setColumnName={setNamespaceName} />
           </div>
           : <></>}
         <div className="form-group">
@@ -410,6 +454,7 @@ const K8sEntityForm: React.VFC<{
             cloudContext={cloudContext}
             entityTypeId={entityTypeId}
             namespace={namespace}
+            namespaceName={namespaceName}
             itemCount={itemCount}
             setItemCount={setItemCount} />
         </div>
@@ -419,6 +464,7 @@ const K8sEntityForm: React.VFC<{
             column={column}
             cloudContext={cloudContext}
             namespace={namespace}
+            namespaceName={namespaceName}
             sortInfo={sortInfo}
             setSortInfo={setSortInfo}
             pageIndex={pageIndex} />

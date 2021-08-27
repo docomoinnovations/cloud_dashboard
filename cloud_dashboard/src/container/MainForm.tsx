@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { MENU_LIST, ROUTE_URL } from 'constant';
+import React, { useEffect } from 'react';
+import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 
 const MainForm: React.VFC<{
-  selectedMenuName: string
-}> = ({selectedMenuName}) => {
+  menuType: string,
+  menuName: string
+}> = ({ menuType, menuName }) => {
   useEffect(() => {
     // If you don't have the access token, redirect route URL.
     const accessToken = window.localStorage.getItem('accessToken');
@@ -29,9 +30,23 @@ const MainForm: React.VFC<{
 
   return <>
     <ul className="nav nav-tabs">
-      {MENU_LIST.map((menu) => {
+      <li role="presentation"
+        className={menuType === 'AWS' ? 'active' : ''}>
+        <a href={`${ROUTE_URL}/aws_cloud/instance`}>
+          AWS
+        </a>
+      </li>
+      <li role="presentation"
+        className={menuType === 'K8s' ? 'active' : ''}>
+        <a href={`${ROUTE_URL}${K8S_MENU_LIST[0].url}`}>
+          K8s
+        </a>
+      </li>
+    </ul>
+    <ul className="nav nav-tabs">
+      {(menuType === 'AWS' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
         return <li key={menu.name} role="presentation"
-          className={menu.name === selectedMenuName ? 'active' : ''}>
+          className={menu.name === menuName ? 'active' : ''}>
           <a href={`${ROUTE_URL}${menu.url}`}>
             {menu.name}
           </a>
