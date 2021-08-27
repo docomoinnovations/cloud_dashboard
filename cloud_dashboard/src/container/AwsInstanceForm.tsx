@@ -131,22 +131,24 @@ const AwsCloudInstanceForm: React.VFC = () => {
 
   // set item count
   useEffect(() => {
-    // make URL
-    let url = `/cloud_dashboard/aws_cloud/${selectedCloudContext}/aws_cloud_instance/entity/count`;
-    // refresh item count
-    fetch(url).then((res) => {
-      return res.json();
-    }).then((res) => {
-      setItemCount(res.count);
-    });
+    if (selectedCloudContext === '') {
+      setItemCount(0);
+    } else {
+      // make URL
+      let url = `/cloud_dashboard/aws_cloud/${selectedCloudContext}/aws_cloud_instance/entity/count`;
+      // refresh item count
+      fetch(url).then((res) => {
+        return res.json();
+      }).then((res) => {
+        setItemCount(res.count);
+      });
+    }
   }, [selectedCloudContext]);
 
   useEffect(() => {
     // set default cloud_context
-    if (selectedCloudContext === '' || !cloudContextList.includes(selectedCloudContext)) {
-      if (cloudContextList.length >= 1) {
-        setSelectedCloudContext(cloudContextList[0]);
-      }
+    if (!cloudContextList.includes(selectedCloudContext) && cloudContextList.length >= 1) {
+      setSelectedCloudContext(cloudContextList[0]);
     }
   }, [cloudContextList]);
 

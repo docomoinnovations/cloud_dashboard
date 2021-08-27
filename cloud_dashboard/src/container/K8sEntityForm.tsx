@@ -109,10 +109,8 @@ const CloudContextSelect: React.VFC<{
 
   // Set default cloud context.
   useEffect(() => {
-    if (!cloudContextList.includes(cloudContext)) {
-      if (cloudContextList.length >= 1) {
-        setCloudContext(cloudContextList[0]);
-      }
+    if (!cloudContextList.includes(cloudContext) && cloudContextList.length >= 1) {
+      setCloudContext(cloudContextList[0]);
     }
   }, [cloudContextList]);
 
@@ -182,7 +180,9 @@ const ItemCountLabel: React.VFC<{
 }> = ({ cloudContext, entityTypeId, namespace, itemCount, setItemCount }) => {
   // Set entity item's count.
   useEffect(() => {
-    if (cloudContext !== '') {
+    if (cloudContext === '') {
+      setItemCount(0);
+    } else {
       let url = `/cloud_dashboard/k8s/${cloudContext}/${entityTypeId}/entity/count`;
       if (namespace !== '') {
         url += `?namespace=${namespace}`;
