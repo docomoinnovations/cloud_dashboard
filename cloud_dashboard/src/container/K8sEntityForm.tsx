@@ -239,6 +239,11 @@ const EntityTable: React.VFC<{
    * Convert data for UI.
    */
   const convert = (data: any, type: EntityColumnType) => {
+    // Null check.
+    if (data === null) {
+      return '';
+    }
+
     switch (type) {
       case 'datetime':
         return convertDateString(data);
