@@ -255,20 +255,13 @@ const EntityTable: React.VFC<{
         return roundNumber(data, 2);
       }
       case 'boolean':
-        if (data) {
-          return 'TRUE';
-        } else {
-          return 'FALSE';
-        }
+        return data ? 'TRUE': 'FALSE';
       case 'key-value': {
-        let log = '';
+        let temp: string[] = [];
         for (const record of data) {
-          if (log !== '') {
-            log += ', ';
-          }
-          log += `${record['item_key']}:${record['item_value']}`;
+          temp.push(`${record['item_key']}:${record['item_value']}`);
         }
-        return log;
+        return temp.join(', ');
       }
       default:
         return data;
