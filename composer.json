@@ -2,6 +2,6 @@
     "name": "drupal/cloud_dashboard",
     "type": "drupal-module",
     "require": {
-        "drupal/simple_oauth": "^5.0"
+        "drupal/simple_oauth": "^5.0.4"
     }
 }
