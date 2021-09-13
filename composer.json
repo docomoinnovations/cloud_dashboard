@@ -1,5 +1,5 @@
 {
-    "name": "drupal/cloud_dashboard",
+    "name": "docomoinnovations/cloud_dashboard",
     "type": "drupal-module",
     "require": {
         "drupal/simple_oauth": "^5.0.4"
