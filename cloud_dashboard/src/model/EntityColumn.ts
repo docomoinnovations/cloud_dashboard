@@ -1,12 +1,24 @@
-import EntityColumnType from "./EntityColumnType";
-
 /**
  * Label name and data attribute's key of entity.
  */
-interface EntityColumn {
+type EntityColumn = {
   labelName: string;
   name: string;
-  type: EntityColumnType;
-}
+  type: 'default' | 'datetime' | 'memory' | 'key-value' | 'cost' | 'array';
+} | {
+  labelName: string;
+  name: string;
+  type: 'boolean';
+  value: [string, string];
+} | {
+  labelName: string;
+  name: string;
+  type: 'join';
+  info: {
+    entityTypeId: string;
+    keyColumn: string;
+    valueColumn: string;
+  }
+} ;
 
 export default EntityColumn;
