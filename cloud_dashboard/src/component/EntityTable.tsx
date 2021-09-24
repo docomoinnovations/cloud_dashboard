@@ -1,6 +1,6 @@
 import { ITEMS_PER_PAGE } from 'constant';
 import EntityColumn from 'model/EntityColumn';
-import K8sEntity from 'model/K8sEntity';
+import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import React, { useEffect, useState } from 'react';
 import { convertDataForUI } from 'service/utility';
@@ -27,8 +27,8 @@ const EntityTable: React.VFC<{
   pageIndex: number
 }> = ({ entityTypeId, column, cloudContext, namespace, namespaceName,
   sortInfo, setSortInfo, pageIndex }) => {
-  const [entityList, setEntityList] = useState<K8sEntity[]>([]);
-  const [entityList2, setEntityList2] = useState<K8sEntity[]>([]);
+  const [entityList, setEntityList] = useState<EntityData[]>([]);
+  const [entityList2, setEntityList2] = useState<EntityData[]>([]);
 
   /**
    * Change sort mode.
@@ -83,7 +83,7 @@ const EntityTable: React.VFC<{
   useEffect(() => {
     const updateEntityList = async () => {
       // Cache the data you need.
-      const dataCache: {[key: string]: K8sEntity[]} = {};
+      const dataCache: {[key: string]: EntityData[]} = {};
       for (const cRecord of column) {
         if (cRecord.type === 'join' && !(cRecord.info.entityTypeId in dataCache)) {
           const data = (await (await fetch(`/jsonapi/${cRecord.info.entityTypeId}/${cRecord.info.entityTypeId}`)).json()).data;
@@ -92,9 +92,9 @@ const EntityTable: React.VFC<{
       }
 
       // Convert the data in entityList and write it to entityList2.
-      const entityListTemp: K8sEntity[] = [];
+      const entityListTemp: EntityData[] = [];
       for (const record of entityList) {
-        const record2: K8sEntity = {
+        const record2: EntityData = {
           id: record.id,
           attributes: {}
         };

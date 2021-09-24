@@ -1,5 +1,5 @@
 import EntityColumn from "model/EntityColumn";
-import K8sEntity from "model/K8sEntity";
+import EntityData from "model/EntityData";
 
 /**
  * Padding Zero String.
@@ -56,7 +56,7 @@ const roundNumber = (value: number, digit: number) => {
   return temp;
 };
 
-export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: K8sEntity[]}) => {
+export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}) => {
   // Null check.
   if (data === null) {
     return '';
@@ -92,7 +92,7 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
       return data.map((r: any) => `${r}`).join(', ');
     case 'join':
       for (const record of dataCache[ec.info.entityTypeId]) {
-        const recordData: K8sEntity = record;
+        const recordData: EntityData = record;
         if (recordData.attributes[ec.info.keyColumn] === data) {
           return recordData.attributes[ec.info.valueColumn];
         }
