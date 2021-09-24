@@ -3,8 +3,242 @@ import MenuTemplate from "model/MenuTemplate";
 export const OAUTH2_CLIENT_LABEL = 'Cloud Dashboard';
 export const OAUTH2_CLIENT_SECRET = 'cloud_dashboard';
 export const ROUTE_URL = '/clouds/dashboard';
-export const AWS_MENU_LIST = [
-  { type: 'AWS', name: 'Cloud instance', url: '/aws_cloud/instance' },
+export const AWS_MENU_LIST: MenuTemplate[] = [
+  {
+    type: 'AWS',
+    name: 'Instance',
+    url: '/aws_cloud/instance',
+    entityTypeId: 'aws_cloud_instance',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Public IP', name: 'public_ip', type: 'default'},
+      {labelName: 'Instance State', name: 'instance_state', type: 'default'},
+      {labelName: 'Instance Type', name: 'instance_type', type: 'default'},
+      {labelName: 'Availability Zone', name: 'availability_zone', type: 'default'},
+      {labelName: 'Cost', name: 'cost', type: 'cost'},
+      {labelName: 'Created', name: 'created', type: 'datetime'}
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Image',
+    url: '/aws_cloud/image',
+    entityTypeId: 'aws_cloud_image',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'AMI Name', name: 'ami_name', type: 'default'},
+      {labelName: 'AMI ID', name: 'image_id', type: 'default'},
+      {labelName: 'Status', name: 'status', type: 'default'},
+      {labelName: 'Source', name: 'source', type: 'default'},
+      {labelName: 'Root Device Type', name: 'root_device_type', type: 'default'},
+      {labelName: 'Visibility', name: 'visibility', type: 'boolean', value: ['Public', 'Private']},
+      {labelName: 'Created', name: 'created', type: 'datetime'}
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Security Group',
+    url: '/aws_cloud/security_group',
+    entityTypeId: 'aws_cloud_security_group',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Group ID', name: 'group_id', type: 'default'},
+      {labelName: 'VPC', name: 'vpc_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_vpc',
+        keyColumn: 'vpc_id',
+        valueColumn: 'name',
+      }},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Elastic IP',
+    url: '/aws_cloud/elastic_ip',
+    entityTypeId: 'aws_cloud_elastic_ip',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Allocation ID', name: 'allocation_id', type: 'default'},
+      {labelName: 'Type', name: 'elastic_ip_type', type: 'default'},
+      {labelName: 'Elastic IP', name: 'public_ip', type: 'default'},
+      {labelName: 'Instance ID', name: 'instance_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_instance',
+        keyColumn: 'instance_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'Private IP Address', name: 'private_ip_address', type: 'default'},
+      {labelName: 'Scope', name: 'scope', type: 'default'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Key Pair',
+    url: '/aws_cloud/key_pair',
+    entityTypeId: 'aws_cloud_key_pair',
+    column: [
+      {labelName: 'Key Pair Name', name: 'key_pair_name', type: 'default'},
+      {labelName: 'Key Fingerprint', name: 'key_fingerprint', type: 'default'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Volume',
+    url: '/aws_cloud/volume',
+    entityTypeId: 'aws_cloud_volume',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Volume ID', name: 'volume_id', type: 'default'},
+      {labelName: 'IOPS', name: 'iops', type: 'default'},
+      {labelName: 'Size', name: 'size', type: 'default'},
+      {labelName: 'Availability Zone', name: 'availability_zone', type: 'default'},
+      {labelName: 'Volume Type', name: 'volume_type', type: 'default'},
+      {labelName: 'Attachment Information', name: 'attachment_information', type: 'join', info: {
+        entityTypeId: 'aws_cloud_instance',
+        keyColumn: 'instance_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'State', name: 'state', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'datetime'}
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Snapshot',
+    url: '/aws_cloud/snapshot',
+    entityTypeId: 'aws_cloud_snapshot',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Snapshot ID', name: 'snapshot_id', type: 'default'},
+      {labelName: 'Encrypted', name: 'encrypted', type: 'default'},
+      {labelName: 'Size', name: 'size', type: 'default'},
+      {labelName: 'Status', name: 'status', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'datetime'}
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Network Interface',
+    url: '/aws_cloud/network_interface',
+    entityTypeId: 'aws_cloud_network_interface',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Subnet', name: 'subnet_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_subnet',
+        keyColumn: 'subnet_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'VPC', name: 'vpc_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_vpc',
+        keyColumn: 'vpc_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'Status', name: 'status', type: 'default'},
+      {labelName: 'Security Groups', name: 'security_groups', type: 'default'},
+      {labelName: 'Primary Private IP', name: 'primary_private_ip', type: 'default'},
+      {labelName: 'Secondary Private IPs', name: 'secondary_private_ips', type: 'default'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'VPC',
+    url: '/aws_cloud/vpc',
+    entityTypeId: 'aws_cloud_vpc',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'VPC', name: 'vpc_id', type: 'default'},
+      {labelName: 'State', name: 'state', type: 'default'},
+      {labelName: 'IPv4 CIDR', name: 'cidr_block', type: 'default'},
+      {labelName: 'IPv6 CIDR', name: 'ipv6_cidr_blocks', type: 'array'},
+      {labelName: 'Created', name: 'created', type: 'datetime'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Subnet',
+    url: '/aws_cloud/subnet',
+    entityTypeId: 'aws_cloud_subnet',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Subnet ID', name: 'subnet_id', type: 'default'},
+      {labelName: 'VPC', name: 'vpc_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_vpc',
+        keyColumn: 'vpc_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'IPv4 CIDR', name: 'cidr_block', type: 'default'},
+      {labelName: 'State', name: 'state', type: 'default'},
+      {labelName: 'Region Name', name: 'region_name', type: 'default'},
+      {labelName: 'Zone Name', name: 'zone_name', type: 'default'},
+      {labelName: 'Network Border Group', name: 'network_border_group', type: 'default'},
+      {labelName: 'Zone Type', name: 'zone_type', type: 'default'},
+      {labelName: 'Parent Zone Type', name: 'parent_zone_type', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'datetime'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'VPC Peering Connection',
+    url: '/aws_cloud/vpc_peering_connection',
+    entityTypeId: 'aws_cloud_vpc_peering_connection',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'VPC Peering Connection ID', name: 'vpc_peering_connection_id', type: 'default'},
+      {labelName: 'Status', name: 'status_code', type: 'default'},
+      {labelName: 'Requester VPC', name: 'requester_vpc_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_vpc',
+        keyColumn: 'vpc_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'Accepter VPC', name: 'accepter_vpc_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_vpc',
+        keyColumn: 'vpc_id',
+        valueColumn: 'name',
+      }},
+      {labelName: 'Requester CIDR Blocks', name: 'requester_cidr_block', type: 'default'},
+      {labelName: 'Accepter CIDR Blocks', name: 'accepter_cidr_block', type: 'default'},
+      {labelName: 'Requester AWS Account', name: 'requester_account_id', type: 'default'},
+      {labelName: 'Accepter AWS Account', name: 'accepter_account_id', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'datetime'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Internet Gateway',
+    url: '/aws_cloud/internet_gateway',
+    entityTypeId: 'aws_cloud_internet_gateway',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Internet Gateway ID', name: 'internet_gateway_id', type: 'default'},
+      {labelName: 'State', name: 'state', type: 'default'},
+      {labelName: 'VPC ID', name: 'vpc_id', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'default'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Career Gateway',
+    url: '/aws_cloud/career_gateway',
+    entityTypeId: 'aws_cloud_career_gateway',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Carrier Gateway ID', name: 'carrier_gateway_id', type: 'default'},
+      {labelName: 'State', name: 'state', type: 'default'},
+      {labelName: 'VPC ID', name: 'vpc_id', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'default'},
+    ]
+  },
+  {
+    type: 'AWS',
+    name: 'Transit Gateway',
+    url: '/aws_cloud/transit_gateway',
+    entityTypeId: 'aws_cloud_transit_gateway',
+    column: [
+      {labelName: 'Name', name: 'name', type: 'default'},
+      {labelName: 'Transit Gateway ID', name: 'transit_gateway_id', type: 'default'},
+      {labelName: 'State', name: 'state', type: 'default'},
+      {labelName: 'Amazon Account ID', name: 'account_id', type: 'default'},
+      {labelName: 'Created', name: 'created', type: 'default'},
+    ]
+  },
 ];
 export const K8S_MENU_LIST: MenuTemplate[] = [
   {
@@ -154,7 +388,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     column: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Value', name: 'value', type: 'default'},
-      {labelName: 'Global Default', name: 'global_default', type: 'boolean'},
+      {labelName: 'Global Default', name: 'global_default', type: 'boolean', value: ['TRUE', 'FALSE']},
       {labelName: 'Description', name: 'description', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
     ],
