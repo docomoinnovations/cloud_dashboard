@@ -3,6 +3,7 @@ import EntityColumn from 'model/EntityColumn';
 import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import React, { useEffect, useState } from 'react';
+import HttpService from 'service/http';
 import { convertDataForUI } from 'service/utility';
 
 /**
@@ -72,9 +73,7 @@ const EntityTable: React.VFC<{
       url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
     }
 
-    fetch(url).then((res) => {
-      return res.json();
-    }).then((res) => {
+    HttpService.getInstance().getJson<{data: any}>(url).then((res) => {
       setEntityList(res.data);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,7 +85,9 @@ const EntityTable: React.VFC<{
       const dataCache: {[key: string]: EntityData[]} = {};
       for (const cRecord of column) {
         if (cRecord.type === 'join' && !(cRecord.info.entityTypeId in dataCache)) {
-          const data = (await (await fetch(`/jsonapi/${cRecord.info.entityTypeId}/${cRecord.info.entityTypeId}`)).json()).data;
+          const data = (await HttpService.getInstance().getJson<{data: any}>(
+            `/jsonapi/${cRecord.info.entityTypeId}/${cRecord.info.entityTypeId}`
+          )).data;
           dataCache[cRecord.info.entityTypeId] = data;
         }
       }

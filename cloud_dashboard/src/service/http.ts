@@ -9,8 +9,6 @@ class HttpService {
   }
 
   async getJson <T>(url: string, parameter?: RequestInit): Promise<T> {
-    console.log(url);
-    console.log(this.cache);
     if (url in this.cache) {
       const cachedResponse = this.cache[url];
       const nowUnixtime = (new Date()).getTime();

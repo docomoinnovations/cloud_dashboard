@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import HttpService from 'service/http';
 
 /**
  * Selector of cloud context.
@@ -15,9 +16,9 @@ const CloudContextSelect: React.VFC<{
 
   // Set cloud context list.
   useEffect(() => {
-    fetch(`/jsonapi/cloud_config/${cloudConfigType}`).then((res) => {
-      return res.json();
-    }).then((res) => {
+    HttpService.getInstance().getJson<{data: any}>(
+      `/jsonapi/cloud_config/${cloudConfigType}`
+    ).then((res) => {
       const cloudContextListTemp = res.data.map((record: any) => {
         return record.attributes.cloud_context;
       });
