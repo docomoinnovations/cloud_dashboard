@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
+import { Link } from 'react-router-dom';
 
 const MainForm: React.VFC<{
   menuType: string,
@@ -32,24 +33,24 @@ const MainForm: React.VFC<{
     <ul className="nav nav-tabs">
       <li role="presentation"
         className={menuType === 'AWS' ? 'active' : ''}>
-        <a href={`${ROUTE_URL}/aws_cloud/instance`}>
+        <Link to={`${AWS_MENU_LIST[0].url}`}>
           AWS
-        </a>
+        </Link>
       </li>
       <li role="presentation"
         className={menuType === 'K8s' ? 'active' : ''}>
-        <a href={`${ROUTE_URL}${K8S_MENU_LIST[0].url}`}>
+        <Link to={`${K8S_MENU_LIST[0].url}`}>
           K8s
-        </a>
+        </Link>
       </li>
     </ul>
     <ul className="nav nav-tabs">
       {(menuType === 'AWS' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
         return <li key={menu.name} role="presentation"
           className={menu.name === menuName ? 'active' : ''}>
-          <a href={`${ROUTE_URL}${menu.url}`}>
-            {menu.name}
-          </a>
+          <Link to={`${menu.url}`}>
+          {menu.name}
+          </Link>
         </li>;
       })}
       <li role="presentation">
