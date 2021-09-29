@@ -618,3 +618,4 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
   },
 ];
 export const ITEMS_PER_PAGE = 30;
+export const CACHE_EXPIRED_UNIXTIME = 1000 * 60 * 60 * 24;
