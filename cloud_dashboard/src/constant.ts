@@ -5,7 +5,7 @@ export const OAUTH2_CLIENT_SECRET = 'cloud_dashboard';
 export const ROUTE_URL = '/clouds/dashboard';
 export const AWS_MENU_LIST: MenuTemplate[] = [
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Instance',
     url: '/aws_cloud/instance',
     entityTypeId: 'aws_cloud_instance',
@@ -20,7 +20,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Image',
     url: '/aws_cloud/image',
     entityTypeId: 'aws_cloud_image',
@@ -36,7 +36,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Security Group',
     url: '/aws_cloud/security_group',
     entityTypeId: 'aws_cloud_security_group',
@@ -51,7 +51,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Elastic IP',
     url: '/aws_cloud/elastic_ip',
     entityTypeId: 'aws_cloud_elastic_ip',
@@ -70,7 +70,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Key Pair',
     url: '/aws_cloud/key_pair',
     entityTypeId: 'aws_cloud_key_pair',
@@ -80,7 +80,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Volume',
     url: '/aws_cloud/volume',
     entityTypeId: 'aws_cloud_volume',
@@ -101,7 +101,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Snapshot',
     url: '/aws_cloud/snapshot',
     entityTypeId: 'aws_cloud_snapshot',
@@ -115,7 +115,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Network Interface',
     url: '/aws_cloud/network_interface',
     entityTypeId: 'aws_cloud_network_interface',
@@ -138,7 +138,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'VPC',
     url: '/aws_cloud/vpc',
     entityTypeId: 'aws_cloud_vpc',
@@ -152,7 +152,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Subnet',
     url: '/aws_cloud/subnet',
     entityTypeId: 'aws_cloud_subnet',
@@ -175,7 +175,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'VPC Peering Connection',
     url: '/aws_cloud/vpc_peering_connection',
     entityTypeId: 'aws_cloud_vpc_peering_connection',
@@ -201,7 +201,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Internet Gateway',
     url: '/aws_cloud/internet_gateway',
     entityTypeId: 'aws_cloud_internet_gateway',
@@ -214,7 +214,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Career Gateway',
     url: '/aws_cloud/career_gateway',
     entityTypeId: 'aws_cloud_career_gateway',
@@ -227,7 +227,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'AWS',
+    type: 'aws_cloud',
     name: 'Transit Gateway',
     url: '/aws_cloud/transit_gateway',
     entityTypeId: 'aws_cloud_transit_gateway',
@@ -242,7 +242,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
 ];
 export const K8S_MENU_LIST: MenuTemplate[] = [
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Node',
     url: '/k8s/node',
     entityTypeId: 'k8s_node',
@@ -260,7 +260,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Namespace',
     url: '/k8s/namespace',
     entityTypeId: 'k8s_namespace',
@@ -271,7 +271,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Deployment',
     url: '/k8s/deployment',
     entityTypeId: 'k8s_deployment',
@@ -282,7 +282,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Pod',
     url: '/k8s/pod',
     entityTypeId: 'k8s_pod',
@@ -298,7 +298,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'ReplicaSet',
     url: '/k8s/replica_set',
     entityTypeId: 'k8s_replica_set',
@@ -310,7 +310,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'CronJob',
     url: '/k8s/cron_job',
     entityTypeId: 'k8s_cron_job',
@@ -324,7 +324,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Job',
     url: '/k8s/job',
     entityTypeId: 'k8s_job',
@@ -336,7 +336,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Service',
     url: '/k8s/service',
     entityTypeId: 'k8s_service',
@@ -348,7 +348,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Network Policy',
     url: '/k8s/network_policy',
     entityTypeId: 'k8s_network_policy',
@@ -359,7 +359,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Resource Quotas',
     url: '/k8s/resource_quota',
     entityTypeId: 'k8s_resource_quota',
@@ -370,7 +370,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'LimitRange',
     url: '/k8s/limit_range',
     entityTypeId: 'k8s_limit_range',
@@ -381,7 +381,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Priority Class',
     url: '/k8s/priority_class',
     entityTypeId: 'k8s_priority_class',
@@ -394,7 +394,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'ConfigMap',
     url: '/k8s/config_map',
     entityTypeId: 'k8s_config_map',
@@ -405,7 +405,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Secret',
     url: '/k8s/secret',
     entityTypeId: 'k8s_secret',
@@ -417,7 +417,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Role',
     url: '/k8s/role',
     entityTypeId: 'k8s_role',
@@ -428,7 +428,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Role Binding',
     url: '/k8s/role_binding',
     entityTypeId: 'k8s_role_binding',
@@ -440,7 +440,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Cluster Role',
     url: '/k8s/cluster_role',
     entityTypeId: 'k8s_cluster_role',
@@ -450,7 +450,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Cluster Role Binding',
     url: '/k8s/cluster_role_binding',
     entityTypeId: 'k8s_cluster_role_binding',
@@ -461,7 +461,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Persistent Volume',
     url: '/k8s/persistent_volume',
     entityTypeId: 'k8s_persistent_volume',
@@ -478,7 +478,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Persistent Volume Claim',
     url: '/k8s/persistent_volume_claim',
     entityTypeId: 'k8s_persistent_volume_claim',
@@ -495,7 +495,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Storage Class',
     url: '/k8s/storage_class',
     entityTypeId: 'k8s_storage_class',
@@ -507,7 +507,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'StatefulSet',
     url: '/k8s/stateful_set',
     entityTypeId: 'k8s_stateful_set',
@@ -518,7 +518,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Ingress',
     url: '/k8s/ingress',
     entityTypeId: 'k8s_ingress',
@@ -529,7 +529,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'DaemonSet',
     url: '/k8s/daemon_set',
     entityTypeId: 'k8s_daemon_set',
@@ -540,7 +540,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Endpoint',
     url: '/k8s/endpoint',
     entityTypeId: 'k8s_endpoint',
@@ -552,7 +552,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Event',
     url: '/k8s/event',
     entityTypeId: 'k8s_event',
@@ -567,7 +567,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'API Service',
     url: '/k8s/api_service',
     entityTypeId: 'k8s_api_service',
@@ -577,7 +577,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'ServiceAccount',
     url: '/k8s/service_account',
     entityTypeId: 'k8s_service_account',
@@ -588,7 +588,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Horizontal Pod Autoscaler',
     url: '/k8s/horizontal_pod_autoscaler',
     entityTypeId: 'k8s_horizontal_pod_autoscaler',
@@ -600,7 +600,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'K8s',
+    type: 'k8s',
     name: 'Schedule',
     url: '/k8s/schedule',
     entityTypeId: 'k8s_schedule',

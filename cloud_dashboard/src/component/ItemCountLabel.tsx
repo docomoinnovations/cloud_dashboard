@@ -1,3 +1,4 @@
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import React, { useEffect } from 'react';
 import HttpService from 'service/http';
 
@@ -18,7 +19,7 @@ const ItemCountLabel: React.VFC<{
   namespaceName: string,
   itemCount: number,
   setItemCount: (n: number) => void,
-  cloudConfigType: string
+  cloudConfigType: CloudServiceProvider
 }> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount, cloudConfigType }) => {
   // Set entity item's count.
   useEffect(() => {

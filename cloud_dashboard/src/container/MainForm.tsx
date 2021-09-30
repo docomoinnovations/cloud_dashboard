@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import { Link } from 'react-router-dom';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 
 const MainForm: React.VFC<{
-  menuType: string,
+  menuType: CloudServiceProvider,
   menuName: string
 }> = ({ menuType, menuName }) => {
   useEffect(() => {
@@ -32,20 +33,20 @@ const MainForm: React.VFC<{
   return <>
     <ul className="nav nav-tabs">
       <li role="presentation"
-        className={menuType === 'AWS' ? 'active' : ''}>
+        className={menuType === 'aws_cloud' ? 'active' : ''}>
         <Link to={`${AWS_MENU_LIST[0].url}`}>
           AWS
         </Link>
       </li>
       <li role="presentation"
-        className={menuType === 'K8s' ? 'active' : ''}>
+        className={menuType === 'k8s' ? 'active' : ''}>
         <Link to={`${K8S_MENU_LIST[0].url}`}>
           K8s
         </Link>
       </li>
     </ul>
     <ul className="nav nav-tabs">
-      {(menuType === 'AWS' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
+      {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
         return <li key={menu.name} role="presentation"
           className={menu.name === menuName ? 'active' : ''}>
           <Link to={`${menu.url}`}>

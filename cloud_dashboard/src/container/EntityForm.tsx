@@ -3,6 +3,7 @@ import EntityTable from 'component/EntityTable';
 import FieldSelect from 'component/FieldSelect';
 import ItemCountLabel from 'component/ItemCountLabel';
 import PageSelector from 'component/PageSelector';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import EntityColumn from 'model/EntityColumn';
 import SortInfo from 'model/SortInfo';
 import React, { useEffect, useState } from 'react';
@@ -15,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 const EntityForm: React.VFC<{
   entityTypeId: string,
   column: EntityColumn[],
-  cloudConfigType: string
+  cloudConfigType: CloudServiceProvider
 }> = ({ entityTypeId, column, cloudConfigType }) => {
   const [cloudContext, setCloudContext] = useState<string>('');
   const [namespace, setNamespace] = useState<string>('');

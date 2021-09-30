@@ -1,3 +1,4 @@
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import React, { useEffect, useState } from 'react';
 import HttpService from 'service/http';
 
@@ -10,7 +11,7 @@ import HttpService from 'service/http';
 const CloudContextSelect: React.VFC<{
   cloudContext: string,
   setCloudContext: (s: string) => void,
-  cloudConfigType: string
+  cloudConfigType: CloudServiceProvider
 }> = ({ cloudContext, setCloudContext, cloudConfigType }) => {
   const [cloudContextList, setCloudContextList] = useState<string[]>([]);
 

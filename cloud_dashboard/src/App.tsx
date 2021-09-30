@@ -17,7 +17,7 @@ const App: React.VFC = () => {
               <EntityForm
                 entityTypeId={record.entityTypeId}
                 column={record.column}
-                cloudConfigType={record.type === 'AWS' ? 'aws_cloud' : 'k8s'} />
+                cloudConfigType={record.type} />
             </div>
           </Route>;
         })
