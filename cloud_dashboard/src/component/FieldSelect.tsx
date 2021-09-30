@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import HttpService from 'service/http';
 
 /**
  * Selector of field column.
@@ -23,9 +24,7 @@ const FieldSelect: React.VFC<{
     if (cloudContext !== '') {
       url += `?cloudContext=${cloudContext}`;
     }
-    fetch(url).then((res) => {
-      return res.json();
-    }).then((res) => {
+    HttpService.getInstance().getJson<{data: any}>(url).then((res) => {
       setDataList(res.data.map((record: any) => {
         return record.attributes.name;
       }));

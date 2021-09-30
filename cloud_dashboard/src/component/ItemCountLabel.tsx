@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import HttpService from 'service/http';
 
 /**
  * Label of entity item's count.
@@ -31,9 +32,7 @@ const ItemCountLabel: React.VFC<{
       if (namespaceName !== '') {
         url += `?namespace_name=${namespaceName}`;
       }
-      fetch(url).then((res) => {
-        return res.json();
-      }).then((res) => {
+      HttpService.getInstance().getJson<{count: number}>(url).then((res) => {
         setItemCount(res.count);
       });
     }
