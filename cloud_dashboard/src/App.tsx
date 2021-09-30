@@ -10,14 +10,14 @@ const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
       {
-        AWS_MENU_LIST.map((record) => {
+        ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
           return <Route exact path={record.url} key={record.name}>
             <div className="container">
-              <MainForm menuType="AWS" menuName={record.name} />
+              <MainForm menuType={record.type} menuName={record.name} />
               <EntityForm
                 entityTypeId={record.entityTypeId}
                 column={record.column}
-                cloudConfigType="aws_cloud" />
+                cloudConfigType={record.type === 'AWS' ? 'aws_cloud' : 'k8s'} />
             </div>
           </Route>;
         })
@@ -27,19 +27,6 @@ const App: React.VFC = () => {
           <CallbackView />
         </div>
       </Route>
-      {
-        K8S_MENU_LIST.map((record) => {
-          return <Route exact path={record.url} key={record.name}>
-            <div className="container">
-              <MainForm menuType="K8s" menuName={record.name} />
-              <EntityForm
-                entityTypeId={record.entityTypeId}
-                column={record.column}
-                cloudConfigType="k8s" />
-            </div>
-          </Route>;
-        })
-      }
       <Route exact path="/">
         <div className="container">
           <LoginForm />
