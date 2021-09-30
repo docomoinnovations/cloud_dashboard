@@ -4,7 +4,7 @@ import EntityColumn from "model/EntityColumn";
 interface MenuTemplate {
   type: CloudServiceProvider;
   name: string;
-  url: string;
+  entityName: string;
   entityTypeId: string;
   column: EntityColumn[];
 }

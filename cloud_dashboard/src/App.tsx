@@ -5,13 +5,18 @@ import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import MainForm from 'container/MainForm';
 import EntityForm from 'container/EntityForm';
+import { getUrl } from 'service/utility';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
       {
         ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
-          return <Route exact path={record.url} key={record.name}>
+          return <Route
+            exact
+            path={getUrl(record)}
+            key={record.name}
+          >
             <div className="container">
               <MainForm menuType={record.type} menuName={record.name} />
               <EntityForm

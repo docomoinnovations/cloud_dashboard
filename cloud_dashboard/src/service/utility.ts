@@ -1,5 +1,6 @@
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
+import MenuTemplate from "model/MenuTemplate";
 
 /**
  * Padding Zero String.
@@ -56,6 +57,12 @@ const roundNumber = (value: number, digit: number) => {
   return temp;
 };
 
+/**
+ * Converter of entity's data for UI.
+ * @param data Entity's data
+ * @param ec Information of Entity Column
+ * @param dataCache Data cache for 'join' type
+ */
 export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}) => {
   // Null check.
   if (data === null) {
@@ -101,4 +108,13 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
     default:
       return data;
   }
+};
+
+/**
+ * Getter of URL for MenuTemplate.
+ * @param menu MenuTemplate
+ * @returns URL
+ */
+export const getUrl = (menu: MenuTemplate) => {
+  return `/${menu.type as string}/${menu.entityName}`;
 };
