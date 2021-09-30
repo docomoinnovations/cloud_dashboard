@@ -5,7 +5,7 @@ import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import MainForm from 'container/MainForm';
 import EntityForm from 'container/EntityForm';
-import { getUrl } from 'service/utility';
+import { getEntityTypeId, getUrl } from 'service/utility';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
@@ -20,7 +20,7 @@ const App: React.VFC = () => {
             <div className="container">
               <MainForm menuType={record.type} menuName={record.name} />
               <EntityForm
-                entityTypeId={record.entityTypeId}
+                entityTypeId={getEntityTypeId(record)}
                 column={record.column}
                 cloudConfigType={record.type} />
             </div>

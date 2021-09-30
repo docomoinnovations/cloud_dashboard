@@ -118,3 +118,12 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
 export const getUrl = (menu: MenuTemplate) => {
   return `/${menu.type as string}/${menu.entityName}`;
 };
+
+/**
+ * Getter of EntityTypeId for MenuTemplate.
+ * @param menu MenuTemplate
+ * @returns EntityTypeId
+ */
+export const getEntityTypeId = (menu: MenuTemplate) => {
+  return `${menu.type as string}_${menu.entityName}`;
+};
