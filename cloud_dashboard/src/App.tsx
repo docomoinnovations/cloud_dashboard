@@ -18,11 +18,11 @@ const App: React.VFC = () => {
             key={getEntityTypeId(record)}
           >
             <div className="container">
-              <MainForm menuType={record.type} menuName={record.labelName} />
+              <MainForm menuType={record.cloudServiceProvider} menuName={record.labelName} />
               <EntityForm
                 entityTypeId={getEntityTypeId(record)}
                 column={record.column}
-                cloudConfigType={record.type} />
+                cloudConfigType={record.cloudServiceProvider} />
             </div>
           </Route>;
         })

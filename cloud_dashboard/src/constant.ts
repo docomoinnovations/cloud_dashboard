@@ -5,7 +5,7 @@ export const OAUTH2_CLIENT_SECRET = 'cloud_dashboard';
 export const ROUTE_URL = '/clouds/dashboard';
 export const AWS_MENU_LIST: MenuTemplate[] = [
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Instance',
     entityName: 'instance',
     column: [
@@ -19,7 +19,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Image',
     entityName: 'image',
     column: [
@@ -34,7 +34,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Security Group',
     entityName: 'security_group',
     column: [
@@ -48,7 +48,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Elastic IP',
     entityName: 'elastic_ip',
     column: [
@@ -66,7 +66,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Key Pair',
     entityName: 'key_pair',
     column: [
@@ -75,7 +75,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Volume',
     entityName: 'volume',
     column: [
@@ -95,7 +95,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Snapshot',
     entityName: 'snapshot',
     column: [
@@ -108,7 +108,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Network Interface',
     entityName: 'network_interface',
     column: [
@@ -130,7 +130,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'VPC',
     entityName: 'vpc',
     column: [
@@ -143,7 +143,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Subnet',
     entityName: 'subnet',
     column: [
@@ -165,7 +165,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'VPC Peering Connection',
     entityName: 'vpc_peering_connection',
     column: [
@@ -190,7 +190,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Internet Gateway',
     entityName: 'internet_gateway',
     column: [
@@ -202,7 +202,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Career Gateway',
     entityName: 'career_gateway',
     column: [
@@ -214,7 +214,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
   {
-    type: 'aws_cloud',
+    cloudServiceProvider: 'aws_cloud',
     labelName: 'Transit Gateway',
     entityName: 'transit_gateway',
     column: [
@@ -228,7 +228,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
 ];
 export const K8S_MENU_LIST: MenuTemplate[] = [
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Node',
     entityName: 'node',
     column: [
@@ -245,7 +245,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Namespace',
     entityName: 'namespace',
     column: [
@@ -255,7 +255,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Deployment',
     entityName: 'deployment',
     column: [
@@ -265,7 +265,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Pod',
     entityName: 'pod',
     column: [
@@ -280,7 +280,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'ReplicaSet',
     entityName: 'replica_set',
     column: [
@@ -291,7 +291,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'CronJob',
     entityName: 'cron_job',
     column: [
@@ -304,7 +304,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Job',
     entityName: 'job',
     column: [
@@ -315,7 +315,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Service',
     entityName: 'service',
     column: [
@@ -326,7 +326,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Network Policy',
     entityName: 'network_policy',
     column: [
@@ -336,7 +336,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Resource Quotas',
     entityName: 'resource_quota',
     column: [
@@ -346,7 +346,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'LimitRange',
     entityName: 'limit_range',
     column: [
@@ -356,7 +356,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Priority Class',
     entityName: 'priority_class',
     column: [
@@ -368,7 +368,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'ConfigMap',
     entityName: 'config_map',
     column: [
@@ -378,7 +378,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Secret',
     entityName: 'secret',
     column: [
@@ -389,7 +389,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Role',
     entityName: 'role',
     column: [
@@ -399,7 +399,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Role Binding',
     entityName: 'role_binding',
     column: [
@@ -410,7 +410,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Cluster Role',
     entityName: 'cluster_role',
     column: [
@@ -419,7 +419,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Cluster Role Binding',
     entityName: 'cluster_role_binding',
     column: [
@@ -429,7 +429,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Persistent Volume',
     entityName: 'persistent_volume',
     column: [
@@ -445,7 +445,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Persistent Volume Claim',
     entityName: 'persistent_volume_claim',
     column: [
@@ -461,7 +461,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Storage Class',
     entityName: 'storage_class',
     column: [
@@ -472,7 +472,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'StatefulSet',
     entityName: 'stateful_set',
     column: [
@@ -482,7 +482,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Ingress',
     entityName: 'ingress',
     column: [
@@ -492,7 +492,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'DaemonSet',
     entityName: 'daemon_set',
     column: [
@@ -502,7 +502,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Endpoint',
     entityName: 'endpoint',
     column: [
@@ -513,7 +513,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Event',
     entityName: 'event',
     column: [
@@ -527,7 +527,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'API Service',
     entityName: 'api_service',
     column: [
@@ -536,7 +536,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'ServiceAccount',
     entityName: 'service_account',
     column: [
@@ -546,7 +546,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Horizontal Pod Autoscaler',
     entityName: 'horizontal_pod_autoscaler',
     column: [
@@ -557,7 +557,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
   {
-    type: 'k8s',
+    cloudServiceProvider: 'k8s',
     labelName: 'Schedule',
     entityName: 'schedule',
     column: [
