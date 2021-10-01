@@ -8,7 +8,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Instance',
     entityName: 'instance',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Public IP', name: 'public_ip', type: 'default'},
       {labelName: 'Instance State', name: 'instance_state', type: 'default'},
@@ -22,7 +22,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Image',
     entityName: 'image',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'AMI Name', name: 'ami_name', type: 'default'},
       {labelName: 'AMI ID', name: 'image_id', type: 'default'},
@@ -37,7 +37,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Security Group',
     entityName: 'security_group',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Group ID', name: 'group_id', type: 'default'},
       {labelName: 'VPC', name: 'vpc_id', type: 'join', info: {
@@ -51,7 +51,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Elastic IP',
     entityName: 'elastic_ip',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Allocation ID', name: 'allocation_id', type: 'default'},
       {labelName: 'Type', name: 'elastic_ip_type', type: 'default'},
@@ -69,7 +69,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Key Pair',
     entityName: 'key_pair',
-    column: [
+    entityColumn: [
       {labelName: 'Key Pair Name', name: 'key_pair_name', type: 'default'},
       {labelName: 'Key Fingerprint', name: 'key_fingerprint', type: 'default'},
     ]
@@ -78,7 +78,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Volume',
     entityName: 'volume',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Volume ID', name: 'volume_id', type: 'default'},
       {labelName: 'IOPS', name: 'iops', type: 'default'},
@@ -98,7 +98,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Snapshot',
     entityName: 'snapshot',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Snapshot ID', name: 'snapshot_id', type: 'default'},
       {labelName: 'Encrypted', name: 'encrypted', type: 'default'},
@@ -111,7 +111,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Network Interface',
     entityName: 'network_interface',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Subnet', name: 'subnet_id', type: 'join', info: {
         entityTypeId: 'aws_cloud_subnet',
@@ -133,7 +133,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'VPC',
     entityName: 'vpc',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'VPC', name: 'vpc_id', type: 'default'},
       {labelName: 'State', name: 'state', type: 'default'},
@@ -146,7 +146,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Subnet',
     entityName: 'subnet',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Subnet ID', name: 'subnet_id', type: 'default'},
       {labelName: 'VPC', name: 'vpc_id', type: 'join', info: {
@@ -168,7 +168,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'VPC Peering Connection',
     entityName: 'vpc_peering_connection',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'VPC Peering Connection ID', name: 'vpc_peering_connection_id', type: 'default'},
       {labelName: 'Status', name: 'status_code', type: 'default'},
@@ -193,7 +193,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Internet Gateway',
     entityName: 'internet_gateway',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Internet Gateway ID', name: 'internet_gateway_id', type: 'default'},
       {labelName: 'State', name: 'state', type: 'default'},
@@ -205,7 +205,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Career Gateway',
     entityName: 'career_gateway',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Carrier Gateway ID', name: 'carrier_gateway_id', type: 'default'},
       {labelName: 'State', name: 'state', type: 'default'},
@@ -217,7 +217,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Transit Gateway',
     entityName: 'transit_gateway',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Transit Gateway ID', name: 'transit_gateway_id', type: 'default'},
       {labelName: 'State', name: 'state', type: 'default'},
@@ -231,7 +231,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Node',
     entityName: 'node',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'State', name: 'status', type: 'default'},
       {labelName: 'CPU (Request)', name: 'cpu_request', type: 'default'},
@@ -248,7 +248,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Namespace',
     entityName: 'namespace',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'State', name: 'status', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -258,7 +258,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Deployment',
     entityName: 'deployment',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -268,7 +268,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Pod',
     entityName: 'pod',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Node', name: 'node_name', type: 'default'},
@@ -283,7 +283,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'ReplicaSet',
     entityName: 'replica_set',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Replica', name: 'replicas', type: 'default'},
@@ -294,7 +294,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'CronJob',
     entityName: 'cron_job',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Schedule', name: 'schedule', type: 'default'},
@@ -307,7 +307,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Job',
     entityName: 'job',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Image', name: 'image', type: 'default'},
@@ -318,7 +318,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Service',
     entityName: 'service',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Cluster IP', name: 'cluster_ip', type: 'default'},
@@ -329,7 +329,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Network Policy',
     entityName: 'network_policy',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -339,7 +339,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Resource Quotas',
     entityName: 'resource_quota',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -349,7 +349,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'LimitRange',
     entityName: 'limit_range',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -359,7 +359,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Priority Class',
     entityName: 'priority_class',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Value', name: 'value', type: 'default'},
       {labelName: 'Global Default', name: 'global_default', type: 'boolean', value: ['TRUE', 'FALSE']},
@@ -371,7 +371,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'ConfigMap',
     entityName: 'config_map',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -381,7 +381,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Secret',
     entityName: 'secret',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Type', name: 'secret_type', type: 'default'},
@@ -392,7 +392,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Role',
     entityName: 'role',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -402,7 +402,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Role Binding',
     entityName: 'role_binding',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Role', name: 'role_ref', type: 'default'},
@@ -413,7 +413,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Cluster Role',
     entityName: 'cluster_role',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
     ],
@@ -422,7 +422,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Cluster Role Binding',
     entityName: 'cluster_role_binding',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Cluster Role', name: 'role_ref', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -432,7 +432,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Persistent Volume',
     entityName: 'persistent_volume',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Capacity', name: 'capacity', type: 'default'},
       {labelName: 'Access Modes', name: 'access_modes', type: 'default'},
@@ -448,7 +448,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Persistent Volume Claim',
     entityName: 'persistent_volume_claim',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Phase', name: 'phase', type: 'default'},
@@ -464,7 +464,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Storage Class',
     entityName: 'storage_class',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Provisioner', name: 'provisioner', type: 'default'},
       {labelName: 'Parameters', name: 'parameters', type: 'key-value'},
@@ -475,7 +475,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'StatefulSet',
     entityName: 'stateful_set',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -485,7 +485,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Ingress',
     entityName: 'ingress',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -495,7 +495,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'DaemonSet',
     entityName: 'daemon_set',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -505,7 +505,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Endpoint',
     entityName: 'endpoint',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Node', name: 'node_name', type: 'default'},
@@ -516,7 +516,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Event',
     entityName: 'event',
-    column: [
+    entityColumn: [
       {labelName: 'Type', name: 'k8s_event_type', type: 'default'},
       {labelName: 'Reason', name: 'reason', type: 'default'},
       {labelName: 'Object Kind', name: 'object_kind', type: 'default'},
@@ -530,7 +530,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'API Service',
     entityName: 'api_service',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
     ],
@@ -539,7 +539,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'ServiceAccount',
     entityName: 'service_account',
-    column: [
+    entityColumn: [
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Created', name: 'created', type: 'datetime'}
@@ -549,7 +549,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Horizontal Pod Autoscaler',
     entityName: 'horizontal_pod_autoscaler',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Namespace', name: 'namespace', type: 'default'},
       {labelName: 'Scale Target', name: 'scale_target', type: 'default'},
@@ -560,7 +560,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Schedule',
     entityName: 'schedule',
-    column: [
+    entityColumn: [
       {labelName: 'Name', name: 'name', type: 'default'},
       {labelName: 'Kind', name: 'kind', type: 'default'},
       {labelName: 'Namespace Name', name: 'namespace_name', type: 'default'},

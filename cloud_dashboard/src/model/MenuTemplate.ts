@@ -5,7 +5,7 @@ interface MenuTemplate {
   cloudServiceProvider: CloudServiceProvider;
   labelName: string;
   entityName: string;
-  column: EntityColumn[];
+  entityColumn: EntityColumn[];
 }
 
 export default MenuTemplate;
