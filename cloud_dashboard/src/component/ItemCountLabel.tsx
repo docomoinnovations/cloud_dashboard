@@ -1,3 +1,4 @@
+import CloudContext from 'model/CloudContext';
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import React, { useEffect } from 'react';
 import HttpService from 'service/http';
@@ -14,19 +15,18 @@ import HttpService from 'service/http';
  */
 const ItemCountLabel: React.VFC<{
   entityTypeId: string,
-  cloudContext: string,
+  cloudContext: CloudContext,
   namespace: string,
   namespaceName: string,
   itemCount: number,
-  setItemCount: (n: number) => void,
-  cloudServiceProvider: CloudServiceProvider
-}> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount, cloudServiceProvider }) => {
+  setItemCount: (n: number) => void
+}> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
   // Set entity item's count.
   useEffect(() => {
-    if (cloudContext === '') {
+    if (cloudContext.name === 'ALL') {
       setItemCount(0);
     } else {
-      let url = `/cloud_dashboard/${cloudServiceProvider}/${cloudContext}/${entityTypeId}/entity/count`;
+      let url = `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${cloudContext.name}/${entityTypeId}/entity/count`;
       if (namespace !== '') {
         url += `?namespace=${namespace}`;
       }

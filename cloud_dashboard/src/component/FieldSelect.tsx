@@ -1,3 +1,4 @@
+import CloudContext from 'model/CloudContext';
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import React, { useEffect, useState } from 'react';
 import HttpService from 'service/http';
@@ -11,18 +12,17 @@ import HttpService from 'service/http';
  * @param cloudServiceProvider Cloud Service Provider.
  */
 const FieldSelect: React.VFC<{
-  cloudContext: string,
+  cloudContext: CloudContext,
   columnKey: string,
   columnName: string,
-  setColumnName: (s: string) => void,
-  cloudServiceProvider: CloudServiceProvider
-}> = ({ cloudContext, columnKey, columnName, setColumnName, cloudServiceProvider }) => {
+  setColumnName: (s: string) => void
+}> = ({ cloudContext, columnKey, columnName, setColumnName }) => {
   const [dataList, setDataList] = useState<string[]>([]);
 
   // Set columnData list.
   useEffect(() => {
-    let url = `/jsonapi/${cloudServiceProvider}_${columnKey}/${cloudServiceProvider}_${columnKey}`;
-    if (cloudContext !== '') {
+    let url = `/jsonapi/${cloudContext.cloudServiceProvider}_${columnKey}/${cloudContext.cloudServiceProvider}_${columnKey}`;
+    if (cloudContext.name !== 'ALL') {
       url += `?cloudContext=${cloudContext}`;
     }
     HttpService.getInstance().getJson<{data: any}>(url).then((res) => {
