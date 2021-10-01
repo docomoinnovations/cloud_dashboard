@@ -1,6 +1,7 @@
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
+import { useEffect, useRef } from "react";
 
 /**
  * Padding Zero String.
@@ -127,3 +128,11 @@ export const getUrl = (menu: MenuTemplate) => {
 export const getEntityTypeId = (menu: MenuTemplate) => {
   return `${menu.cloudServiceProvider as string}_${menu.entityName}`;
 };
+
+export const usePrevious =  <T> (value: T) => {
+  const ref = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}

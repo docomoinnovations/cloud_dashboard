@@ -576,6 +576,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
 ];
 export const ITEMS_PER_PAGE = 30;
 export const CACHE_EXPIRED_UNIXTIME = 1000 * 60 * 60 * 24;
-export const DEFAULT_CLOUD_CONTEXT: CloudContext = {
-  cloudServiceProvider: '(none)', name: 'unselected'
-};
+export const DEFAULT_CLOUD_CONTEXTS: CloudContext[] = [
+  { cloudServiceProvider: 'aws_cloud', name: 'ALL' },
+  { cloudServiceProvider: 'k8s', name: 'ALL' },
+];
