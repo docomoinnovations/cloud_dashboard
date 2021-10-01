@@ -22,7 +22,7 @@ const App: React.VFC = () => {
               <EntityForm
                 entityTypeId={getEntityTypeId(record)}
                 column={record.entityColumn}
-                cloudConfigType={record.cloudServiceProvider} />
+                cloudServiceProvider={record.cloudServiceProvider} />
             </div>
           </Route>;
         })

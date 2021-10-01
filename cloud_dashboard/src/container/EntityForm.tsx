@@ -12,12 +12,13 @@ import React, { useEffect, useState } from 'react';
  * Form of entity.
  * @param entityTypeId Entity type ID.
  * @param column Entity's name list.
+ * @param cloudServiceProvider Cloud Service Provider.
 */
 const EntityForm: React.VFC<{
   entityTypeId: string,
   column: EntityColumn[],
-  cloudConfigType: CloudServiceProvider
-}> = ({ entityTypeId, column, cloudConfigType }) => {
+  cloudServiceProvider: CloudServiceProvider
+}> = ({ entityTypeId, column, cloudServiceProvider }) => {
   const [cloudContext, setCloudContext] = useState<string>('');
   const [namespace, setNamespace] = useState<string>('');
   const [namespaceName, setNamespaceName] = useState<string>('');
@@ -50,7 +51,7 @@ const EntityForm: React.VFC<{
           <CloudContextSelect
             cloudContext={cloudContext}
             setCloudContext={setCloudContext}
-            cloudConfigType={cloudConfigType} />
+            cloudServiceProvider={cloudServiceProvider} />
         </div>
         {namespaceFlg
           ? <div className="form-group">
@@ -60,7 +61,7 @@ const EntityForm: React.VFC<{
               columnKey="namespace"
               columnName={namespace}
               setColumnName={setNamespace}
-              cloudConfigType={cloudConfigType} />
+              cloudServiceProvider={cloudServiceProvider} />
           </div>
           : <></>}
         {namespaceNameFlg
@@ -71,7 +72,7 @@ const EntityForm: React.VFC<{
               columnKey="namespace_name"
               columnName={namespaceName}
               setColumnName={setNamespaceName}
-              cloudConfigType={cloudConfigType} />
+              cloudServiceProvider={cloudServiceProvider} />
           </div>
           : <></>}
         <div className="form-group">
@@ -82,7 +83,7 @@ const EntityForm: React.VFC<{
             namespaceName={namespaceName}
             itemCount={itemCount}
             setItemCount={setItemCount}
-            cloudConfigType={cloudConfigType} />
+            cloudServiceProvider={cloudServiceProvider} />
         </div>
         <div className="table-responsive">
           <EntityTable

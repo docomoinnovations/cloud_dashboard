@@ -8,20 +8,20 @@ import HttpService from 'service/http';
  * @param columnKey Field column key.
  * @param columnName Value of field column.
  * @param setColumnName Setter method of field column.
- * @param cloudConfigType Type of cloud config.
+ * @param cloudServiceProvider Cloud Service Provider.
  */
 const FieldSelect: React.VFC<{
   cloudContext: string,
   columnKey: string,
   columnName: string,
   setColumnName: (s: string) => void,
-  cloudConfigType: CloudServiceProvider
-}> = ({ cloudContext, columnKey, columnName, setColumnName, cloudConfigType }) => {
+  cloudServiceProvider: CloudServiceProvider
+}> = ({ cloudContext, columnKey, columnName, setColumnName, cloudServiceProvider }) => {
   const [dataList, setDataList] = useState<string[]>([]);
 
   // Set columnData list.
   useEffect(() => {
-    let url = `/jsonapi/${cloudConfigType}_${columnKey}/${cloudConfigType}_${columnKey}`;
+    let url = `/jsonapi/${cloudServiceProvider}_${columnKey}/${cloudServiceProvider}_${columnKey}`;
     if (cloudContext !== '') {
       url += `?cloudContext=${cloudContext}`;
     }

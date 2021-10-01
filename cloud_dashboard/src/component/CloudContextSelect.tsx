@@ -6,19 +6,19 @@ import HttpService from 'service/http';
  * Selector of cloud context.
  * @param cloudContext Value of cloud context.
  * @param setCloudContext Setter method of cloud context.
- * @param cloudConfigType Type of cloud config.
+ * @param cloudServiceProvider Cloud Service Provider.
  */
 const CloudContextSelect: React.VFC<{
   cloudContext: string,
   setCloudContext: (s: string) => void,
-  cloudConfigType: CloudServiceProvider
-}> = ({ cloudContext, setCloudContext, cloudConfigType }) => {
+  cloudServiceProvider: CloudServiceProvider
+}> = ({ cloudContext, setCloudContext, cloudServiceProvider }) => {
   const [cloudContextList, setCloudContextList] = useState<string[]>([]);
 
   // Set cloud context list.
   useEffect(() => {
     HttpService.getInstance().getJson<{data: any}>(
-      `/jsonapi/cloud_config/${cloudConfigType}`
+      `/jsonapi/cloud_config/${cloudServiceProvider}`
     ).then((res) => {
       const cloudContextListTemp = res.data.map((record: any) => {
         return record.attributes.cloud_context;

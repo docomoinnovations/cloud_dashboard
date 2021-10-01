@@ -10,7 +10,7 @@ import HttpService from 'service/http';
  * @param namespaceName Value of namespace.
  * @param itemCount Entity item's count.
  * @param setItemCount Setter of itemCount.
- * @param cloudConfigType Type of cloud config.
+ * @param cloudServiceProvider Cloud Service Provider.
  */
 const ItemCountLabel: React.VFC<{
   entityTypeId: string,
@@ -19,14 +19,14 @@ const ItemCountLabel: React.VFC<{
   namespaceName: string,
   itemCount: number,
   setItemCount: (n: number) => void,
-  cloudConfigType: CloudServiceProvider
-}> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount, cloudConfigType }) => {
+  cloudServiceProvider: CloudServiceProvider
+}> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount, cloudServiceProvider }) => {
   // Set entity item's count.
   useEffect(() => {
     if (cloudContext === '') {
       setItemCount(0);
     } else {
-      let url = `/cloud_dashboard/${cloudConfigType}/${cloudContext}/${entityTypeId}/entity/count`;
+      let url = `/cloud_dashboard/${cloudServiceProvider}/${cloudContext}/${entityTypeId}/entity/count`;
       if (namespace !== '') {
         url += `?namespace=${namespace}`;
       }
