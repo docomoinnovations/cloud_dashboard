@@ -48,10 +48,10 @@ const MainForm: React.VFC<{
     </ul>
     <ul className="nav nav-tabs">
       {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
-        return <li key={menu.name} role="presentation"
-          className={menu.name === menuName ? 'active' : ''}>
+        return <li key={menu.labelName} role="presentation"
+          className={menu.labelName === menuName ? 'active' : ''}>
           <Link to={getUrl(menu)}>
-          {menu.name}
+          {menu.labelName}
           </Link>
         </li>;
       })}

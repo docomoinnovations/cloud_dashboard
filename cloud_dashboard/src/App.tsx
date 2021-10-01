@@ -15,10 +15,10 @@ const App: React.VFC = () => {
           return <Route
             exact
             path={getUrl(record)}
-            key={record.name}
+            key={getEntityTypeId(record)}
           >
             <div className="container">
-              <MainForm menuType={record.type} menuName={record.name} />
+              <MainForm menuType={record.type} menuName={record.labelName} />
               <EntityForm
                 entityTypeId={getEntityTypeId(record)}
                 column={record.column}

@@ -3,7 +3,7 @@ import EntityColumn from "model/EntityColumn";
 
 interface MenuTemplate {
   type: CloudServiceProvider;
-  name: string;
+  labelName: string;
   entityName: string;
   column: EntityColumn[];
 }
