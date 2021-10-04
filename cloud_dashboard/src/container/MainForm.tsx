@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AWS_MENU_LIST, DEFAULT_CLOUD_CONTEXTS, K8S_MENU_LIST, ROUTE_URL } from 'constant';
+import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import { Link, useHistory } from 'react-router-dom';
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import { getUrl } from 'service/utility';

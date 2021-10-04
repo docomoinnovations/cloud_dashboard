@@ -19,7 +19,6 @@ const App: React.VFC = () => {
               path={getUrl(record)}
               key={getEntityTypeId(record)}
             >
-
               <div className="container">
                 <MainForm menuType={record.cloudServiceProvider} menuName={record.labelName} />
                 <EntityForm

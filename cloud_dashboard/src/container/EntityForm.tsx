@@ -1,4 +1,3 @@
-import CloudContextSelect from 'component/CloudContextSelect';
 import EntityTable from 'component/EntityTable';
 import FieldSelect from 'component/FieldSelect';
 import ItemCountLabel from 'component/ItemCountLabel';
