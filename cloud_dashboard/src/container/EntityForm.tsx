@@ -1,23 +1,25 @@
-import CloudContextSelect from 'component/CloudContextSelect';
 import EntityTable from 'component/EntityTable';
 import FieldSelect from 'component/FieldSelect';
 import ItemCountLabel from 'component/ItemCountLabel';
 import PageSelector from 'component/PageSelector';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import EntityColumn from 'model/EntityColumn';
 import SortInfo from 'model/SortInfo';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from 'service/state';
 
 /**
  * Form of entity.
  * @param entityTypeId Entity type ID.
  * @param column Entity's name list.
+ * @param cloudServiceProvider Cloud Service Provider.
 */
 const EntityForm: React.VFC<{
   entityTypeId: string,
   column: EntityColumn[],
-  cloudConfigType: string
-}> = ({ entityTypeId, column, cloudConfigType }) => {
-  const [cloudContext, setCloudContext] = useState<string>('');
+  cloudServiceProvider: CloudServiceProvider
+}> = ({ entityTypeId, column, cloudServiceProvider }) => {
+  const { cloudContext } = useContext(AppContext);
   const [namespace, setNamespace] = useState<string>('');
   const [namespaceName, setNamespaceName] = useState<string>('');
   const [itemCount, setItemCount] = useState(0);
@@ -44,13 +46,6 @@ const EntityForm: React.VFC<{
   return <div className="row" style={{ marginTop: '2rem' }}>
     <div className="col">
       <form>
-        <div className="form-group">
-          <label className="control-label">Cloud context</label>
-          <CloudContextSelect
-            cloudContext={cloudContext}
-            setCloudContext={setCloudContext}
-            cloudConfigType={cloudConfigType} />
-        </div>
         {namespaceFlg
           ? <div className="form-group">
             <label className="control-label">Namespace</label>
@@ -58,8 +53,7 @@ const EntityForm: React.VFC<{
               cloudContext={cloudContext}
               columnKey="namespace"
               columnName={namespace}
-              setColumnName={setNamespace}
-              cloudConfigType={cloudConfigType} />
+              setColumnName={setNamespace} />
           </div>
           : <></>}
         {namespaceNameFlg
@@ -69,8 +63,7 @@ const EntityForm: React.VFC<{
               cloudContext={cloudContext}
               columnKey="namespace_name"
               columnName={namespaceName}
-              setColumnName={setNamespaceName}
-              cloudConfigType={cloudConfigType} />
+              setColumnName={setNamespaceName} />
           </div>
           : <></>}
         <div className="form-group">
@@ -80,8 +73,7 @@ const EntityForm: React.VFC<{
             namespace={namespace}
             namespaceName={namespaceName}
             itemCount={itemCount}
-            setItemCount={setItemCount}
-            cloudConfigType={cloudConfigType} />
+            setItemCount={setItemCount} />
         </div>
         <div className="table-responsive">
           <EntityTable

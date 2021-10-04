@@ -1,11 +1,11 @@
-import EntityColumn from "./EntityColumn";
+import CloudServiceProvider from "model/CloudServiceProvider";
+import EntityColumn from "model/EntityColumn";
 
 interface MenuTemplate {
-  type: string;
-  name: string;
-  url: string;
-  entityTypeId: string;
-  column: EntityColumn[];
+  cloudServiceProvider: CloudServiceProvider;
+  labelName: string;
+  entityName: string;
+  entityColumn: EntityColumn[];
 }
 
 export default MenuTemplate;

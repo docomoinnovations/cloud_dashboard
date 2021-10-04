@@ -5,41 +5,36 @@ import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import MainForm from 'container/MainForm';
 import EntityForm from 'container/EntityForm';
+import { getEntityTypeId, getUrl } from 'service/utility';
+import { AppContext, useAppState } from 'service/state';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
-      {
-        AWS_MENU_LIST.map((record) => {
-          return <Route exact path={record.url} key={record.name}>
-            <div className="container">
-              <MainForm menuType="AWS" menuName={record.name} />
-              <EntityForm
-                entityTypeId={record.entityTypeId}
-                column={record.column}
-                cloudConfigType="aws_cloud" />
-            </div>
-          </Route>;
-        })
-      }
+      <AppContext.Provider value={useAppState()}>
+        {
+          ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
+            return <Route
+              exact
+              path={getUrl(record)}
+              key={getEntityTypeId(record)}
+            >
+              <div className="container">
+                <MainForm menuType={record.cloudServiceProvider} menuName={record.labelName} />
+                <EntityForm
+                  entityTypeId={getEntityTypeId(record)}
+                  column={record.entityColumn}
+                  cloudServiceProvider={record.cloudServiceProvider} />
+              </div>
+            </Route>;
+          })
+        }
+      </AppContext.Provider>
       <Route exact path="/callback">
         <div className="container">
           <CallbackView />
         </div>
       </Route>
-      {
-        K8S_MENU_LIST.map((record) => {
-          return <Route exact path={record.url} key={record.name}>
-            <div className="container">
-              <MainForm menuType="K8s" menuName={record.name} />
-              <EntityForm
-                entityTypeId={record.entityTypeId}
-                column={record.column}
-                cloudConfigType="k8s" />
-            </div>
-          </Route>;
-        })
-      }
       <Route exact path="/">
         <div className="container">
           <LoginForm />

@@ -1,4 +1,5 @@
 import { ITEMS_PER_PAGE } from 'constant';
+import CloudContext from 'model/CloudContext';
 import EntityColumn from 'model/EntityColumn';
 import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
@@ -20,7 +21,7 @@ import { convertDataForUI } from 'service/utility';
 const EntityTable: React.VFC<{
   entityTypeId: string,
   column: EntityColumn[],
-  cloudContext: string,
+  cloudContext: CloudContext,
   namespace: string,
   namespaceName: string,
   sortInfo: SortInfo,
@@ -59,8 +60,8 @@ const EntityTable: React.VFC<{
     if (namespaceName !== '') {
       parameters.push({ key: 'filter[namespace_name]', value: namespaceName });
     }
-    if (cloudContext !== '') {
-      parameters.push({ key: 'filter[cloud_context]', value: cloudContext });
+    if (cloudContext.name !== 'ALL') {
+      parameters.push({ key: 'filter[cloud_context]', value: cloudContext.name });
     }
     if (sortInfo.key !== '') {
       parameters.push(

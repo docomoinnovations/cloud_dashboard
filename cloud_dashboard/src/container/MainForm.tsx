@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import CloudServiceProvider from 'model/CloudServiceProvider';
+import { getUrl } from 'service/utility';
+import CloudContextSelect2 from 'component/CloudContextSelect2';
+import { AppContext } from 'service/state';
 
 const MainForm: React.VFC<{
-  menuType: string,
+  menuType: CloudServiceProvider,
   menuName: string
 }> = ({ menuType, menuName }) => {
+  const { cloudContext, dispatch } = useContext(AppContext);
+  const history = useHistory();
+
   useEffect(() => {
     // If you don't have the access token, redirect route URL.
     const accessToken = window.localStorage.getItem('accessToken');
@@ -22,6 +29,19 @@ const MainForm: React.VFC<{
     }
   }, []);
 
+  useEffect(() => {
+    if (cloudContext.cloudServiceProvider !== menuType) {
+      switch (cloudContext.cloudServiceProvider) {
+        case 'aws_cloud':
+          history.push(getUrl(AWS_MENU_LIST[0]));
+          break;
+        case 'k8s':
+          history.push(getUrl(K8S_MENU_LIST[0]));
+          break;
+      }
+    }
+  }, [cloudContext]);
+
   const logout = () => {
     window.localStorage.removeItem('accessToken');
     window.localStorage.removeItem('refreshToken');
@@ -30,26 +50,17 @@ const MainForm: React.VFC<{
   };
 
   return <>
+    <form>
+      <CloudContextSelect2 cloudContext={cloudContext} setCloudContext={(c) => {
+        dispatch({type: 'setCloudContext', message: c});
+      }} />
+    </form>
     <ul className="nav nav-tabs">
-      <li role="presentation"
-        className={menuType === 'AWS' ? 'active' : ''}>
-        <Link to={`${AWS_MENU_LIST[0].url}`}>
-          AWS
-        </Link>
-      </li>
-      <li role="presentation"
-        className={menuType === 'K8s' ? 'active' : ''}>
-        <Link to={`${K8S_MENU_LIST[0].url}`}>
-          K8s
-        </Link>
-      </li>
-    </ul>
-    <ul className="nav nav-tabs">
-      {(menuType === 'AWS' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
-        return <li key={menu.name} role="presentation"
-          className={menu.name === menuName ? 'active' : ''}>
-          <Link to={`${menu.url}`}>
-          {menu.name}
+      {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
+        return <li key={menu.labelName} role="presentation"
+          className={menu.labelName === menuName ? 'active' : ''}>
+          <Link to={getUrl(menu)}>
+          {menu.labelName}
           </Link>
         </li>;
       })}
