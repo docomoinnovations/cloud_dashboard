@@ -3,14 +3,14 @@ import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import { Link, useHistory } from 'react-router-dom';
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import { getUrl } from 'service/utility';
-import CloudContextSelect2 from 'component/CloudContextSelect2';
 import { AppContext } from 'service/state';
+import CloudContext from 'model/CloudContext';
 
 const MainForm: React.VFC<{
   menuType: CloudServiceProvider,
   menuName: string
 }> = ({ menuType, menuName }) => {
-  const { cloudContext, dispatch } = useContext(AppContext);
+  const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -49,12 +49,51 @@ const MainForm: React.VFC<{
     window.location.href = ROUTE_URL;
   };
 
+  const setCloudContext = (cloudContext: CloudContext) => {
+    dispatch({type: 'setCloudContext', message: cloudContext});
+  };
+
   return <>
-    <form>
-      <CloudContextSelect2 cloudContext={cloudContext} setCloudContext={(c) => {
-        dispatch({type: 'setCloudContext', message: c});
-      }} />
-    </form>
+    <nav className="navbar navbar-default">
+      <div className="container-fluid">
+        <div className="navbar-header">
+          <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+          </button>
+          <div className="region region-navigation">
+            <a className="logo navbar-btn pull-left" href="/" title="ホーム" rel="home">
+              <img src="/themes/contrib/bootstrap_cloud/logo.svg" alt="ホーム" />
+            </a>
+          </div>
+        </div>
+        <div className="collapse navbar-collapse">
+          <ul className="nav navbar-nav">
+            <li className="dropdown">
+              <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded={false}>
+                {`[${cloudContext.cloudServiceProvider}] ${cloudContext.name}`} <span className="caret"></span>
+              </a>
+              <ul className="dropdown-menu" role="menu">
+                {
+                  cloudContextList.map((r, index) => {
+                    const list = r.cloudServiceProvider === 'aws_cloud'
+                      ? AWS_MENU_LIST : K8S_MENU_LIST;
+                    return <li role="presentation" key={index}>
+                      <Link to={getUrl(list[0])} onClick={
+                        () => setCloudContext(r)
+                      }>{`[${r.cloudServiceProvider}] ${r.name}`}</Link>
+                    </li>;
+                  })
+                }
+              </ul>
+            </li>
+            <li><a href="#" onClick={logout}>logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <ul className="nav nav-tabs">
       {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
         return <li key={menu.labelName} role="presentation"
@@ -64,8 +103,6 @@ const MainForm: React.VFC<{
           </Link>
         </li>;
       })}
-      <li role="presentation">
-        <a href="#" onClick={logout}>logout</a></li>
     </ul>
   </>;
 }
