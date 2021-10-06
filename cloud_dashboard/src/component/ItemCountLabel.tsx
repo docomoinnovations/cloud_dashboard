@@ -22,20 +22,18 @@ const ItemCountLabel: React.VFC<{
 }> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
   // Set entity item's count.
   useEffect(() => {
-    if (cloudContext.name === 'ALL') {
-      setItemCount(0);
-    } else {
-      let url = `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${cloudContext.name}/${entityTypeId}/entity/count`;
-      if (namespace !== '') {
-        url += `?namespace=${namespace}`;
-      }
-      if (namespaceName !== '') {
-        url += `?namespace_name=${namespaceName}`;
-      }
-      HttpService.getInstance().getJson<{count: number}>(url).then((res) => {
-        setItemCount(res.count);
-      });
+    let url = cloudContext.name === 'ALL'
+      ? `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${entityTypeId}/entity/count`
+      : `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${cloudContext.name}/${entityTypeId}/entity/count`;
+    if (namespace !== '') {
+      url += `?namespace=${namespace}`;
     }
+    if (namespaceName !== '') {
+      url += `?namespace_name=${namespaceName}`;
+    }
+    HttpService.getInstance().getJson<{count: number}>(url).then((res) => {
+      setItemCount(res.count);
+    });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext, namespace, namespaceName]);
 

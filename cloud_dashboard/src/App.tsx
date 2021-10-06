@@ -11,11 +11,20 @@ import { AppContext, useAppState } from 'service/state';
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
+      <Route exact path="/">
+        <div className="container">
+          <LoginForm />
+        </div>
+      </Route>
+      <Route path="/callback">
+        <div className="container">
+          <CallbackView />
+        </div>
+      </Route>
       <AppContext.Provider value={useAppState()}>
         {
           ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
             return <Route
-              exact
               path={getUrl(record)}
               key={getEntityTypeId(record)}
             >
@@ -30,16 +39,6 @@ const App: React.VFC = () => {
           })
         }
       </AppContext.Provider>
-      <Route exact path="/callback">
-        <div className="container">
-          <CallbackView />
-        </div>
-      </Route>
-      <Route exact path="/">
-        <div className="container">
-          <LoginForm />
-        </div>
-      </Route>
     </Switch>
   </BrowserRouter>;
 }
