@@ -1,7 +1,9 @@
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
+import SortInfo from "model/SortInfo";
 import { useEffect, useRef } from "react";
+import HttpService from "./http";
 
 /**
  * Padding Zero String.
@@ -136,3 +138,71 @@ export const usePrevious =  <T> (value: T) => {
   });
   return ref.current;
 }
+
+/**
+ * Download entity data by JSON:API.
+ * @param entityTypeId Entity type ID.
+ * @param option Options of downloading.
+ */
+export const getEntityData = async (entityTypeId: string, option: {
+  // Maximum number of data to be retrieved.
+  limit: number,
+  // Offset at which to retrieve the data (0 origin)
+  offset: number,
+  // Filters when retrieving data.
+  filter: {[key: string]: string},
+  // Keys and directions to sort.
+  sort: SortInfo,
+}) => {
+  // Create a GET parameter.
+  const parameters: { key: string, value: string }[] = [];
+  parameters.push({key: 'page[limit]', value: `${option.limit}`});
+  parameters.push({key: 'page[offset]', value: `${option.offset}`});
+  for (const key in option.filter) {
+    parameters.push({ key: `filter[${key}]`, value: option.filter[key] });
+  }
+  if (option.sort.key !== '') {
+    parameters.push(
+      option.sort.direction === 'ASC'
+        ? { key: 'sort', value: option.sort.key }
+        : { key: 'sort', value: '-' + option.sort.key }
+    );
+  }
+
+  // Create the downloading URL.
+  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
+  if (parameters.length > 0) {
+    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
+  }
+
+  // Download Action.
+  const res = await HttpService.getInstance().getJson<{data: EntityData[]}>(url);
+  return res.data;
+};
+
+/**
+ * Download ALL entity data by JSON:API.
+ * @param entityTypeId Entity type ID.
+ */
+export const getEntityDataAll = async (entityTypeId: string) => {
+  let output: EntityData[] = [];
+  const httpService = HttpService.getInstance();
+  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
+  while (true) {
+    const res = await httpService.getJson<{
+      data: EntityData[],
+      links: {
+        next?: {
+          href: string
+        }
+      }
+    }>(url);
+    output = [...output, ...res.data];
+    if (res.links.next !== undefined) {
+      url = res.links.next!.href;
+    } else {
+      break;
+    }
+  }
+  return output;
+};
