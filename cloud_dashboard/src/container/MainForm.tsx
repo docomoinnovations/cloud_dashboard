@@ -73,7 +73,7 @@ const MainForm: React.VFC<{
           <ul className="nav navbar-nav">
             <li className="dropdown">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded={false}>
-                {`[${cloudContext.cloudServiceProvider}] ${cloudContext.name}`} <span className="caret"></span>
+                {`${cloudContext.labelName}`} <span className="caret"></span>
               </a>
               <ul className="dropdown-menu" role="menu">
                 {
@@ -83,7 +83,7 @@ const MainForm: React.VFC<{
                     return <li role="presentation" key={index}>
                       <Link to={getUrl(list[0])} onClick={
                         () => setCloudContext(r)
-                      }>{`[${r.cloudServiceProvider}] ${r.name}`}</Link>
+                      }>{`${r.labelName}`}</Link>
                     </li>;
                   })
                 }
