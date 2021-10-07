@@ -43,7 +43,8 @@ export const useAppState = (): AppState => {
         )).data.map((record: any) => {
           return {
             cloudServiceProvider: cloudServiceProvider as CloudServiceProvider,
-            name: record.attributes.cloud_context
+            name: record.attributes.cloud_context,
+            labelName: record.attributes.name
           };
         });
         newCloudContextList = [...newCloudContextList, ...data];
@@ -59,6 +60,7 @@ export const useAppState = (): AppState => {
       }
     };
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dispatch = (action: Action) => {

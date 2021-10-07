@@ -40,6 +40,7 @@ const MainForm: React.VFC<{
           break;
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext]);
 
   const logout = () => {
@@ -50,7 +51,7 @@ const MainForm: React.VFC<{
   };
 
   const setCloudContext = (cloudContext: CloudContext) => {
-    dispatch({type: 'setCloudContext', message: cloudContext});
+    dispatch({ type: 'setCloudContext', message: cloudContext });
   };
 
   return <>
@@ -72,8 +73,9 @@ const MainForm: React.VFC<{
         <div className="collapse navbar-collapse">
           <ul className="nav navbar-nav">
             <li className="dropdown">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded={false}>
-                {`[${cloudContext.cloudServiceProvider}] ${cloudContext.name}`} <span className="caret"></span>
+                {`${cloudContext.labelName}`} <span className="caret"></span>
               </a>
               <ul className="dropdown-menu" role="menu">
                 {
@@ -83,27 +85,36 @@ const MainForm: React.VFC<{
                     return <li role="presentation" key={index}>
                       <Link to={getUrl(list[0])} onClick={
                         () => setCloudContext(r)
-                      }>{`[${r.cloudServiceProvider}] ${r.name}`}</Link>
+                      }>{`${r.labelName}`}</Link>
                     </li>;
                   })
                 }
               </ul>
             </li>
-            <li><a href="#" onClick={logout}>logout</a></li>
+            <li>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a href="#" onClick={logout}>logout</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
-    <ul className="nav nav-tabs">
-      {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
-        return <li key={menu.labelName} role="presentation"
-          className={menu.labelName === menuName ? 'active' : ''}>
-          <Link to={getUrl(menu)}>
-          {menu.labelName}
-          </Link>
-        </li>;
-      })}
-    </ul>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <ul className="nav nav-tabs">
+            {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
+              return <li key={menu.labelName} role="presentation"
+                className={menu.labelName === menuName ? 'active' : ''}>
+                <Link to={getUrl(menu)}>
+                  {menu.labelName}
+                </Link>
+              </li>;
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
   </>;
 }
 

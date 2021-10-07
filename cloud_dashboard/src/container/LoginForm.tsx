@@ -36,13 +36,15 @@ const LoginForm: React.VFC = () => {
     window.localStorage.setItem('redirectUri', redirectUri);
   }, [redirectUri]);
 
-  return <div className="row">
-    <div className="col">
-      <form>
-        <button type="button" className="btn btn-default"
-          onClick={login}
-          disabled={clientId === ''}>login</button>
-      </form>
+  return <div className="container-fluid">
+    <div className="row">
+      <div className="col">
+        <form>
+          <button type="button" className="btn btn-default"
+            onClick={login}
+            disabled={clientId === ''}>login</button>
+        </form>
+      </div>
     </div>
   </div>;
 }

@@ -16,34 +16,34 @@ const PageSelector: React.VFC<{
 
   return <nav>
     <ul className="pagination">
-      <li>
-        <a href="#" aria-label="最初のページへ" onClick={() => {
+      <li className={pageIndex !== 0 ? '' : 'disabled'}>
+        <span aria-label="First" onClick={() => {
           setPageIndex(0);
         }}>
           <span aria-hidden="true">«</span>
-        </a>
+        </span>
       </li>
-      <li>
-        <a href="#" aria-label="前のページへ" onClick={() => {
+      <li className={pageIndex !== 0 ? '' : 'disabled'}>
+        <span aria-label="Previous" onClick={() => {
           setPageIndex(Math.max(0, pageIndex - 1));
         }}>
           <span aria-hidden="true">＜</span>
-        </a>
+        </span>
       </li>
-      <li><a href="#">{pageIndex + 1}</a></li>
-      <li className={pageIndex !== pageCount - 1 ? '' : 'disabled'}>
-        <a href="#" aria-label="次のページへ" onClick={() => {
+      <li><span>{pageIndex + 1}</span></li>
+      <li className={itemCount !== 0 && pageIndex !== pageCount - 1 ? '' : 'disabled'}>
+        <span aria-label="Next" onClick={() => {
           setPageIndex(Math.min(pageIndex + 1, pageCount - 1));
         }}>
           <span aria-hidden="true">＞</span>
-        </a>
+        </span>
       </li>
       <li className={itemCount !== 0 && pageIndex !== pageCount - 1 ? '' : 'disabled'}>
-        <a href="#" aria-label="最後のページへ" onClick={() => {
+        <span aria-label="Last" onClick={() => {
           setPageIndex(pageCount - 1);
         }}>
           <span aria-hidden="true">»</span>
-        </a>
+        </span>
       </li>
     </ul>
   </nav>;

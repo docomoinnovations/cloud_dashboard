@@ -12,14 +12,10 @@ const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
       <Route exact path="/">
-        <div className="container">
-          <LoginForm />
-        </div>
+        <LoginForm />
       </Route>
       <Route path="/callback">
-        <div className="container">
-          <CallbackView />
-        </div>
+        <CallbackView />
       </Route>
       <AppContext.Provider value={useAppState()}>
         {
@@ -28,12 +24,10 @@ const App: React.VFC = () => {
               path={getUrl(record)}
               key={getEntityTypeId(record)}
             >
-              <div className="container">
-                <MainForm menuType={record.cloudServiceProvider} menuName={record.labelName} />
-                <EntityForm
-                  entityTypeId={getEntityTypeId(record)}
-                  column={record.entityColumn} />
-              </div>
+              <MainForm menuType={record.cloudServiceProvider} menuName={record.labelName} />
+              <EntityForm
+                entityTypeId={getEntityTypeId(record)}
+                column={record.entityColumn} />
             </Route>;
           })
         }
