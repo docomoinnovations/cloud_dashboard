@@ -40,7 +40,7 @@ const MainForm: React.VFC<{
           break;
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext]);
 
   const logout = () => {
@@ -51,7 +51,7 @@ const MainForm: React.VFC<{
   };
 
   const setCloudContext = (cloudContext: CloudContext) => {
-    dispatch({type: 'setCloudContext', message: cloudContext});
+    dispatch({ type: 'setCloudContext', message: cloudContext });
   };
 
   return <>
@@ -99,16 +99,22 @@ const MainForm: React.VFC<{
         </div>
       </div>
     </nav>
-    <ul className="nav nav-tabs">
-      {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
-        return <li key={menu.labelName} role="presentation"
-          className={menu.labelName === menuName ? 'active' : ''}>
-          <Link to={getUrl(menu)}>
-          {menu.labelName}
-          </Link>
-        </li>;
-      })}
-    </ul>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <ul className="nav nav-tabs">
+            {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
+              return <li key={menu.labelName} role="presentation"
+                className={menu.labelName === menuName ? 'active' : ''}>
+                <Link to={getUrl(menu)}>
+                  {menu.labelName}
+                </Link>
+              </li>;
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
   </>;
 }
 

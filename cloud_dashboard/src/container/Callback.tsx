@@ -75,9 +75,11 @@ const CallbackView: React.VFC = () => {
     });
   }, []);
 
-  return <div className="row">
-    <div className="col">
-      <h2>Please waiting...</h2>
+  return <div className="container-fluid">
+    <div className="row">
+      <div className="col">
+        <h2>Please waiting...</h2>
+      </div>
     </div>
   </div>;
 }
