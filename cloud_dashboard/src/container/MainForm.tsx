@@ -40,6 +40,7 @@ const MainForm: React.VFC<{
           break;
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext]);
 
   const logout = () => {
@@ -72,6 +73,7 @@ const MainForm: React.VFC<{
         <div className="collapse navbar-collapse">
           <ul className="nav navbar-nav">
             <li className="dropdown">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded={false}>
                 {`${cloudContext.labelName}`} <span className="caret"></span>
               </a>
@@ -89,7 +91,10 @@ const MainForm: React.VFC<{
                 }
               </ul>
             </li>
-            <li><a href="#" onClick={logout}>logout</a></li>
+            <li>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a href="#" onClick={logout}>logout</a>
+            </li>
           </ul>
         </div>
       </div>

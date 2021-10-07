@@ -108,6 +108,7 @@ const EntityTable: React.VFC<{
       setEntityList2(entityListTemp);
     };
     updateEntityList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityList]);
 
   return <table className="table table-hover table-striped sticky-enabled sticky-table">
