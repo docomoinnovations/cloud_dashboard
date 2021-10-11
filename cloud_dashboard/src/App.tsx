@@ -8,6 +8,7 @@ import { getEntityTypeId, getUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
 import MenuBar from 'container/MenuBar';
 import EntityTabs from 'container/EntityTabs';
+import ProviderView from 'container/ProviderView';
 
 const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
@@ -19,6 +20,10 @@ const App: React.VFC = () => {
         <CallbackView />
       </Route>
       <AppContext.Provider value={useAppState()}>
+        <Route path="/providers">
+          <MenuBar />
+          <ProviderView />
+        </Route>
         {
           ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
             return <Route
