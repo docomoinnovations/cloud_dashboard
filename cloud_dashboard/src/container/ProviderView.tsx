@@ -15,16 +15,14 @@ const ProviderView: React.VFC = () => {
             <table className="table table-hover table-striped sticky-enabled sticky-table">
               <thead>
                 <th>Name</th>
-                <th>Instance Pricing</th>
-                <th>Spreadsheet</th>
               </thead>
               <tbody>
                 {
-                  cloudContextList.map((r, index) => {
+                  cloudContextList
+                    .filter((r) => r.name !== 'ALL')
+                    .map((r, index) => {
                     return <tr key={index}>
                     <td>{r.labelName}</td>
-                    <td>{r.cloudServiceProvider === 'aws_cloud' ? 'view' : ''}</td>
-                    <td></td>
                   </tr>;
                   })
                 }
