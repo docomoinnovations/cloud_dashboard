@@ -5,7 +5,7 @@ import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import React, { useEffect, useState } from 'react';
 import HttpService from 'service/http';
-import { convertDataForUI } from 'service/utility';
+import { convertDataForUI, getEntityData, getEntityDataAll } from 'service/utility';
 
 /**
  * Label of entity item's count.
@@ -50,32 +50,27 @@ const EntityTable: React.VFC<{
 
   // Make URL for getting entities by JSON:API.
   useEffect(() => {
-    let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
-    const parameters: { key: string, value: string }[] = [];
-    parameters.push({key: 'page[limit]', value: `${ITEMS_PER_PAGE}`});
-    parameters.push({key: 'page[offset]', value: `${pageIndex * ITEMS_PER_PAGE}`});
+    // Create function parameter.
+    const filter: {[key: string]: string} = {};
     if (namespace !== '') {
-      parameters.push({ key: 'filter[namespace]', value: namespace });
+      filter['namespace'] = namespace;
     }
     if (namespaceName !== '') {
-      parameters.push({ key: 'filter[namespace_name]', value: namespaceName });
+      filter['namespaceName'] = namespaceName;
     }
     if (cloudContext.name !== 'ALL') {
-      parameters.push({ key: 'filter[cloud_context]', value: cloudContext.name });
+      filter['cloud_context'] = cloudContext.name;
     }
-    if (sortInfo.key !== '') {
-      parameters.push(
-        sortInfo.direction === 'ASC'
-          ? { key: 'sort', value: sortInfo.key }
-          : { key: 'sort', value: '-' + sortInfo.key }
-      );
-    }
-    if (parameters.length > 0) {
-      url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-    }
+    const parameter = {
+      limit: ITEMS_PER_PAGE,
+      offset: pageIndex * ITEMS_PER_PAGE,
+      filter,
+      sort: sortInfo
+    };
 
-    HttpService.getInstance().getJson<{data: any}>(url).then((res) => {
-      setEntityList(res.data);
+    // Download entity data.
+    getEntityData(entityTypeId, parameter).then((res) => {
+      setEntityList(res);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [namespace, namespaceName, cloudContext, sortInfo, pageIndex]);
@@ -86,10 +81,7 @@ const EntityTable: React.VFC<{
       const dataCache: {[key: string]: EntityData[]} = {};
       for (const cRecord of column) {
         if (cRecord.type === 'join' && !(cRecord.info.entityTypeId in dataCache)) {
-          const data = (await HttpService.getInstance().getJson<{data: any}>(
-            `/jsonapi/${cRecord.info.entityTypeId}/${cRecord.info.entityTypeId}`
-          )).data;
-          dataCache[cRecord.info.entityTypeId] = data;
+          dataCache[cRecord.info.entityTypeId] = await getEntityDataAll(cRecord.info.entityTypeId);
         }
       }
 
