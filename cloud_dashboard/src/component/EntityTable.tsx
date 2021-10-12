@@ -106,7 +106,7 @@ const EntityTable: React.VFC<{
   return <table className="table table-hover table-striped sticky-enabled sticky-table">
     <thead>
       <th>
-        <input type="checkbox" className="form-checkbox" title="このテーブルのすべての列を選択する" />
+        <input type="checkbox" className="form-checkbox" title="Select all rows" />
       </th>
       {column.map((record) => {
         return <th key={record.name} onClick={() => changeSortMode(record.name)}>
