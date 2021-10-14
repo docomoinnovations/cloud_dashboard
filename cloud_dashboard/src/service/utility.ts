@@ -1,3 +1,4 @@
+import CloudContext from "model/CloudContext";
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
@@ -114,11 +115,11 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
 };
 
 /**
- * Getter of URL for MenuTemplate.
+ * Getter of EntityListView's URL for MenuTemplate.
  * @param menu MenuTemplate
  * @returns URL
  */
-export const getUrl = (menu: MenuTemplate) => {
+export const getEntityListViewUrl = (menu: MenuTemplate) => {
   return `/${menu.cloudServiceProvider as string}/${menu.entityName}`;
 };
 
@@ -205,4 +206,17 @@ export const getEntityDataAll = async (entityTypeId: string) => {
     }
   }
   return output;
+};
+
+/**
+ * Getter of LaunchTemplateView's URL for CloudContext.
+ * @param cloudContext CloudContext
+ * @returns URL
+ */
+export const getLaunchTemplateViewUrl = (cloudContext: CloudContext) => {
+  if (cloudContext.name === 'ALL') {
+    return `/${cloudContext.cloudServiceProvider as string}/server_template`;
+  } else {
+    return `/server_template/${cloudContext.cloudServiceProvider as string}/${cloudContext.name}`;
+  }
 };

@@ -4,13 +4,16 @@ import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import CallbackView from 'container/Callback';
 import LoginForm from 'container/LoginForm';
 import EntityForm from 'container/EntityForm';
-import { getEntityTypeId, getUrl } from 'service/utility';
+import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
 import MenuBar from 'container/MenuBar';
 import EntityTabs from 'container/EntityTabs';
 import ProviderView from 'container/ProviderView';
+import LaunchTemplateView from 'container/LaunchTemplateView';
 
 const App: React.VFC = () => {
+  const appState = useAppState();
+
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
       <Route exact path="/">
@@ -19,7 +22,7 @@ const App: React.VFC = () => {
       <Route path="/callback">
         <CallbackView />
       </Route>
-      <AppContext.Provider value={useAppState()}>
+      <AppContext.Provider value={appState}>
         <Route path="/providers">
           <MenuBar />
           <ProviderView />
@@ -27,7 +30,7 @@ const App: React.VFC = () => {
         {
           ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
             return <Route
-              path={getUrl(record)}
+              path={getEntityListViewUrl(record)}
               key={getEntityTypeId(record)}
             >
               <MenuBar />
@@ -35,6 +38,17 @@ const App: React.VFC = () => {
               <EntityForm
                 entityTypeId={getEntityTypeId(record)}
                 column={record.entityColumn} />
+            </Route>;
+          })
+        }
+        {
+          appState.cloudContextList.map((cloudContext) => {
+            return <Route
+              path={getLaunchTemplateViewUrl(cloudContext)}
+              key={cloudContext.labelName}
+            >
+              <MenuBar />
+              <LaunchTemplateView cloudContext={cloudContext} />
             </Route>;
           })
         }

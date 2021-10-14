@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import { useHistory } from 'react-router-dom';
 import CloudServiceProvider from 'model/CloudServiceProvider';
-import { getUrl } from 'service/utility';
+import { getEntityListViewUrl } from 'service/utility';
 import { AppContext } from 'service/state';
 import EntityTab from 'component/EntityTab';
 
@@ -17,10 +17,10 @@ const EntityTabs: React.VFC<{
     if (cloudContext.cloudServiceProvider !== menuType) {
       switch (cloudContext.cloudServiceProvider) {
         case 'aws_cloud':
-          history.push(getUrl(AWS_MENU_LIST[0]));
+          history.push(getEntityListViewUrl(AWS_MENU_LIST[0]));
           break;
         case 'k8s':
-          history.push(getUrl(K8S_MENU_LIST[0]));
+          history.push(getEntityListViewUrl(K8S_MENU_LIST[0]));
           break;
       }
     }
@@ -36,7 +36,7 @@ const EntityTabs: React.VFC<{
               return <EntityTab
                 key={menu.labelName}
                 isActive={menu.labelName === menuName}
-                location={getUrl(menu)}
+                location={getEntityListViewUrl(menu)}
                 labelName={menu.labelName}
               />;
             })}
