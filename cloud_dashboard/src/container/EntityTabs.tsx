@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import { getUrl } from 'service/utility';
 import { AppContext } from 'service/state';
+import EntityTab from 'component/EntityTab';
 
 const EntityTabs: React.VFC<{
   menuType: CloudServiceProvider,
@@ -29,16 +30,18 @@ const EntityTabs: React.VFC<{
   return <div className="container-fluid">
     <div className="row">
       <div className="col">
-        <ul className="nav nav-tabs">
-          {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
-            return <li key={menu.labelName} role="presentation"
-              className={menu.labelName === menuName ? 'active' : ''}>
-              <Link to={getUrl(menu)}>
-                {menu.labelName}
-              </Link>
-            </li>;
-          })}
-        </ul>
+        <nav className="tabs" role="navigation" aria-label="Tabs">
+          <ul className="tabs--primary nav nav-tabs">
+            {(menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
+              return <EntityTab
+                key={menu.labelName}
+                isActive={menu.labelName === menuName}
+                location={getUrl(menu)}
+                labelName={menu.labelName}
+              />;
+            })}
+          </ul>
+        </nav>
       </div>
     </div>
   </div>;

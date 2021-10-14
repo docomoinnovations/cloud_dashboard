@@ -4,7 +4,6 @@ import EntityColumn from 'model/EntityColumn';
 import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import React, { useEffect, useState } from 'react';
-import HttpService from 'service/http';
 import { convertDataForUI, getEntityData, getEntityDataAll } from 'service/utility';
 
 /**
