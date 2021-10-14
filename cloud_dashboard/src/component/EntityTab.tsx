@@ -6,8 +6,8 @@ const EntityTab: React.VFC<{
   location: string,
   labelName: string,
 }> = ({ isActive, location, labelName }) => {
-  return <li role="presentation" className={isActive ? 'active' : ''}>
-    <Link to={location}>{labelName}</Link>
+  return <li className={isActive ? 'active' : ''}>
+    <Link to={location} className={isActive ? 'is-active' : ''}>{labelName}</Link>
   </li>;
 }
 
