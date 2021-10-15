@@ -228,11 +228,9 @@ export const getEntityDataAll = async (entityTypeId: string, filter: {[key: stri
  * @returns URL
  */
 export const getLaunchTemplateViewUrl = (cloudContext: CloudContext) => {
-  if (cloudContext.name === 'ALL') {
-    return `/${cloudContext.cloudServiceProvider as string}/server_template`;
-  } else {
-    return `/server_template/${cloudContext.cloudServiceProvider as string}/${cloudContext.name}`;
-  }
+  return cloudContext.name === 'ALL'
+    ? `/${cloudContext.cloudServiceProvider as string}/server_template`
+    : `/server_template/${cloudContext.cloudServiceProvider as string}/${cloudContext.name}`;
 };
 
 /**
@@ -277,11 +275,9 @@ export const convertEntityData = (
     };
     for (const launchTemplateColumn of entityColumnList) {
       const rawValue = rawRecord.attributes[launchTemplateColumn.name];
-      if (launchTemplateColumn.name === 'cloud_context') {
-        dataRecord.value[launchTemplateColumn.name] = cloudContext.labelName;
-      } else {
-        dataRecord.value[launchTemplateColumn.name] = convertDataForUI(rawValue, launchTemplateColumn, dataCache);
-      }
+      dataRecord.value[launchTemplateColumn.name] = launchTemplateColumn.name === 'cloud_context'
+        ? cloudContext.labelName
+        : convertDataForUI(rawValue, launchTemplateColumn, dataCache);
     }
     newDataRecordList.push(dataRecord);
   }

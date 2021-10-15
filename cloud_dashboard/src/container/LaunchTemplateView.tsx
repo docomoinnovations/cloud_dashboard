@@ -19,23 +19,19 @@ import { convertEntityData, readDataCache } from 'service/utility';
 const getLaunchTemplateColumnList = (cloudContext: CloudContext): EntityColumn[] => {
   switch (cloudContext.cloudServiceProvider) {
     case 'aws_cloud':
-      if (cloudContext.name !== 'ALL') {
-        return AWS_LAUNCH_TEMPLATE_LIST;
-      } else {
-        return [
+      return cloudContext.name !== 'ALL'
+        ? AWS_LAUNCH_TEMPLATE_LIST
+        : [
           { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
           ...AWS_LAUNCH_TEMPLATE_LIST
         ];
-      }
     case 'k8s':
-      if (cloudContext.name !== 'ALL') {
-        return K8S_LAUNCH_TEMPLATE_LIST;
-      } else {
-        return [
+      return cloudContext.name !== 'ALL'
+        ? K8S_LAUNCH_TEMPLATE_LIST
+        : [
           { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
           ...K8S_LAUNCH_TEMPLATE_LIST
         ];
-      }
   }
 };
 
