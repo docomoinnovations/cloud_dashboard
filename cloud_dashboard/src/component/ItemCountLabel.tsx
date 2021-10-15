@@ -1,10 +1,9 @@
-import CloudContext from 'model/CloudContext';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import HttpService from 'service/http';
+import { AppContext } from 'service/state';
 
 /**
  * Label of entity item's count.
- * @param cloudContext Value of cloud context.
  * @param entityTypeId Entity type ID.
  * @param namespace Value of namespace.
  * @param namespaceName Value of namespace.
@@ -14,12 +13,13 @@ import HttpService from 'service/http';
  */
 const ItemCountLabel: React.VFC<{
   entityTypeId: string,
-  cloudContext: CloudContext,
   namespace: string,
   namespaceName: string,
   itemCount: number,
   setItemCount: (n: number) => void
-}> = ({ cloudContext, entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
+}> = ({ entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
+  const { cloudContext } = useContext(AppContext);
+
   // Set entity item's count.
   useEffect(() => {
     let url = cloudContext.name === 'ALL'

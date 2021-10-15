@@ -1,40 +1,9 @@
-import { AWS_MENU_LIST, K8S_MENU_LIST, OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
+import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import CloudContext from 'model/CloudContext';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
-
-const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) => {
-  const formData = new FormData();
-  formData.append('grant_type', 'refresh_token');
-  formData.append('client_id', clientId);
-  formData.append('client_secret', OAUTH2_CLIENT_SECRET);
-  formData.append('refresh_token', refreshToken);
-
-  const res = await fetch(`/oauth/token`, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!res.ok) {
-    throw new Error('Refresh failed');
-  }
-  const res2 = await res.json();
-  if ('access_token' in res2) {
-    // read tokens
-    const accessToken = res2['access_token'];
-    const refreshToken2 = res2['refresh_token'];
-    const expiresDatetime = (new Date()).getTime() + res2['expires_in'] * 1000;
-
-    // save tokens to Localstrage
-    window.localStorage.setItem('accessToken', accessToken);
-    window.localStorage.setItem('refreshToken', refreshToken2);
-    window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
-  } else {
-    throw new Error('Refresh failed');
-  }
-};
 
 const MenuBar: React.VFC = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);

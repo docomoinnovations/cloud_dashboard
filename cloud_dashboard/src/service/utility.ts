@@ -185,11 +185,24 @@ export const getEntityData = async (entityTypeId: string, option: {
 /**
  * Download ALL entity data by JSON:API.
  * @param entityTypeId Entity type ID.
+ * @param filter Filter for searching by keyword.
  */
-export const getEntityDataAll = async (entityTypeId: string) => {
+export const getEntityDataAll = async (entityTypeId: string, filter: {[key: string]: string} = {}) => {
+  // Create a GET parameter.
+  const parameters: { key: string, value: string }[] = [];
+  for (const key in filter) {
+    parameters.push({ key: `filter[${key}]`, value: filter[key] });
+  }
+
+  // Create the downloading URL.
+  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
+  if (parameters.length > 0) {
+    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
+  }
+
+  // Download Action.
   let output: EntityData[] = [];
   const httpService = HttpService.getInstance();
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
   while (true) {
     const res = await httpService.getJson<{
       data: EntityData[],

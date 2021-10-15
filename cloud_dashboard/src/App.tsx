@@ -10,7 +10,6 @@ import MenuBar from 'container/MenuBar';
 import EntityTabs from 'container/EntityTabs';
 import ProviderView from 'container/ProviderView';
 import LaunchTemplateView from 'container/LaunchTemplateView';
-import EntityView from 'container/EntityView';
 
 const App: React.VFC = () => {
   const appState = useAppState();
@@ -40,7 +39,6 @@ const App: React.VFC = () => {
                 entityTypeId={getEntityTypeId(record)}
                 column={record.entityColumn} />
               <hr />
-              <EntityView  menuTemplate={record} />
             </Route>;
           })
         }
