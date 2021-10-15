@@ -48,7 +48,8 @@ const MenuBar: React.VFC = () => {
       return;
     }
 
-    // If the access token has expired, update it.
+    // If the information required to update the token cannot be loaded,
+    // redirect route URL.
     console.group('Authorization Code Grant');
     const clientId = window.localStorage.getItem('clientId');
     const refreshToken = window.localStorage.getItem('refreshToken');
@@ -61,22 +62,24 @@ const MenuBar: React.VFC = () => {
     }
     console.log('Client ID : Yes');
 
+    // If the access token has expired, update it.
     const now = (new Date()).getTime();
-    if (now > parseInt(expiresDatetime, 10)) {
-      console.log('Token expired : Yes');
-      refreshTokenByCodeGrant(clientId, refreshToken).then(() => {
-        console.log('Access token : Yes');
-        console.groupEnd();
-      }).catch(() => {
-        console.log('Access token : No');
-        console.error('Authorization failed.');
-        console.groupEnd();
-        window.location.href = ROUTE_URL;
-      });
-    } else {
+    if (now <= parseInt(expiresDatetime, 10)) {
       console.log('Token expired : No');
       console.groupEnd();
+      return;
     }
+    console.log('Token expired : Yes');
+
+    refreshTokenByCodeGrant(clientId, refreshToken).then(() => {
+      console.log('Access token : Yes');
+      console.groupEnd();
+    }).catch(() => {
+      console.log('Access token : No');
+      console.error('Authorization failed.');
+      console.groupEnd();
+      window.location.href = ROUTE_URL;
+    });
   }, []);
 
   const setCloudContext = (cloudContext: CloudContext) => {
