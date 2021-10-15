@@ -1,9 +1,40 @@
-import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
+import { AWS_MENU_LIST, K8S_MENU_LIST, OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
 import CloudContext from 'model/CloudContext';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
+
+const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) => {
+  const formData = new FormData();
+  formData.append('grant_type', 'refresh_token');
+  formData.append('client_id', clientId);
+  formData.append('client_secret', OAUTH2_CLIENT_SECRET);
+  formData.append('refresh_token', refreshToken);
+
+  const response = await fetch(`/oauth/token`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error('Refresh failed');
+  }
+  const response_json = await response.json();
+  if ('access_token' in response_json) {
+    // read tokens
+    const accessToken = response_json['access_token'];
+    const refreshToken2 = response_json['refresh_token'];
+    const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
+
+    // save tokens to Localstrage
+    window.localStorage.setItem('accessToken', accessToken);
+    window.localStorage.setItem('refreshToken', refreshToken2);
+    window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
+  } else {
+    throw new Error('Refresh failed');
+  }
+};
 
 const MenuBar: React.VFC = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
@@ -17,11 +48,38 @@ const MenuBar: React.VFC = () => {
       return;
     }
 
-    // If the access token has expired, redirect route URL.
-    const now = (new Date()).getTime();
-    if (now > parseInt(expiresDatetime, 10)) {
+    // If the information required to update the token cannot be loaded,
+    // redirect route URL.
+    console.group('Authorization Code Grant');
+    const clientId = window.localStorage.getItem('clientId');
+    const refreshToken = window.localStorage.getItem('refreshToken');
+    if (clientId === null || refreshToken === null) {
+      console.log('Client ID : No');
+      console.error('Authorization failed.');
+      console.groupEnd();
       window.location.href = ROUTE_URL;
-    };
+      return;
+    }
+    console.log('Client ID : Yes');
+
+    // If the access token has expired, update it.
+    const now = (new Date()).getTime();
+    if (now <= parseInt(expiresDatetime, 10)) {
+      console.log('Token expired : No');
+      console.groupEnd();
+      return;
+    }
+    console.log('Token expired : Yes');
+
+    refreshTokenByCodeGrant(clientId, refreshToken).then(() => {
+      console.log('Access token : Yes');
+      console.groupEnd();
+    }).catch(() => {
+      console.log('Access token : No');
+      console.error('Authorization failed.');
+      console.groupEnd();
+      window.location.href = ROUTE_URL;
+    });
   }, []);
 
   const setCloudContext = (cloudContext: CloudContext) => {
