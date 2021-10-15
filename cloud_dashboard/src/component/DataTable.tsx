@@ -57,9 +57,8 @@ const DataTable: React.VFC<{
                   }
                 </a>
               </th>;
-            } else {
-              return <th key={dataColumn.key} onClick={() => changeSortMode(dataColumn.key)}>{dataColumn.label}</th>;
             }
+            return <th key={dataColumn.key} onClick={() => changeSortMode(dataColumn.key)}>{dataColumn.label}</th>;
           })}
         </tr>
       </thead>
