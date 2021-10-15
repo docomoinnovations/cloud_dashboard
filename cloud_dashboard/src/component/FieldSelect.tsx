@@ -21,7 +21,7 @@ const FieldSelect: React.VFC<{
   useEffect(() => {
     const filter: {[key: string]: string} = {};
     if (cloudContext.name !== 'ALL') {
-      filter['cloudContext'] = cloudContext.name;
+      filter['cloud_context'] = cloudContext.name;
     }
     const entityTypeId = `${cloudContext.cloudServiceProvider}_${columnKey}`;
     getEntityDataAll(entityTypeId, filter).then((res) => {
