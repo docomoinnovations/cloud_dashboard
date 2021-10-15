@@ -12,20 +12,20 @@ const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) =
   formData.append('client_secret', OAUTH2_CLIENT_SECRET);
   formData.append('refresh_token', refreshToken);
 
-  const res = await fetch(`/oauth/token`, {
+  const response = await fetch(`/oauth/token`, {
     method: 'POST',
     body: formData
   });
 
-  if (!res.ok) {
+  if (!response.ok) {
     throw new Error('Refresh failed');
   }
-  const res2 = await res.json();
-  if ('access_token' in res2) {
+  const response_json = await response.json();
+  if ('access_token' in response_json) {
     // read tokens
-    const accessToken = res2['access_token'];
-    const refreshToken2 = res2['refresh_token'];
-    const expiresDatetime = (new Date()).getTime() + res2['expires_in'] * 1000;
+    const accessToken = response_json['access_token'];
+    const refreshToken2 = response_json['refresh_token'];
+    const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
 
     // save tokens to Localstrage
     window.localStorage.setItem('accessToken', accessToken);
