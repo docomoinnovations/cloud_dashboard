@@ -8,7 +8,7 @@ import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import React, { useEffect, useState } from 'react';
 import HttpService from 'service/http';
-import { convertDataForUI, getEntityDataAll } from 'service/utility';
+import { convertDataForUI, convertEntityData, getEntityDataAll, readDataCache } from 'service/utility';
 
 /**
  * Get LaunchTemplateColumnList by cloud_context.
@@ -70,59 +70,6 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
   const httpService = HttpService.getInstance();
   const result = await httpService.getJson<{data: EntityData[]}>(url);
   return result.data;
-};
-
-/**
- * Read entity's data for convert entity's data by JSON:API.
- * @param entityColumnList Information about the entities that will be loaded in advance.
- * @returns Data cache.
- */
-const readDataCache = async (entityColumnList: EntityColumn[]) => {
-  const dataCache: { [key: string]: EntityData[] } = {};
-  for (const launchTemplateColumn of entityColumnList) {
-    if (launchTemplateColumn.type !== 'join') {
-      continue;
-    }
-    const entityTypeId = launchTemplateColumn.info.entityTypeId;
-    if (entityTypeId in dataCache) {
-      continue;
-    }
-    dataCache[entityTypeId] = await getEntityDataAll(entityTypeId);
-  }
-  return dataCache;
-};
-
-/**
- * Convert EntityData to DataRecord.
- * 
- * @param rawDataList List of EntityData.
- * @param entityColumnList List of EntiyColumn.
- * @param cloudContext cloud_context.
- * @param dataCache Data cache of EntityData.
- * @returns List of DataRecord.
- */
-const convertEntityData = (
-  rawDataList: EntityData[],
-  entityColumnList: EntityColumn[],
-  cloudContext: CloudContext,
-  dataCache: { [key: string]: EntityData[] }) => {
-  const newDataRecordList: DataRecord[] = [];
-  for (const rawRecord of rawDataList) {
-    const dataRecord: DataRecord = {
-      id: rawRecord.id,
-      value: {}
-    };
-    for (const launchTemplateColumn of entityColumnList) {
-      const rawValue = rawRecord.attributes[launchTemplateColumn.name];
-      if (launchTemplateColumn.name === 'cloud_context') {
-        dataRecord.value[launchTemplateColumn.name] = cloudContext.labelName;
-      } else {
-        dataRecord.value[launchTemplateColumn.name] = convertDataForUI(rawValue, launchTemplateColumn, dataCache);
-      }
-    }
-    newDataRecordList.push(dataRecord);
-  }
-  return newDataRecordList;
 };
 
 /**

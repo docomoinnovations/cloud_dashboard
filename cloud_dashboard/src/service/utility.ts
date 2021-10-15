@@ -1,4 +1,5 @@
 import CloudContext from "model/CloudContext";
+import DataRecord from "model/DataRecord";
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
@@ -219,4 +220,57 @@ export const getLaunchTemplateViewUrl = (cloudContext: CloudContext) => {
   } else {
     return `/server_template/${cloudContext.cloudServiceProvider as string}/${cloudContext.name}`;
   }
+};
+
+/**
+ * Read entity's data for convert entity's data by JSON:API.
+ * @param entityColumnList Information about the entities that will be loaded in advance.
+ * @returns Data cache.
+ */
+export const readDataCache = async (entityColumnList: EntityColumn[]) => {
+  const dataCache: { [key: string]: EntityData[] } = {};
+  for (const entityColumn of entityColumnList) {
+    if (entityColumn.type !== 'join') {
+      continue;
+    }
+    const entityTypeId = entityColumn.info.entityTypeId;
+    if (entityTypeId in dataCache) {
+      continue;
+    }
+    dataCache[entityTypeId] = await getEntityDataAll(entityTypeId);
+  }
+  return dataCache;
+};
+
+/**
+ * Convert EntityData to DataRecord.
+ * 
+ * @param rawDataList List of EntityData.
+ * @param entityColumnList List of EntiyColumn.
+ * @param cloudContext cloud_context.
+ * @param dataCache Data cache of EntityData.
+ * @returns List of DataRecord.
+ */
+export const convertEntityData = (
+  rawDataList: EntityData[],
+  entityColumnList: EntityColumn[],
+  cloudContext: CloudContext,
+  dataCache: { [key: string]: EntityData[] }) => {
+  const newDataRecordList: DataRecord[] = [];
+  for (const rawRecord of rawDataList) {
+    const dataRecord: DataRecord = {
+      id: rawRecord.id,
+      value: {}
+    };
+    for (const launchTemplateColumn of entityColumnList) {
+      const rawValue = rawRecord.attributes[launchTemplateColumn.name];
+      if (launchTemplateColumn.name === 'cloud_context') {
+        dataRecord.value[launchTemplateColumn.name] = cloudContext.labelName;
+      } else {
+        dataRecord.value[launchTemplateColumn.name] = convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+      }
+    }
+    newDataRecordList.push(dataRecord);
+  }
+  return newDataRecordList;
 };
