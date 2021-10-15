@@ -1,33 +1,31 @@
-import CloudContext from 'model/CloudContext';
-import React, { useEffect, useState } from 'react';
-import HttpService from 'service/http';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from 'service/state';
+import { getEntityDataAll } from 'service/utility';
 
 /**
  * Selector of field column.
- * @param cloudContext Value of cloud context.
  * @param columnKey Field column key.
  * @param columnName Value of field column.
  * @param setColumnName Setter method of field column.
  * @param cloudServiceProvider Cloud Service Provider.
  */
 const FieldSelect: React.VFC<{
-  cloudContext: CloudContext,
   columnKey: string,
   columnName: string,
   setColumnName: (s: string) => void
-}> = ({ cloudContext, columnKey, columnName, setColumnName }) => {
+}> = ({ columnKey, columnName, setColumnName }) => {
+  const { cloudContext } = useContext(AppContext);
   const [dataList, setDataList] = useState<string[]>([]);
 
   // Set columnData list.
   useEffect(() => {
-    let url = `/jsonapi/${cloudContext.cloudServiceProvider}_${columnKey}/${cloudContext.cloudServiceProvider}_${columnKey}`;
+    const filter: {[key: string]: string} = {};
     if (cloudContext.name !== 'ALL') {
-      url += `?cloudContext=${cloudContext}`;
+      filter['cloud_context'] = cloudContext.name;
     }
-    HttpService.getInstance().getJson<{data: any}>(url).then((res) => {
-      setDataList(res.data.map((record: any) => {
-        return record.attributes.name;
-      }));
+    const entityTypeId = `${cloudContext.cloudServiceProvider}_${columnKey}`;
+    getEntityDataAll(entityTypeId, filter).then((res) => {
+      setDataList(res.map((r) => r.attributes['name']));
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext]);

@@ -1,3 +1,5 @@
+import CloudContext from "model/CloudContext";
+import DataRecord from "model/DataRecord";
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
@@ -114,11 +116,11 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
 };
 
 /**
- * Getter of URL for MenuTemplate.
+ * Getter of EntityListView's URL for MenuTemplate.
  * @param menu MenuTemplate
  * @returns URL
  */
-export const getUrl = (menu: MenuTemplate) => {
+export const getEntityListViewUrl = (menu: MenuTemplate) => {
   return `/${menu.cloudServiceProvider as string}/${menu.entityName}`;
 };
 
@@ -183,11 +185,24 @@ export const getEntityData = async (entityTypeId: string, option: {
 /**
  * Download ALL entity data by JSON:API.
  * @param entityTypeId Entity type ID.
+ * @param filter Filter for searching by keyword.
  */
-export const getEntityDataAll = async (entityTypeId: string) => {
+export const getEntityDataAll = async (entityTypeId: string, filter: {[key: string]: string} = {}) => {
+  // Create a GET parameter.
+  const parameters: { key: string, value: string }[] = [];
+  for (const key in filter) {
+    parameters.push({ key: `filter[${key}]`, value: filter[key] });
+  }
+
+  // Create the downloading URL.
+  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
+  if (parameters.length > 0) {
+    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
+  }
+
+  // Download Action.
   let output: EntityData[] = [];
   const httpService = HttpService.getInstance();
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
   while (true) {
     const res = await httpService.getJson<{
       data: EntityData[],
@@ -205,4 +220,66 @@ export const getEntityDataAll = async (entityTypeId: string) => {
     }
   }
   return output;
+};
+
+/**
+ * Getter of LaunchTemplateView's URL for CloudContext.
+ * @param cloudContext CloudContext
+ * @returns URL
+ */
+export const getLaunchTemplateViewUrl = (cloudContext: CloudContext) => {
+  return cloudContext.name === 'ALL'
+    ? `/${cloudContext.cloudServiceProvider as string}/server_template`
+    : `/server_template/${cloudContext.cloudServiceProvider as string}/${cloudContext.name}`;
+};
+
+/**
+ * Read entity's data for convert entity's data by JSON:API.
+ * @param entityColumnList Information about the entities that will be loaded in advance.
+ * @returns Data cache.
+ */
+export const readDataCache = async (entityColumnList: EntityColumn[]) => {
+  const dataCache: { [key: string]: EntityData[] } = {};
+  for (const entityColumn of entityColumnList) {
+    if (entityColumn.type !== 'join') {
+      continue;
+    }
+    const entityTypeId = entityColumn.info.entityTypeId;
+    if (entityTypeId in dataCache) {
+      continue;
+    }
+    dataCache[entityTypeId] = await getEntityDataAll(entityTypeId);
+  }
+  return dataCache;
+};
+
+/**
+ * Convert EntityData to DataRecord.
+ * 
+ * @param rawDataList List of EntityData.
+ * @param entityColumnList List of EntiyColumn.
+ * @param cloudContext cloud_context.
+ * @param dataCache Data cache of EntityData.
+ * @returns List of DataRecord.
+ */
+export const convertEntityData = (
+  rawDataList: EntityData[],
+  entityColumnList: EntityColumn[],
+  cloudContext: CloudContext,
+  dataCache: { [key: string]: EntityData[] }) => {
+  const newDataRecordList: DataRecord[] = [];
+  for (const rawRecord of rawDataList) {
+    const dataRecord: DataRecord = {
+      id: rawRecord.id,
+      value: {}
+    };
+    for (const launchTemplateColumn of entityColumnList) {
+      const rawValue = rawRecord.attributes[launchTemplateColumn.name];
+      dataRecord.value[launchTemplateColumn.name] = launchTemplateColumn.name === 'cloud_context'
+        ? cloudContext.labelName
+        : convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+    }
+    newDataRecordList.push(dataRecord);
+  }
+  return newDataRecordList;
 };

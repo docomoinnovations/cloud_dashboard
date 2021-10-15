@@ -3,7 +3,7 @@ import CloudContext from 'model/CloudContext';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from 'service/state';
-import { getUrl } from 'service/utility';
+import { getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 
 const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) => {
   const formData = new FormData();
@@ -90,53 +90,110 @@ const MenuBar: React.VFC = () => {
     window.localStorage.removeItem('accessToken');
     window.localStorage.removeItem('refreshToken');
     window.localStorage.removeItem('expiresDatetime');
-    window.location.href = ROUTE_URL;
   };
 
-  return <nav className="navbar navbar-default">
+  return <header className="navbar navbar-default navbar-fixed-top" role="banner">
     <div className="container-fluid">
       <div className="navbar-header">
+        <div className="region region-navigation">
+          <a className="logo navbar-btn pull-left" href="/" title="ホーム" rel="home">
+            <img src="/themes/contrib/bootstrap_cloud/logo.svg" alt="ホーム" />
+          </a>
+        </div>
         <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
           <span className="sr-only">Toggle navigation</span>
           <span className="icon-bar"></span>
           <span className="icon-bar"></span>
           <span className="icon-bar"></span>
         </button>
-        <div className="region region-navigation">
-          <a className="logo navbar-btn pull-left" href="/" title="ホーム" rel="home">
-            <img src="/themes/contrib/bootstrap_cloud/logo.svg" alt="ホーム" />
-          </a>
+      </div>
+      <div className="navbar-collapse collapse">
+        <div className="region region-navigation-collapsible">
+          <nav role="navigation" className="contextual-region">
+            <h2 className="sr-only">Main navigation</h2>
+            <ul className="nav navbar-nav" role="menu">
+              <li>
+                <Link to="/providers">ホーム</Link>
+              </li>
+              <li className="dropdown">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                  {
+                    cloudContext.name !== 'ALL' ? `${cloudContext.labelName}` : 'Cloud service providers'
+                  } <span className="caret"></span>
+                </a>
+                <ul className="dropdown-menu" role="menu">
+                  {
+                    cloudContextList.map((r, index) => {
+                      const list = r.cloudServiceProvider === 'aws_cloud'
+                        ? AWS_MENU_LIST : K8S_MENU_LIST;
+                      return <li key={index}>
+                        <Link to={getEntityListViewUrl(list[0])} onClick={
+                          () => setCloudContext(r)
+                        }>{`${r.labelName}`}</Link>
+                      </li>;
+                    })
+                  }
+                </ul>
+              </li>
+              <li className="dropdown">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                  Launch template <span className="caret"></span>
+                </a>
+                <ul className="dropdown-menu" role="menu">
+                  {
+                    cloudContextList.map((r, index) => {
+                      return <li key={index}>
+                        <Link to={getLaunchTemplateViewUrl(r)} onClick={
+                          () => setCloudContext(r)
+                        }>{`${r.labelName}`}</Link>
+                      </li>;
+                    })
+                  }
+                </ul>
+              </li>
+              <li className="dropdown">
+                <a href="/clouds/design" className="dropdown-toggle" data-toggle="dropdown">Design <span className="caret"></span></a>
+                <ul className="dropdown-menu" role="menu">
+                  <li className="dropdown-submenu">
+                    <a href="/clouds" className="dropdown-submenu-toggle">Projects <span className="caret"></span></a>
+                    <ul className="dropdown-menu" role="menu">
+                      <li><a href="/clouds/design/project/k8s_test">k8s_test</a></li>
+                    </ul>
+                  </li>
+                  <li className="dropdown-submenu">
+                    <a href="/clouds" className="dropdown-submenu-toggle">Stores <span className="caret"></span></a>
+                    <ul className="dropdown-menu" role="menu">
+                      <li><a href="/clouds/design/store/k8s_cost_store">K8s cost store</a></li>
+                      <li><a href="/clouds/design/store/k8s_namespace_resource_store">K8s namespace resource store</a></li>
+                      <li><a href="/clouds/design/store/k8s_node_resource_store">K8s node resource store</a></li>
+                      <li><a href="/clouds/design/store/k8s_pod_resource_store">K8s pod resource store</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="/admin/structure/cloud_config">管理</a>
+              </li>
+            </ul>
+          </nav>
+          <nav role="navigation" className="contextual-region">
+            <h2 className="sr-only">User account menu</h2>
+            <ul className="menu menu--account nav navbar-nav navbar-right">
+              <li className="first">
+                <a href="/user">User Info</a>
+              </li>
+              <li className="last">
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <Link to="/" onClick={logout}>logout</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-      <div className="collapse navbar-collapse">
-        <ul className="nav navbar-nav">
-          <li className="dropdown">
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded={false}>
-              {`${cloudContext.labelName}`} <span className="caret"></span>
-            </a>
-            <ul className="dropdown-menu" role="menu">
-              {
-                cloudContextList.map((r, index) => {
-                  const list = r.cloudServiceProvider === 'aws_cloud'
-                    ? AWS_MENU_LIST : K8S_MENU_LIST;
-                  return <li role="presentation" key={index}>
-                    <Link to={getUrl(list[0])} onClick={
-                      () => setCloudContext(r)
-                    }>{`${r.labelName}`}</Link>
-                  </li>;
-                })
-              }
-            </ul>
-          </li>
-          <li>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a href="#" onClick={logout}>logout</a>
-          </li>
-        </ul>
-      </div>
     </div>
-  </nav>;
+  </header>;
 }
 
 export default MenuBar;
