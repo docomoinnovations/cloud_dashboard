@@ -3,15 +3,10 @@ import { AppContext } from 'service/state';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGE_LIST } from 'i18n';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L, { LatLngTuple } from 'leaflet';
+import Leaflet, { LatLngTuple } from 'leaflet';
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-});
+Leaflet.Icon.Default.imagePath =
+  '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/';
 
 const ProviderView: React.VFC = () => {
   const { cloudContextList, dispatch } = useContext(AppContext);
