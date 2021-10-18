@@ -10,6 +10,7 @@ import MenuBar from 'container/MenuBar';
 import EntityTabs from 'container/EntityTabs';
 import ProviderView from 'container/ProviderView';
 import LaunchTemplateView from 'container/LaunchTemplateView';
+import 'leaflet/dist/leaflet.css';
 
 const App: React.VFC = () => {
   const appState = useAppState();

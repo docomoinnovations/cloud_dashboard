@@ -2,12 +2,38 @@ import React, { useContext } from 'react';
 import { AppContext } from 'service/state';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGE_LIST } from 'i18n';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L, { LatLngTuple } from 'leaflet';
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
 
 const ProviderView: React.VFC = () => {
   const { cloudContextList, dispatch } = useContext(AppContext);
   const { t, i18n } = useTranslation();
+  const position: LatLngTuple = [51.505, -0.09];
 
   return <div className="container-fluid">
+    <div className="row">
+      <div className="col">
+        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: 300}}>
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
+    </div>
     <div className="row">
       <div className="col">
         <form>
@@ -40,10 +66,10 @@ const ProviderView: React.VFC = () => {
                   cloudContextList
                     .filter((r) => r.name !== 'ALL')
                     .map((r, index) => {
-                    return <tr key={index}>
-                    <td>{r.labelName}</td>
-                  </tr>;
-                  })
+                      return <tr key={index}>
+                        <td>{r.labelName}</td>
+                      </tr>;
+                    })
                 }
               </tbody>
             </table>
