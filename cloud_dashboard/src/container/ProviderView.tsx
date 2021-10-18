@@ -1,31 +1,67 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'service/state';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGE_LIST } from 'i18n';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Leaflet, { LatLngTuple } from 'leaflet';
+import HttpService from 'service/http';
 
 Leaflet.Icon.Default.imagePath =
   '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/';
 
+interface CloudContetLocation {
+  name: string;
+  position: LatLngTuple;
+}
+
 const ProviderView: React.VFC = () => {
   const { cloudContextList, dispatch } = useContext(AppContext);
+  const [cloudContetLocationList, setCloudContetLocationList] = useState<CloudContetLocation[]>([]);
   const { t, i18n } = useTranslation();
-  const position: LatLngTuple = [51.505, -0.09];
+
+  useEffect(() => {
+    const http = HttpService.getInstance();
+    http.getJson<{
+      Items: {
+        Image: string,
+        Name: string
+      }[],
+      Latitude: string,
+      Longitude: string
+    }[]>('/clouds/cloud_config_location').then((res) => {
+      const newList: CloudContetLocation[] = [];
+      for (const item of res) {
+        for (const item2 of item.Items) {
+          newList.push({
+            name: item2.Name,
+            position: [
+              parseFloat(item.Latitude),
+              parseFloat(item.Longitude)
+            ]
+          });
+        }
+      }
+      setCloudContetLocationList(newList);
+    });
+  }, []);
 
   return <div className="container-fluid">
     <div className="row">
       <div className="col">
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: 300}}>
+        <MapContainer center={[0, 0]} zoom={2} scrollWheelZoom={false} style={{ height: 500 }}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          {
+            cloudContetLocationList.map((cloudContetLocation, index) => {
+              return <Marker position={cloudContetLocation.position} key={index}>
+                <Popup>
+                  {cloudContetLocation.name}
+                </Popup>
+              </Marker>;
+            })
+          }
         </MapContainer>
       </div>
     </div>
@@ -42,8 +78,8 @@ const ProviderView: React.VFC = () => {
                     className="btn btn-default"
                     disabled={i18n.language === language.key}
                     onClick={() => {
-                      dispatch({type: 'setLanguage', message: language.key});
-                  }}>{language.value}</button>;
+                      dispatch({ type: 'setLanguage', message: language.key });
+                    }}>{language.value}</button>;
                 })
               }
             </div>
