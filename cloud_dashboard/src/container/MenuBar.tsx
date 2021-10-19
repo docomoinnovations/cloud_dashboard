@@ -113,7 +113,7 @@ const MenuBar: React.VFC = () => {
             <h2 className="sr-only">Main navigation</h2>
             <ul className="nav navbar-nav" role="menu">
               <li>
-                <Link to="/providers">ホーム</Link>
+                <Link to="/providers">Home</Link>
               </li>
               <li className="dropdown">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -174,7 +174,7 @@ const MenuBar: React.VFC = () => {
                 </ul>
               </li>
               <li>
-                <a href="/admin/structure/cloud_config">管理</a>
+                <a href="/admin/structure/cloud_config">Cloud Config</a>
               </li>
             </ul>
           </nav>
@@ -182,7 +182,7 @@ const MenuBar: React.VFC = () => {
             <h2 className="sr-only">User account menu</h2>
             <ul className="menu menu--account nav navbar-nav navbar-right">
               <li className="first">
-                <a href="/user">User Info</a>
+                <a href="/user">User</a>
               </li>
               <li className="last">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
