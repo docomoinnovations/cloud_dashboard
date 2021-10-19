@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import HttpService from 'service/http';
 import { AppContext } from 'service/state';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Label of entity item's count.
@@ -19,6 +20,7 @@ const ItemCountLabel: React.VFC<{
   setItemCount: (n: number) => void
 }> = ({ entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
   const { cloudContext } = useContext(AppContext);
+  const { t } = useTranslation();
 
   // Set entity item's count.
   useEffect(() => {
@@ -37,7 +39,7 @@ const ItemCountLabel: React.VFC<{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext, namespace, namespaceName]);
 
-  return <label className="control-label">Item Count: {itemCount}</label>;
+  return <label className="control-label">{t('ItemCount')}: {itemCount}</label>;
 };
 
 export default ItemCountLabel;

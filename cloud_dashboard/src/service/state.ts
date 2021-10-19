@@ -3,13 +3,14 @@ import CloudContext from "model/CloudContext";
 import CloudServiceProvider from "model/CloudServiceProvider";
 import { createContext, useEffect, useState } from "react";
 import HttpService from "service/http";
+import { useTranslation } from 'react-i18next';
 
 type Action = {
   type: 'setCloudContext',
   message: CloudContext
 } | {
-  type: 'setCloudServiceProvider',
-  message: CloudServiceProvider
+  type: 'setLanguage',
+  message: string
 };
 
 interface AppState {
@@ -31,6 +32,14 @@ const loadCloudContext = () => {
 export const useAppState = (): AppState => {
   const [cloudContext, setCloudContext] = useState<CloudContext>(loadCloudContext());
   const [cloudContextList, setCloudContextList] = useState<CloudContext[]>([...DEFAULT_CLOUD_CONTEXTS]);
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const languageName = window.localStorage.getItem('languageName');
+    if (languageName !== null) {
+      i18n.changeLanguage(languageName);
+    }
+  }, []);
 
   // Set cloud context list.
   useEffect(() => {
@@ -60,7 +69,6 @@ export const useAppState = (): AppState => {
       }
     };
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dispatch = (action: Action) => {
@@ -71,6 +79,10 @@ export const useAppState = (): AppState => {
         setCloudContext(action.message);
         break;
       }
+      case 'setLanguage':
+        i18n.changeLanguage(action.message);
+        window.localStorage.setItem('languageName', action.message);
+        break;
     }
   };
 
