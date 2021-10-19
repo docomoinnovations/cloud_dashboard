@@ -119,7 +119,7 @@ const MenuBar: React.VFC = () => {
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                   {
-                    cloudContext.name !== 'ALL' ? `${cloudContext.labelName}` : 'Cloud service providers'
+                    `${cloudContext.labelName}`
                   } <span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu" role="menu">
