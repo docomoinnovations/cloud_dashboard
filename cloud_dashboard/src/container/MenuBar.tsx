@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
+import { useTranslation } from 'react-i18next';
 
 const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) => {
   const formData = new FormData();
@@ -38,6 +39,7 @@ const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) =
 
 const MenuBar: React.VFC = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // If you don't have the access token, redirect route URL.
@@ -96,8 +98,8 @@ const MenuBar: React.VFC = () => {
     <div className="container-fluid">
       <div className="navbar-header">
         <div className="region region-navigation">
-          <a className="logo navbar-btn pull-left" href="/" title="ホーム" rel="home">
-            <img src="/themes/contrib/bootstrap_cloud/logo.svg" alt="ホーム" />
+          <a className="logo navbar-btn pull-left" href="/" title={t('Home')} rel="home">
+            <img src="/themes/contrib/bootstrap_cloud/logo.svg" alt={t('Home')} />
           </a>
         </div>
         <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -113,7 +115,7 @@ const MenuBar: React.VFC = () => {
             <h2 className="sr-only">Main navigation</h2>
             <ul className="nav navbar-nav" role="menu">
               <li>
-                <Link to="/providers">ホーム</Link>
+                <Link to="/providers">{t('Home')}</Link>
               </li>
               <li className="dropdown">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -174,7 +176,7 @@ const MenuBar: React.VFC = () => {
                 </ul>
               </li>
               <li>
-                <a href="/admin/structure/cloud_config">管理</a>
+                <a href="/admin/structure/cloud_config">{t('CloudConfig')}</a>
               </li>
             </ul>
           </nav>
@@ -182,11 +184,11 @@ const MenuBar: React.VFC = () => {
             <h2 className="sr-only">User account menu</h2>
             <ul className="menu menu--account nav navbar-nav navbar-right">
               <li className="first">
-                <a href="/user">User Info</a>
+                <a href="/user">{t('User')}</a>
               </li>
               <li className="last">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                <Link to="/" onClick={logout}>logout</Link>
+                <Link to="/" onClick={logout}>{t('Logout')}</Link>
               </li>
             </ul>
           </nav>
