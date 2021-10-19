@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
+import { useTranslation } from 'react-i18next';
 
 const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) => {
   const formData = new FormData();
@@ -38,6 +39,7 @@ const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) =
 
 const MenuBar: React.VFC = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // If you don't have the access token, redirect route URL.
@@ -113,7 +115,7 @@ const MenuBar: React.VFC = () => {
             <h2 className="sr-only">Main navigation</h2>
             <ul className="nav navbar-nav" role="menu">
               <li>
-                <Link to="/providers">Home</Link>
+                <Link to="/providers">{t('Home')}</Link>
               </li>
               <li className="dropdown">
                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
