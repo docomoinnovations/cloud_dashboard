@@ -4,3 +4,6 @@ react_app:
     js/3.chunk.js: { minified: true }
     js/main.chunk.js: { minified: true }
     js/runtime-main.js: { minified: true }
+  css:
+    theme:
+      css/2.chunk.css: { minified: true }
