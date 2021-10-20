@@ -59,3 +59,12 @@ cloud_dashboard.launch_template_all:
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
   requirements:
     _permission: 'administer'
+
+# Cloud Admin Settings.
+cloud_dashboard.settings:
+  path: '/admin/config/services/cloud_dashboard/settings'
+  defaults:
+    _title: 'Cloud Dashboard'
+    _form: '\Drupal\cloud_dashboard\Form\Config\CloudDashboardAdminSettings'
+  requirements:
+    _permission: 'administer'
