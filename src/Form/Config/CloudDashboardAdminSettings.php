@@ -55,4 +55,18 @@ class CloudDashboardAdminSettings extends ConfigFormBase {
 
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
+
+    $config = $this->configFactory()->getEditable('cloud_dashboard.settings');
+
+    $config->set('oauth2_callback_uri', $form_state->getValue('oauth2_callback_uri'));
+    $config->set('json_api_server_uri', $form_state->getValue('json_api_server_uri'));
+    $config->save();
+
+    parent::submitForm($form, $form_state);
+  }
+
 }
