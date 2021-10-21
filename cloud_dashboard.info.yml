@@ -2,6 +2,7 @@ name: 'Cloud Dashboard'
 type: module
 description: 'Allows users to manage Cloud module by SPA Form.'
 package: Cloud
+configure: cloud_dashboard.settings
 core_version_requirement: ^9.2
 dependencies:
   - drupal:simple_oauth
