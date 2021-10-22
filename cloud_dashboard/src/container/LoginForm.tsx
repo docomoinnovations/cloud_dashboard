@@ -6,15 +6,12 @@ const LoginForm: React.VFC = () => {
   const [redirectUri, setRedirectUri] = useState('');
 
   const init = async () => {
-    // find OAuth2 client ID by JSON:API
-    const res = await (await fetch('/jsonapi/consumer/consumer')).json();
-    const temp = res.data.filter((record: any) => {
-      return record.attributes.label === OAUTH2_CLIENT_LABEL;
-    });
-    if (temp.length >= 1) {
-      // found
-      setClientId(temp[0].id);
-      setRedirectUri(temp[0].attributes.redirect);
+    window.localStorage.removeItem('jsonapiServerUri');
+    const res1 = await fetch('/clouds/cloud_dashboard/config/client_id');
+    const res2 = await fetch('/clouds/cloud_dashboard/config/callback_uri');
+    if (res1.ok && res2.ok) {
+      setClientId((await res1.json()).id);
+      setRedirectUri((await res2.json()).uri);
     }
   };
 
@@ -27,14 +24,6 @@ const LoginForm: React.VFC = () => {
   useEffect(() => {
     init();
   }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('clientId', clientId);
-  }, [clientId]);
-
-  useEffect(() => {
-    window.localStorage.setItem('redirectUri', redirectUri);
-  }, [redirectUri]);
 
   return <div className="container-fluid">
     <div className="row">

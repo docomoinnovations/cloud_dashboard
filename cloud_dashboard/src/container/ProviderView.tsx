@@ -20,6 +20,12 @@ const ProviderView: React.VFC = () => {
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
+    let url = '/clouds/cloud_config_location';
+    const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+    if (jsonApiServerUri !== null) {
+      url = jsonApiServerUri + url;
+    }
+
     const http = HttpService.getInstance();
     http.getJson<{
       Items: {
@@ -28,7 +34,7 @@ const ProviderView: React.VFC = () => {
       }[],
       Latitude: string,
       Longitude: string
-    }[]>('/clouds/cloud_config_location').then((res) => {
+    }[]>(url).then((res) => {
       const newList: CloudContetLocation[] = [];
       for (const item of res) {
         for (const item2 of item.Items) {
