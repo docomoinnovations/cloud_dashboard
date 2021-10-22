@@ -41,15 +41,15 @@ class CloudDashboardAdminSettings extends ConfigFormBase {
       '#type' => 'url',
       '#title' => $this->t('Callback URI for OAuth2'),
       '#default_value' => $config->get('oauth2_callback_uri'),
-      '#description' => $this->t('If you leave this field blank, the callback URI of Comsumer plugin on the same server as the Cloud Dashboard is used.'),
-      '#attributes'    => ['placeholder' => 'e.g. http://example.com/clouds/dashboard/callback'],
+      '#description' => $this->t('If you leave this field blank, the callback URI will be the same as the consumer plugin at the server of Cloud Dashboard.'),
+      '#attributes'    => ['placeholder' => 'e.g. https://example.com/clouds/dashboard/callback'],
     ];
 
     $form['custom_urls']['oauth2_client_id'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Client ID for OAuth2'),
       '#default_value' => $config->get('oauth2_client_id'),
-      '#description' => $this->t('If you leave this field blank, the client ID of Comsumer plugin on the same server as the Cloud Dashboard is used.'),
+      '#description' => $this->t('If you leave this field blank, the client ID will be the same as the consumer plugin at the server of Cloud Dashboard.'),
       '#attributes'    => ['placeholder' => 'e.g. e0a08590-4a13-419d-a64d-f859806c21a9'],
     ];
 
@@ -58,7 +58,7 @@ class CloudDashboardAdminSettings extends ConfigFormBase {
       '#title' => $this->t('Server URL to get data by JSON:API'),
       '#default_value' => $config->get('json_api_server_uri'),
       '#description' => $this->t('If you leave this field blank, it will access the same server as the Cloud Dashboard to retrieve the data.'),
-      '#attributes'    => ['placeholder' => 'e.g. http://example.com'],
+      '#attributes'    => ['placeholder' => 'e.g. https://example.com'],
     ];
 
     return parent::buildForm($form, $form_state);
