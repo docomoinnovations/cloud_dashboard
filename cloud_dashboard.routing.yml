@@ -59,3 +59,39 @@ cloud_dashboard.launch_template_all:
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
   requirements:
     _permission: 'administer'
+
+# Cloud Admin Settings.
+cloud_dashboard.settings:
+  path: '/admin/config/services/cloud_dashboard/settings'
+  defaults:
+    _title: 'Cloud Dashboard'
+    _form: '\Drupal\cloud_dashboard\Form\Config\CloudDashboardAdminSettings'
+  requirements:
+    _permission: 'administer'
+
+# Callback URI for Cloud Admin Settings.
+cloud_dashboard.callback_uri:
+  path: '/clouds/cloud_dashboard/config/callback_uri'
+  defaults:
+    _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getCallbackUri'
+  methods: [GET]
+  requirements:
+    _permission: 'administer'
+
+# OAuth2 client ID for Cloud Admin Settings.
+cloud_dashboard.client_id:
+  path: '/clouds/cloud_dashboard/config/client_id'
+  defaults:
+    _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getClientId'
+  methods: [GET]
+  requirements:
+    _permission: 'administer'
+
+# JSON:API server URI for Cloud Admin Settings.
+cloud_dashboard.jsonapi_server_uri:
+  path: '/clouds/cloud_dashboard/config/jsonapi_server_uri'
+  defaults:
+    _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getJsonApiServerUri'
+  methods: [GET]
+  requirements:
+    _permission: 'administer'

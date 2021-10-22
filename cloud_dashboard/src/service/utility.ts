@@ -176,6 +176,10 @@ export const getEntityData = async (entityTypeId: string, option: {
   if (parameters.length > 0) {
     url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
   }
+  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+  if (jsonApiServerUri !== null) {
+    url = jsonApiServerUri + url;
+  }
 
   // Download Action.
   const res = await HttpService.getInstance().getJson<{data: EntityData[]}>(url);
@@ -198,6 +202,10 @@ export const getEntityDataAll = async (entityTypeId: string, filter: {[key: stri
   let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
   if (parameters.length > 0) {
     url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
+  }
+  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+  if (jsonApiServerUri !== null) {
+    url = jsonApiServerUri + url;
   }
 
   // Download Action.

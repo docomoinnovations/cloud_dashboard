@@ -37,51 +37,65 @@ const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) =
   }
 };
 
+const checkAndRefreshToken = async () => {
+  // If you don't have the access token, redirect route URL.
+  const accessToken = window.localStorage.getItem('accessToken');
+  const expiresDatetime = window.localStorage.getItem('expiresDatetime');
+  if (accessToken === null || expiresDatetime == null) {
+    window.location.href = ROUTE_URL;
+    return;
+  }
+
+  // If the information required to update the token cannot be loaded,
+  // redirect route URL.
+  console.group('Authorization Code Grant');
+  const res1 = await fetch('/clouds/cloud_dashboard/config/client_id');
+  const refreshToken = window.localStorage.getItem('refreshToken');
+  if (!res1.ok || refreshToken === null) {
+    console.log('Client ID : No');
+    console.error('Authorization failed.');
+    console.groupEnd();
+    window.location.href = ROUTE_URL;
+    return;
+  }
+  const clientId = (await res1.json()).id;
+  console.log('Client ID : Yes');
+
+  // If the access token has expired, update it.
+  const now = (new Date()).getTime();
+  if (now <= parseInt(expiresDatetime, 10)) {
+    console.log('Token expired : No');
+    console.groupEnd();
+    return;
+  }
+  console.log('Token expired : Yes');
+
+  refreshTokenByCodeGrant(clientId, refreshToken).then(() => {
+    console.log('Access token : Yes');
+    console.groupEnd();
+  }).catch(() => {
+    console.log('Access token : No');
+    console.error('Authorization failed.');
+    console.groupEnd();
+    window.location.href = ROUTE_URL;
+  });
+};
+
 const MenuBar: React.VFC = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
   const { t } = useTranslation();
 
   useEffect(() => {
-    // If you don't have the access token, redirect route URL.
-    const accessToken = window.localStorage.getItem('accessToken');
-    const expiresDatetime = window.localStorage.getItem('expiresDatetime');
-    if (accessToken === null || expiresDatetime == null) {
-      window.location.href = ROUTE_URL;
-      return;
+    const init = async () => {
+      await checkAndRefreshToken();
+      if (window.localStorage.getItem('jsonapiServerUri') === null) {
+        const res = await fetch('/clouds/cloud_dashboard/config/jsonapi_server_uri');
+        if (res.ok) {
+          window.localStorage.setItem('jsonapiServerUri', (await res.json()).uri);
+        }
+      }
     }
-
-    // If the information required to update the token cannot be loaded,
-    // redirect route URL.
-    console.group('Authorization Code Grant');
-    const clientId = window.localStorage.getItem('clientId');
-    const refreshToken = window.localStorage.getItem('refreshToken');
-    if (clientId === null || refreshToken === null) {
-      console.log('Client ID : No');
-      console.error('Authorization failed.');
-      console.groupEnd();
-      window.location.href = ROUTE_URL;
-      return;
-    }
-    console.log('Client ID : Yes');
-
-    // If the access token has expired, update it.
-    const now = (new Date()).getTime();
-    if (now <= parseInt(expiresDatetime, 10)) {
-      console.log('Token expired : No');
-      console.groupEnd();
-      return;
-    }
-    console.log('Token expired : Yes');
-
-    refreshTokenByCodeGrant(clientId, refreshToken).then(() => {
-      console.log('Access token : Yes');
-      console.groupEnd();
-    }).catch(() => {
-      console.log('Access token : No');
-      console.error('Authorization failed.');
-      console.groupEnd();
-      window.location.href = ROUTE_URL;
-    });
+    init();
   }, []);
 
   const setCloudContext = (cloudContext: CloudContext) => {
