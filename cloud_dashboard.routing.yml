@@ -78,6 +78,15 @@ cloud_dashboard.callback_uri:
   requirements:
     _permission: 'administer'
 
+# OAuth2 client ID for Cloud Admin Settings.
+cloud_dashboard.client_id:
+  path: '/clouds/cloud_dashboard/config/client_id'
+  defaults:
+    _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getClientId'
+  methods: [GET]
+  requirements:
+    _permission: 'administer'
+
 # JSON:API server URI for Cloud Admin Settings.
 cloud_dashboard.jsonapi_server_uri:
   path: '/clouds/cloud_dashboard/config/jsonapi_server_uri'

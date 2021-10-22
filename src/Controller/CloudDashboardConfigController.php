@@ -46,6 +46,39 @@ class CloudDashboardConfigController extends ControllerBase {
   }
 
   /**
+   * Get client ID for OAuth2.
+   *
+   * @return Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON response of callback URI.
+   */
+  public function getClientId(): JsonResponse {
+    // If the URL has been entered in the settings form, follow it.
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->get('cloud_dashboard.settings');
+    $client_id = $config->get('oauth2_client_id');
+    if (!empty($client_id)) {
+      return new JsonResponse(['id' => $client_id]);
+    }
+
+    // If a client ID has been set in
+    // the Comsumer configuration form, follow it.
+    $entities = \Drupal::entityTypeManager()
+      ->getStorage('consumer')
+      ->loadByProperties([
+        'label' => 'Cloud Dashboard',
+      ]);
+    if (!empty($entities)) {
+      return new JsonResponse(['id' => current($entities)->get('uuid')->value]);
+    }
+
+    // If none of the above, return an error.
+    return new JsonResponse([
+      'result' => 'NG',
+      'reason' => 'The client ID can not load.',
+    ], 404);
+  }
+
+  /**
    * Get Server URI for JSON:API.
    *
    * @return Symfony\Component\HttpFoundation\JsonResponse
