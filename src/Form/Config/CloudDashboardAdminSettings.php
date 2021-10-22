@@ -57,7 +57,7 @@ class CloudDashboardAdminSettings extends ConfigFormBase {
       '#type' => 'url',
       '#title' => $this->t('Server URL to get data by JSON:API'),
       '#default_value' => $config->get('json_api_server_uri'),
-      '#description' => $this->t('If you leave this field blank, it will access the same server as the Cloud Dashboard to retrieve the data.'),
+      '#description' => $this->t('If you leave this field blank, it will access the same server of Cloud Dashboard to retrieve the data.'),
       '#attributes'    => ['placeholder' => 'e.g. https://example.com'],
     ];
 
