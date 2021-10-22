@@ -61,6 +61,10 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
   if (parameters.length > 0) {
     url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
   }
+  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+  if (jsonApiServerUri !== null) {
+    url = jsonApiServerUri + url;
+  }
 
   // Download Action.
   const httpService = HttpService.getInstance();

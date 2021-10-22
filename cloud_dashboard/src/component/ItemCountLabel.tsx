@@ -33,6 +33,10 @@ const ItemCountLabel: React.VFC<{
     if (namespaceName !== '') {
       url += `?namespace_name=${namespaceName}`;
     }
+    const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+    if (jsonApiServerUri !== null) {
+      url = jsonApiServerUri + url;
+    }
     HttpService.getInstance().getJson<{count: number}>(url).then((res) => {
       setItemCount(res.count);
     });
