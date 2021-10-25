@@ -5,49 +5,67 @@ import { LANGUAGE_LIST } from 'i18n';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Leaflet, { LatLngTuple } from 'leaflet';
 import HttpService from 'service/http';
+import L from 'leaflet';
 
 Leaflet.Icon.Default.imagePath =
   '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/';
 
 interface CloudContetLocation {
-  name: string;
+  nameList: string[];
+  icon: L.Icon;
   position: LatLngTuple;
+}
+
+const loadLocationData = async () => {
+  // Get rawData.
+  let url = '/clouds/cloud_config_location';
+  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+  if (jsonApiServerUri !== null) {
+    url = jsonApiServerUri + url;
+  }
+  const http = HttpService.getInstance();
+  const rawData = await http.getJson<{
+    Items: {
+      Image: string,
+      Name: string,
+    }[],
+    Latitude: string,
+    Longitude: string
+  }[]>(url);
+
+  // Convert rawData to cloudContentLocationDict.
+  const cloudContentLocationDict: Record<string, CloudContetLocation> = {};
+  for (const locationData of rawData) {
+    for (const item of locationData.Items) {
+      const key = `${locationData.Latitude},${locationData.Longitude}`;
+      if (key in cloudContentLocationDict) {
+        cloudContentLocationDict[key].nameList.push(item.Name);
+      } else {
+        cloudContentLocationDict[key] = {
+          nameList: [item.Name],
+          icon: new L.Icon({
+            iconUrl: item.Image,
+            iconSize: [30, 30]
+          }),
+          position: [
+            parseFloat(locationData.Latitude),
+            parseFloat(locationData.Longitude)
+          ],
+        };
+      }
+    }
+  }
+  return cloudContentLocationDict;
 }
 
 const ProviderView: React.VFC = () => {
   const { cloudContextList, dispatch } = useContext(AppContext);
-  const [cloudContetLocationList, setCloudContetLocationList] = useState<CloudContetLocation[]>([]);
+  const [cloudContentLocationDict, setCloudContentLocationDict] = useState<Record<string, CloudContetLocation>>({});
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    let url = '/clouds/cloud_config_location';
-    const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-    if (jsonApiServerUri !== null) {
-      url = jsonApiServerUri + url;
-    }
-
-    const http = HttpService.getInstance();
-    http.getJson<{
-      Items: {
-        Image: string,
-        Name: string
-      }[],
-      Latitude: string,
-      Longitude: string
-    }[]>(url).then((res) => {
-      const newList: CloudContetLocation[] = [];
-      for (const item of res) {
-        for (const item2 of item.Items) {
-          newList.push({
-            name: item2.Name,
-            position: [
-              parseFloat(item.Latitude),
-              parseFloat(item.Longitude)
-            ]
-          });
-        }
-      }
-      setCloudContetLocationList(newList);
+    loadLocationData().then((res) => {
+      setCloudContentLocationDict(res);
     });
   }, []);
 
@@ -60,12 +78,20 @@ const ProviderView: React.VFC = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {
-            cloudContetLocationList.map((cloudContetLocation, index) => {
-              return <Marker position={cloudContetLocation.position} key={index}>
-                <Popup>
-                  {cloudContetLocation.name}
-                </Popup>
-              </Marker>;
+            Object.values(cloudContentLocationDict).map((val, index) => {
+              if (val.nameList.length >= 2) {
+                return <Marker position={val.position} key={index}>
+                  <Popup>
+                    {val.nameList.join(', ')}
+                  </Popup>
+                </Marker>;
+              } else {
+                return <Marker position={val.position} icon={val.icon} key={index}>
+                  <Popup>
+                    {val.nameList[0]}
+                  </Popup>
+                </Marker>;
+              }
             })
           }
         </MapContainer>
