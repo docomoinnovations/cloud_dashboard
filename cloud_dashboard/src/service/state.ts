@@ -39,6 +39,7 @@ export const useAppState = (): AppState => {
     if (languageName !== null) {
       i18n.changeLanguage(languageName);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Set cloud context list.
@@ -69,6 +70,7 @@ export const useAppState = (): AppState => {
       }
     };
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dispatch = (action: Action) => {
