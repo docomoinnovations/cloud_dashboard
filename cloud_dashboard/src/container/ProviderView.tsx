@@ -7,10 +7,11 @@ import Leaflet, { LatLngTuple } from 'leaflet';
 import RawCloudContextItem from 'model/RawCloudContextItem';
 import { loadRawCloudContextItemList } from 'service/utility';
 import L from 'leaflet';
-import { ROUTE_URL } from 'constant';
+import { Link } from 'react-router-dom';
 
 interface CloudContenxtItem {
   icon: L.Icon | undefined,
+  cloudServiceProvider: string,
   position: LatLngTuple,
   item: {
     iconUrl: string,
@@ -34,6 +35,7 @@ const convert = (rawCloudContenxtItemList: RawCloudContextItem[]): CloudContenxt
         icon: new L.Icon({
           iconUrl: rawCloudContenxtItem.Items[0].Image
         }),
+        cloudServiceProvider: rawCloudContenxtItem.Type,
         position: [
           parseFloat(rawCloudContenxtItem.Latitude),
           parseFloat(rawCloudContenxtItem.Longitude),
@@ -46,8 +48,8 @@ const convert = (rawCloudContenxtItemList: RawCloudContextItem[]): CloudContenxt
       return {
         iconUrl: rawItem.Image,
         entityViewUrl: rawCloudContenxtItem.Type === 'aws_cloud'
-          ? ROUTE_URL + '/aws_cloud/instance'
-          : ROUTE_URL + '/k8s/node',
+          ? '/aws_cloud/instance'
+          : '/k8s/node',
         name: rawItem.Name,
         positionLabel: `${rawCloudContenxtItem.City}, ${rawCloudContenxtItem.Country}`,
       };
@@ -68,6 +70,15 @@ const ProviderView: React.VFC = () => {
     });
   }, []);
 
+  const onClickPopupLink = (cloudServiceProvider: string, labelName: string) => {
+    const temp = cloudContextList.filter((r) => {
+      return r.cloudServiceProvider === cloudServiceProvider && r.labelName === labelName;
+    });
+    if (temp.length >= 1) {
+      dispatch({type: 'setCloudContext', message: temp[0]});
+    }
+  }
+
   return <div className="container-fluid">
     <div className="row">
       <div className="col">
@@ -84,12 +95,20 @@ const ProviderView: React.VFC = () => {
                     item.item.map((item2, index2) => {
                       return <div key={index2}>
                         <div>
-                          <a href={item2.entityViewUrl} target="_blank" rel="noreferrer">
+                          <Link to={item2.entityViewUrl} target="_blank" rel="noreferrer" onClick={() => {
+                              onClickPopupLink(item.cloudServiceProvider, item2.name);
+                            }}>
                             <img src={item2.iconUrl} alt={item2.name} />
-                          </a>
+                          </Link>
                         </div>
                         <div>
-                          <strong><a href={item2.entityViewUrl} target="_blank" rel="noreferrer">{item2.name}</a></strong><br/>
+                          <strong>
+                            <Link to={item2.entityViewUrl} target="_blank" rel="noreferrer" onClick={() => {
+                              onClickPopupLink(item.cloudServiceProvider, item2.name);
+                            }}>
+                              {item2.name}
+                            </Link>
+                            </strong><br/>
                           <span className="location">
                             <span className="glyphicon glyphicon-map-marker"></span>
                             {item2.positionLabel}
