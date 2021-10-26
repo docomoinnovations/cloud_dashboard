@@ -3,69 +3,22 @@ import { AppContext } from 'service/state';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGE_LIST } from 'i18n';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import Leaflet, { LatLngTuple } from 'leaflet';
-import HttpService from 'service/http';
-import L from 'leaflet';
+import Leaflet from 'leaflet';
+import RawCloudContextItem from 'model/RawCloudContextItem';
+import { loadRawCloudContextItemList } from 'service/utility';
 
 Leaflet.Icon.Default.imagePath =
   '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/';
 
-interface CloudContetLocation {
-  nameList: string[];
-  icon: L.Icon;
-  position: LatLngTuple;
-}
-
-const loadLocationData = async () => {
-  // Get rawData.
-  let url = '/clouds/cloud_config_location';
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-  const http = HttpService.getInstance();
-  const rawData = await http.getJson<{
-    Items: {
-      Image: string,
-      Name: string,
-    }[],
-    Latitude: string,
-    Longitude: string
-  }[]>(url);
-
-  // Convert rawData to cloudContentLocationDict.
-  const cloudContentLocationDict: Record<string, CloudContetLocation> = {};
-  for (const locationData of rawData) {
-    for (const item of locationData.Items) {
-      const key = `${locationData.Latitude},${locationData.Longitude}`;
-      if (key in cloudContentLocationDict) {
-        cloudContentLocationDict[key].nameList.push(item.Name);
-      } else {
-        cloudContentLocationDict[key] = {
-          nameList: [item.Name],
-          icon: new L.Icon({
-            iconUrl: item.Image,
-            iconSize: [30, 30]
-          }),
-          position: [
-            parseFloat(locationData.Latitude),
-            parseFloat(locationData.Longitude)
-          ],
-        };
-      }
-    }
-  }
-  return cloudContentLocationDict;
-}
-
 const ProviderView: React.VFC = () => {
   const { cloudContextList, dispatch } = useContext(AppContext);
-  const [cloudContentLocationDict, setCloudContentLocationDict] = useState<Record<string, CloudContetLocation>>({});
+  const [rawCloudContenxtItemList, setRawCloudContenxtItemList] = useState<RawCloudContextItem[]>([]);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    loadLocationData().then((res) => {
-      setCloudContentLocationDict(res);
+    loadRawCloudContextItemList().then((res) => {
+      console.log(res);
+      setRawCloudContenxtItemList(res);
     });
   }, []);
 
@@ -78,20 +31,32 @@ const ProviderView: React.VFC = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {
-            Object.values(cloudContentLocationDict).map((val, index) => {
-              if (val.nameList.length >= 2) {
-                return <Marker position={val.position} key={index}>
-                  <Popup>
-                    {val.nameList.join(', ')}
-                  </Popup>
-                </Marker>;
-              } else {
-                return <Marker position={val.position} icon={val.icon} key={index}>
-                  <Popup>
-                    {val.nameList[0]}
-                  </Popup>
-                </Marker>;
-              }
+            rawCloudContenxtItemList.map((item, index) => {
+              return <Marker position={[
+                parseFloat(item.Latitude),
+                parseFloat(item.Longitude),
+              ]} key={index}>
+                <Popup>
+                  {
+                    item.Items.map((item2, index2) => {
+                      return <div key={index2}>
+                        <div>
+                          <a href={item2.Url} target="_blank" rel="noreferrer">
+                            <img src={item2.Image} alt={item2.Name} />
+                          </a>
+                        </div>
+                        <div>
+                          <strong><a href={item2.Url} target="_blank" rel="noreferrer">{item2.Name}</a></strong><br/>
+                          <span className="location">
+                            <span className="glyphicon glyphicon-map-marker"></span>
+                            {item.City}, {item.Country}
+                          </span>
+                        </div>
+                      </div>;
+                    })
+                  }
+                </Popup>
+              </Marker>
             })
           }
         </MapContainer>

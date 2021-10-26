@@ -3,6 +3,7 @@ import DataRecord from "model/DataRecord";
 import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
+import RawCloudContextItem from "model/RawCloudContextItem";
 import SortInfo from "model/SortInfo";
 import { useEffect, useRef } from "react";
 import HttpService from "./http";
@@ -290,4 +291,14 @@ export const convertEntityData = (
     newDataRecordList.push(dataRecord);
   }
   return newDataRecordList;
+};
+
+export const loadRawCloudContextItemList = async () => {
+  let url = '/clouds/cloud_config_location';
+  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
+  if (jsonApiServerUri !== null) {
+    url = jsonApiServerUri + url;
+  }
+  const http = HttpService.getInstance();
+  return await http.getJson<RawCloudContextItem[]>(url);
 };

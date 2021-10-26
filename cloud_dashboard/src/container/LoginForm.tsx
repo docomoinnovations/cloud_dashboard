@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { OAUTH2_CLIENT_LABEL } from 'constant';
 
 const LoginForm: React.VFC = () => {
   const [clientId, setClientId] = useState('');
