@@ -316,12 +316,17 @@ export const loadRawCloudContextItemList = async () => {
  * @param rawCloudContenxtItemList List of RawCloudContextItem.
  * @returns List of CloudContextItem.
  */
-export const convertCloudContenxtItemList = (rawCloudContenxtItemList: RawCloudContextItem[]): CloudContenxtItem[] => {
+export const convertCloudContenxtItemList = (
+  rawCloudContenxtItemList: RawCloudContextItem[],
+  defaultIconUri: string
+): CloudContenxtItem[] => {
   const hash: Record<string, CloudContenxtItem> = {};
   for (const rawCloudContenxtItem of rawCloudContenxtItemList) {
     const hashKey = `${rawCloudContenxtItem.Latitude},${rawCloudContenxtItem.Longitude}`;
     if (hashKey in hash) {
-      hash[hashKey].icon = undefined;
+      hash[hashKey].icon = new L.Icon({
+        iconUrl: defaultIconUri
+      });
     } else {
       hash[hashKey] = {
         icon: new L.Icon({
