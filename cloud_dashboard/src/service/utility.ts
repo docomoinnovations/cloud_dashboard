@@ -1,3 +1,5 @@
+import L from "leaflet";
+import CloudContenxtItem from "model/CloudContenxtItem";
 import CloudContext from "model/CloudContext";
 import DataRecord from "model/DataRecord";
 import EntityColumn from "model/EntityColumn";
@@ -293,6 +295,11 @@ export const convertEntityData = (
   return newDataRecordList;
 };
 
+/**
+ * Get a list of CloudContext coordinates from the Drupal Cloud module.
+ *
+ * @returns List of RawCloudContextItem.
+ */
 export const loadRawCloudContextItemList = async () => {
   let url = '/clouds/cloud_config_location';
   const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
@@ -302,3 +309,44 @@ export const loadRawCloudContextItemList = async () => {
   const http = HttpService.getInstance();
   return await http.getJson<RawCloudContextItem[]>(url);
 };
+
+/**
+ * Convert a list of RawCloudContextItem to a format more suitable for display.
+ *
+ * @param rawCloudContenxtItemList List of RawCloudContextItem.
+ * @returns List of CloudContextItem.
+ */
+export const convertCloudContenxtItemList = (rawCloudContenxtItemList: RawCloudContextItem[]): CloudContenxtItem[] => {
+  const hash: Record<string, CloudContenxtItem> = {};
+  for (const rawCloudContenxtItem of rawCloudContenxtItemList) {
+    const hashKey = `${rawCloudContenxtItem.Latitude},${rawCloudContenxtItem.Longitude}`;
+    if (hashKey in hash) {
+      hash[hashKey].icon = undefined;
+    } else {
+      hash[hashKey] = {
+        icon: new L.Icon({
+          iconUrl: rawCloudContenxtItem.Items[0].Image
+        }),
+        cloudServiceProvider: rawCloudContenxtItem.Type,
+        position: [
+          parseFloat(rawCloudContenxtItem.Latitude),
+          parseFloat(rawCloudContenxtItem.Longitude),
+        ],
+        item: []
+      };
+    }
+
+    const itemList = rawCloudContenxtItem.Items.map((rawItem) => {
+      return {
+        iconUrl: rawItem.Image,
+        entityViewUrl: rawCloudContenxtItem.Type === 'aws_cloud'
+          ? '/aws_cloud/instance'
+          : '/k8s/node',
+        name: rawItem.Name,
+        positionLabel: `${rawCloudContenxtItem.City}, ${rawCloudContenxtItem.Country}`,
+      };
+    });
+    hash[hashKey].item = [...hash[hashKey].item, ...itemList];
+  }
+  return Object.values(hash);
+}
