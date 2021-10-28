@@ -23,7 +23,13 @@ const MapPolygonBlock: React.VFC<{
   return <>
     {
       coordinates.map((positions, index) => {
-        return <Polygon positions={convertPositions(positions)} key={index} />;
+        return <Polygon pathOptions={{
+          fillColor: '#ddc',
+          fillOpacity: 1,
+          color: '#ddc',
+          opacity: 1,
+          weight: 1,
+        }}  positions={convertPositions(positions)} key={index} />;
       })
     }
   </>;
@@ -124,7 +130,11 @@ const CloudServiceProviderMap: React.VFC = () => {
     init();
   }, []);
 
-  return <MapContainer center={[0, 0]} zoom={2} scrollWheelZoom={false} style={{ height: 500 }}>
+  return <MapContainer
+    center={[0, 0]}
+    zoom={2}
+    scrollWheelZoom={false}
+    style={{ height: 500, backgroundColor: '#4e5d6c' }}>
     <MapPolygonLayer mapData={mapData} />
     {
       cloudContenxtItemList.map((item, index) => {
