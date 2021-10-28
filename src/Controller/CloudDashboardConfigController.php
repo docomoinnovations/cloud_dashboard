@@ -96,4 +96,40 @@ class CloudDashboardConfigController extends ControllerBase {
     return new JsonResponse(['uri' => \Drupal::request()->getSchemeAndHttpHost()]);
   }
 
+  /**
+   * Get URL of default marker icon for Leaflet.js.
+   *
+   * @return Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON response of callback URI.
+   */
+  public function getMakerIconUri(): JsonResponse {
+    // If the URL has been entered in the settings form, follow it.
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->get('cloud_dashboard.settings');
+    $server_uri = $config->get('marker_icon_uri');
+    if (!empty($server_uri)) {
+      return new JsonResponse(['uri' => $server_uri]);
+    }
+
+    return new JsonResponse(['uri' => 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png']);
+  }
+
+  /**
+   * Get URL of coordinate data for drawing world map (GeoJson format).
+   *
+   * @return Symfony\Component\HttpFoundation\JsonResponse
+   *   A JSON response of callback URI.
+   */
+  public function getMapGeoJsonUri(): JsonResponse {
+    // If the URL has been entered in the settings form, follow it.
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->get('cloud_dashboard.settings');
+    $server_uri = $config->get('map_geojson_uri');
+    if (!empty($server_uri)) {
+      return new JsonResponse(['uri' => $server_uri]);
+    }
+
+    return new JsonResponse(['uri' => 'https://enjalot.github.io/wwsd/data/world/ne_50m_admin_0_countries.geojson']);
+  }
+
 }
