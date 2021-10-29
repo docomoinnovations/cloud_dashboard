@@ -6,7 +6,7 @@ import LoginForm from 'container/LoginForm';
 import EntityForm from 'container/EntityForm';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
-import MenuBar from 'container/MenuBar';
+import MenuBar from 'organisms/MenuBar';
 import ProviderView from 'container/ProviderView';
 import LaunchTemplateView from 'container/LaunchTemplateView';
 import 'leaflet/dist/leaflet.css';
