@@ -52,6 +52,7 @@ const DataTableHeader = ({ dataColumn, sortInfo, setSortInfo }: {
       <SortDirectionIcon direction={sortInfo.direction} />
     </a>
   </th>;
+
 };
 
 export default DataTableHeader;

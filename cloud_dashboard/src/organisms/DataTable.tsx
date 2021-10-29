@@ -12,12 +12,13 @@ import DataTableRow from 'molecules/DataTableRow';
  * @param sortInfo Information of soring parameter.
  * @param setSortInfo Setter of sortInfo.
 */
-const DataTable: React.VFC<{
+const DataTable = ({ dataColumnList, dataRecordList, sortInfo, setSortInfo }: {
   dataColumnList: DataColumn[],
   dataRecordList: DataRecord[],
   sortInfo: SortInfo,
   setSortInfo: (s: SortInfo) => void,
-}> = ({ dataColumnList, dataRecordList, sortInfo, setSortInfo }) => {
+}) => {
+
   return <div className="table-responsive">
     <table className="responsive-enabled table table-hover table-striped">
       <thead>
@@ -40,6 +41,7 @@ const DataTable: React.VFC<{
       </tbody>
     </table>
   </div>;
+
 };
 
 export default DataTable;

@@ -13,6 +13,7 @@ const EntityTabsImpl = ({ tabColumnList }: {
     children: React.ReactNode
   }[]
 }) => {
+
   return <nav className="tabs" role="navigation" aria-label="Tabs">
     <ul className="tabs--primary nav nav-tabs">
       {
@@ -27,6 +28,7 @@ const EntityTabsImpl = ({ tabColumnList }: {
       }
     </ul>
   </nav>;
+
 }
 
 const EntityTabs = ({ menuType, menuName }: {
@@ -60,6 +62,7 @@ const EntityTabs = ({ menuType, menuName }: {
   });
 
   return <EntityTabsImpl tabColumnList={tabColumnList} />;
+
 }
 
 export default EntityTabs;

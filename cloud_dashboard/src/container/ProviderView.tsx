@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { AppContext } from 'service/state';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGE_LIST } from 'i18n';
-import CloudServiceProviderMap from 'component/CloudServiceProviderMap';
+import CloudServiceProviderMap from 'organisms/CloudServiceProviderMap';
 
 const ProviderView: React.VFC = () => {
   const { cloudContextList, dispatch } = useContext(AppContext);

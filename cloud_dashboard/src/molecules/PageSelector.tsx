@@ -8,11 +8,11 @@ import { ITEMS_PER_PAGE } from 'constant';
  * @param setPageIndex Setter of pageIndex.
  * @param itemCount Entity item's count.
  */
-const PageSelector: React.VFC<{
+const PageSelector = ({ pageIndex, setPageIndex, itemCount }: {
   pageIndex: number,
   setPageIndex: (n: number) => void,
   itemCount: number
-}> = ({ pageIndex, setPageIndex, itemCount }) => {
+}) => {
 
   const pageCount = Math.floor(1.0 * (itemCount + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE);
   const disabledPageBack = pageIndex === 0;

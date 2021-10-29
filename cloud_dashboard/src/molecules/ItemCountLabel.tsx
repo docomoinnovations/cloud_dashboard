@@ -49,13 +49,13 @@ const getItemCount = async  (
  * @param setItemCount Setter of itemCount.
  * @param cloudServiceProvider Cloud Service Provider.
  */
-const ItemCountLabel: React.VFC<{
+const ItemCountLabel = ({ entityTypeId, namespace, namespaceName, itemCount, setItemCount }: {
   entityTypeId: string,
   namespace: string,
   namespaceName: string,
   itemCount: number,
   setItemCount: (n: number) => void
-}> = ({ entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
+}) => {
 
   const { cloudContext } = useContext(AppContext);
   const { t } = useTranslation();

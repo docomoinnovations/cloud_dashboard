@@ -32,11 +32,11 @@ const getFieldEntityNameList = async (
  * @param setColumnName Setter method of field column.
  * @param cloudServiceProvider Cloud Service Provider.
  */
-const FieldSelect: React.VFC<{
+const FieldSelect = ({ columnKey, columnName, setColumnName }: {
   columnKey: string,
   columnName: string,
   setColumnName: (s: string) => void
-}> = ({ columnKey, columnName, setColumnName }) => {
+}) => {
 
   const { cloudContext } = useContext(AppContext);
   const [dataList, setDataList] = useState<string[]>([]);
@@ -51,7 +51,7 @@ const FieldSelect: React.VFC<{
 
   return <FormSelect value={columnName} dataList={dataList} setvalue={(s) => {
     setColumnName(s);
-  }} />
+  }} />;
 
 }
 

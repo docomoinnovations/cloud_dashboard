@@ -14,6 +14,7 @@ const DataTableRow = ({ dataRecord, dataColumnList, className }: {
   dataColumnList: DataColumn[],
   className?: string,
 }) => {
+
   return <tr key={dataRecord.id} className={className}>
     {dataColumnList.map((dataColumn) => {
       return <td key={dataColumn.key}>
@@ -25,6 +26,7 @@ const DataTableRow = ({ dataRecord, dataColumnList, className }: {
       </td>;
     })}
   </tr>;
+
 }
 
 export default DataTableRow;
