@@ -7,6 +7,7 @@ import CloudContext from 'model/CloudContext';
 
 /**
  * Get entity item's count.
+ *
  * @param cloudContext Cloud context.
  * @param entityTypeId Entity type ID.
  * @param namespace Value of namespace.
@@ -19,6 +20,7 @@ const getItemCount = async  (
   namespace: string,
   namespaceName: string
 ) => { 
+
   // Create URL for REST API.
   let url = cloudContext.name === 'ALL'
     ? `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${entityTypeId}/entity/count`
@@ -35,6 +37,7 @@ const getItemCount = async  (
   }
 
   return (await HttpService.getInstance().getJson<{count: number}>(url)).count;
+
 };
 
 /**
@@ -53,6 +56,7 @@ const ItemCountLabel: React.VFC<{
   itemCount: number,
   setItemCount: (n: number) => void
 }> = ({ entityTypeId, namespace, namespaceName, itemCount, setItemCount }) => {
+
   const { cloudContext } = useContext(AppContext);
   const { t } = useTranslation();
 
@@ -65,6 +69,7 @@ const ItemCountLabel: React.VFC<{
   }, [cloudContext, namespace, namespaceName]);
 
   return <ControlLabel>{t('ItemCount')}: {itemCount}</ControlLabel>;
+
 };
 
 export default ItemCountLabel;

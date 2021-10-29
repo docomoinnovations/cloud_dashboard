@@ -1,4 +1,4 @@
-import FieldSelect from 'component/FieldSelect';
+import FieldSelect from 'molecules/FieldSelect';
 import ItemCountLabel from 'molecules/ItemCountLabel';
 import PageSelector from 'molecules/PageSelector';
 import EntityColumn from 'model/EntityColumn';

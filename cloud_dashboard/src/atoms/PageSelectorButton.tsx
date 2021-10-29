@@ -11,9 +11,11 @@ const PageSelectorButton = ({ariaLabel, onClick, children}: {
   onClick: React.MouseEventHandler<HTMLSpanElement>,
   children: React.ReactNode
 }) => {
+
   return <span aria-label={ariaLabel} onClick={onClick}>
     <span aria-hidden="true">{children}</span>
   </span>;
+
 }
 
 export default PageSelectorButton;

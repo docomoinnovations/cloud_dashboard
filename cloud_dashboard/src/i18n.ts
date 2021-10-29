@@ -11,6 +11,7 @@ const resources: { [key: string]: { translation: { [key: string]: string } } } =
       'User': 'User',
       'Logout': 'Logout',
       'ItemCount': 'Item Count',
+      'All': 'All',
     }
   },
   ja: {
@@ -22,6 +23,7 @@ const resources: { [key: string]: { translation: { [key: string]: string } } } =
       'User': 'ユーザー情報',
       'Logout': 'ログアウト',
       'ItemCount': '件数',
+      'All': 'すべて',
     }
   }
 };
