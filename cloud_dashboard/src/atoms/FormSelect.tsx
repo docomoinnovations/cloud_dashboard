@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 /**
  * Label parts in form.
+ *
  * @param children Children Node.
  */
 const FormSelect = ({value, setvalue, dataList}: {

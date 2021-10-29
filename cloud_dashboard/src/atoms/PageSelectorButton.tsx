@@ -2,6 +2,7 @@ import React from 'react';
 
 /**
  * Button parts for PageSelector.
+ *
  * @param ariaLabel Attribute of aria-label.
  * @param onClick Attribute of onClick.
  * @param children Children Node.
