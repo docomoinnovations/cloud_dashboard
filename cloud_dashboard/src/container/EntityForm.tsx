@@ -1,5 +1,5 @@
 import FieldSelect from 'component/FieldSelect';
-import ItemCountLabel from 'component/ItemCountLabel';
+import ItemCountLabel from 'molecules/ItemCountLabel';
 import PageSelector from 'molecules/PageSelector';
 import EntityColumn from 'model/EntityColumn';
 import React, { useEffect, useState } from 'react';
