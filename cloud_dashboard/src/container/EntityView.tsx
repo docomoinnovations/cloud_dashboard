@@ -1,4 +1,4 @@
-import DataTable from 'component/DataTable';
+import DataTable from 'organisms/DataTable';
 import { ITEMS_PER_PAGE } from 'constant';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';

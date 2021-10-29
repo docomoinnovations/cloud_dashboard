@@ -1,4 +1,4 @@
-import DataTable from 'component/DataTable';
+import DataTable from 'organisms/DataTable';
 import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
