@@ -61,6 +61,22 @@ class CloudDashboardAdminSettings extends ConfigFormBase {
       '#attributes'    => ['placeholder' => 'e.g. https://example.com'],
     ];
 
+    $form['custom_urls']['marker_icon_uri'] = [
+      '#type' => 'url',
+      '#title' => $this->t('URL of default marker icon for Leaflet.js'),
+      '#default_value' => $config->get('marker_icon_uri'),
+      '#description' => $this->t('If you leave this field blank, it will access data from CDN'),
+      '#attributes'    => ['placeholder' => 'e.g. https://example.com/marker-icon.png'],
+    ];
+
+    $form['custom_urls']['map_geojson_uri'] = [
+      '#type' => 'url',
+      '#title' => $this->t('URL of coordinate data for drawing world map (GeoJson format)'),
+      '#default_value' => $config->get('map_geojson_uri'),
+      '#description' => $this->t('If you leave this field blank, it will access data from GitHub'),
+      '#attributes'    => ['placeholder' => 'e.g. https://example.com/world_map.geojson'],
+    ];
+
     return parent::buildForm($form, $form_state);
 
   }
@@ -75,6 +91,8 @@ class CloudDashboardAdminSettings extends ConfigFormBase {
     $config->set('oauth2_callback_uri', $form_state->getValue('oauth2_callback_uri'));
     $config->set('oauth2_client_id', $form_state->getValue('oauth2_client_id'));
     $config->set('json_api_server_uri', $form_state->getValue('json_api_server_uri'));
+    $config->set('marker_icon_uri', $form_state->getValue('marker_icon_uri'));
+    $config->set('map_geojson_uri', $form_state->getValue('map_geojson_uri'));
     $config->save();
 
     parent::submitForm($form, $form_state);

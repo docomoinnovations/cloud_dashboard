@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MapContainer, Marker, Polygon, Popup } from "react-leaflet";
 import { convertCloudContenxtItemList, loadRawCloudContextItemList } from 'service/utility';
-import Leaflet, { LatLngTuple } from 'leaflet';
+import { LatLngTuple } from 'leaflet';
 import CloudContenxtItem from 'model/CloudContenxtItem';
 import { MapData, MapFeature } from 'model/MapData';
 import { Link } from 'react-router-dom';
 import HttpService from 'service/http';
 import { AppContext } from 'service/state';
-
-Leaflet.Icon.Default.imagePath =
-  '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/';
 
 const MapPolygonBlock: React.VFC<{
   coordinates: [number, number][][]
@@ -118,13 +115,22 @@ const CloudServiceProviderMap: React.VFC = () => {
   useEffect(() => {
     const init = async () => {
       // Load CloudContenxtItemList.
-      const rawCloudContextItemList = await loadRawCloudContextItemList();
-      const cloudContextItemList = convertCloudContenxtItemList(rawCloudContextItemList);
-      setCloudContenxtItemList(cloudContextItemList);
+      const res1 = await fetch('/clouds/cloud_dashboard/config/marker_icon_uri');
+      if (res1.ok) {
+        const resJson = await res1.json();
+        const defaultIconUri: string = resJson['uri'];
+        const rawCloudContextItemList = await loadRawCloudContextItemList();
+        const cloudContextItemList = convertCloudContenxtItemList(rawCloudContextItemList, defaultIconUri);
+        setCloudContenxtItemList(cloudContextItemList);
+      }
 
       // Load MapData.
-      const mapDataRaw = await HttpService.getInstance().getJson<MapData>('https://enjalot.github.io/wwsd/data/world/ne_50m_admin_0_countries.geojson');
-      setMapData(mapDataRaw);
+      const res2 = await fetch('/clouds/cloud_dashboard/config/map_geojson_uri');
+      if (res2.ok) {
+        const resJson = await res2.json();
+        const mapDataRaw = await HttpService.getInstance().getJson<MapData>(resJson['uri']);
+        setMapData(mapDataRaw);
+      }
     }
 
     init();

@@ -95,3 +95,21 @@ cloud_dashboard.jsonapi_server_uri:
   methods: [GET]
   requirements:
     _permission: 'administer'
+
+# URL of the image to be displayed as the default marker icon in Leaflet.js.
+cloud_dashboard.marker_icon_uri:
+  path: '/clouds/cloud_dashboard/config/marker_icon_uri'
+  defaults:
+    _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getMakerIconUri'
+  methods: [GET]
+  requirements:
+    _permission: 'administer'
+
+# The URL of the coordinate data for drawing the world map, expressed in GeoJson format.
+cloud_dashboard.map_geojson_uri:
+  path: '/clouds/cloud_dashboard/config/map_geojson_uri'
+  defaults:
+    _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getMapGeoJsonUri'
+  methods: [GET]
+  requirements:
+    _permission: 'administer'
