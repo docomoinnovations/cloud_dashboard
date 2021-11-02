@@ -1,7 +1,7 @@
 import React from 'react';
 import CallbackForm from 'organisms/CallbackForm';
 
-const CallbackPage: React.VFC = () => {
+const CallbackPage = () => {
   return <div className="container-fluid">
     <div className="row">
       <div className="col">

@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from 'organisms/LoginForm';
 
-const LoginPage: React.VFC = () => {
+const LoginPage = () => {
   return <div className="container-fluid">
     <div className="row">
       <div className="col">

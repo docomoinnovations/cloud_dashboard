@@ -6,7 +6,7 @@ import EntityForm from 'container/EntityForm';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
 import MenuBar from 'organisms/MenuBar';
-import ProviderView from 'container/ProviderView';
+import ProviderPage from 'pages/ProviderPage';
 import LaunchTemplateView from 'container/LaunchTemplateView';
 import 'leaflet/dist/leaflet.css';
 import EntityTabs from 'molecules/EntityTabs';
@@ -25,8 +25,7 @@ const App: React.VFC = () => {
       </Route>
       <AppContext.Provider value={appState}>
         <Route path="/providers">
-          <MenuBar />
-          <ProviderView />
+          <ProviderPage />
         </Route>
         {
           ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
