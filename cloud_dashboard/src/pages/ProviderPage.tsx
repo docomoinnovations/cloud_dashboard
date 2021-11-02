@@ -7,13 +7,13 @@ import CloudServiceProviderTable from 'organisms/CloudServiceProviderTable';
 const ProviderPage = () => {
   return <>
     <MenuBar />
-    <div className="container-fluid">
-      <div className="row">
+    <div className="container-fluid px-0">
+      <div className="row mx-0">
         <div className="col">
           <CloudServiceProviderMap />
         </div>
       </div>
-      <div className="row">
+      <div className="row mx-0">
         <div className="col">
           <SetLanguageForm />
           <CloudServiceProviderTable />

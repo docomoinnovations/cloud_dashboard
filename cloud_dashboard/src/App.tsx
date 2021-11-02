@@ -2,17 +2,16 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import CallbackPage from 'pages/CallbackPage';
-import EntityForm from 'container/EntityForm';
+import EntityPage from 'pages/EntityPage';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
-import MenuBar from 'organisms/MenuBar';
 import ProviderPage from 'pages/ProviderPage';
 import 'leaflet/dist/leaflet.css';
-import EntityTabs from 'molecules/EntityTabs';
 import LoginPage from 'pages/LoginPage';
 import LaunchTemplatePage from 'pages/LaunchTemplatePage';
+import 'App.css';
 
-const App: React.VFC = () => {
+const App = () => {
   const appState = useAppState();
 
   return <BrowserRouter basename={ROUTE_URL}>
@@ -33,12 +32,7 @@ const App: React.VFC = () => {
               path={getEntityListViewUrl(record)}
               key={getEntityTypeId(record)}
             >
-              <MenuBar />
-              <EntityTabs menuType={record.cloudServiceProvider} menuName={record.labelName} />
-              <EntityForm
-                entityTypeId={getEntityTypeId(record)}
-                column={record.entityColumn} />
-              <hr />
+              <EntityPage menuTemplate={record} />
             </Route>;
           })
         }

@@ -7,3 +7,4 @@ react_app:
   css:
     theme:
       css/2.chunk.css: { minified: true }
+      css/main.chunk.css: { minified: true }
