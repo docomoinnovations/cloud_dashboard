@@ -7,10 +7,10 @@ import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 
 import { AppContext, useAppState } from 'service/state';
 import MenuBar from 'organisms/MenuBar';
 import ProviderPage from 'pages/ProviderPage';
-import LaunchTemplateView from 'container/LaunchTemplateView';
 import 'leaflet/dist/leaflet.css';
 import EntityTabs from 'molecules/EntityTabs';
 import LoginPage from 'pages/LoginPage';
+import LaunchTemplatePage from 'pages/LaunchTemplatePage';
 
 const App: React.VFC = () => {
   const appState = useAppState();
@@ -48,8 +48,7 @@ const App: React.VFC = () => {
               path={getLaunchTemplateViewUrl(cloudContext)}
               key={cloudContext.labelName}
             >
-              <MenuBar />
-              <LaunchTemplateView cloudContext={cloudContext} />
+              <LaunchTemplatePage cloudContext={cloudContext} />
             </Route>;
           })
         }

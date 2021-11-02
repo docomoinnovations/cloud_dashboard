@@ -45,7 +45,7 @@ const callback = async () => {
   }
 }
 
-const CallbackForm: React.VFC = () => {
+const CallbackForm = () => {
   useEffect(() => {
     callback();
   }, []);

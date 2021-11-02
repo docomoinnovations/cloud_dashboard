@@ -9,7 +9,7 @@ import MenuAnchor from 'atoms/MenuAnchor';
 import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
 import DropdownAnchorMenu from 'molecules/DropdownAnchorMenu';
 
-const MenuBar: React.VFC = () => {
+const MenuBar = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
   const { t } = useTranslation();
 

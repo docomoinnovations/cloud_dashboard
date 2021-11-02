@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const LoginForm: React.VFC = () => {
+const LoginForm = () => {
   const [clientId, setClientId] = useState('');
   const [redirectUri, setRedirectUri] = useState('');
 
