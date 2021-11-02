@@ -1,38 +1,6 @@
-import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
 import React, { useEffect } from 'react';
-
-const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri: string) => {
-  // request Access token
-  const formData = new FormData();
-  formData.append('grant_type', 'authorization_code');
-  formData.append('client_id', clientId);
-  formData.append('client_secret', OAUTH2_CLIENT_SECRET);
-  formData.append('code', code);
-  formData.append('redirect_uri', redirectUri);
-
-  const response = await fetch(`/oauth/token`, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!response.ok) {
-    throw new Error('Authorization failed');
-  }
-  const response_json = await response.json();
-  if ('access_token' in response_json) {
-    // read tokens
-    const accessToken = response_json['access_token'];
-    const refreshToken = response_json['refresh_token'];
-    const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
-
-    // save tokens to Localstrage
-    window.localStorage.setItem('accessToken', accessToken);
-    window.localStorage.setItem('refreshToken', refreshToken);
-    window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
-  } else {
-    throw new Error('Authorization failed');
-  }
-};
+import { ROUTE_URL } from 'constant';
+import { requestTokenByCodeGrant } from 'service/utility';
 
 const callback = async () => {
   console.group('Authorization Code Grant');
@@ -77,18 +45,14 @@ const callback = async () => {
   }
 }
 
-const CallbackView: React.VFC = () => {
+const CallbackForm: React.VFC = () => {
   useEffect(() => {
     callback();
   }, []);
 
-  return <div className="container-fluid">
-    <div className="row">
-      <div className="col">
-        <h2>Please waiting...</h2>
-      </div>
-    </div>
-  </div>;
+  return <form>
+      <h2>Please waiting...</h2>
+    </form>;
 }
 
-export default CallbackView;
+export default CallbackForm;

@@ -358,6 +358,46 @@ export const convertCloudContenxtItemList = (
 }
 
 /**
+ * Request the access token using Code Grant.
+ *
+ * @param code Authorization code.
+ * @param clientId clientId Client ID.
+ * @param redirectUri Redirect URI for Code Grant.
+ */
+export const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri: string) => {
+  // request Access token
+  const formData = new FormData();
+  formData.append('grant_type', 'authorization_code');
+  formData.append('client_id', clientId);
+  formData.append('client_secret', OAUTH2_CLIENT_SECRET);
+  formData.append('code', code);
+  formData.append('redirect_uri', redirectUri);
+
+  const response = await fetch(`/oauth/token`, {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error('Authorization failed');
+  }
+  const response_json = await response.json();
+  if ('access_token' in response_json) {
+    // read tokens
+    const accessToken = response_json['access_token'];
+    const refreshToken = response_json['refresh_token'];
+    const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
+
+    // save tokens to Localstrage
+    window.localStorage.setItem('accessToken', accessToken);
+    window.localStorage.setItem('refreshToken', refreshToken);
+    window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
+  } else {
+    throw new Error('Authorization failed');
+  }
+};
+
+/**
  * Update the access token using Code Grant.
  *
  * @param clientId Client ID.

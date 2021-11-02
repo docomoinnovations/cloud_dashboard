@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
-import CallbackView from 'container/Callback';
+import CallbackPage from 'pages/CallbackPage';
 import EntityForm from 'container/EntityForm';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
@@ -21,7 +21,7 @@ const App: React.VFC = () => {
         <LoginPage />
       </Route>
       <Route path="/callback">
-        <CallbackView />
+        <CallbackPage />
       </Route>
       <AppContext.Provider value={appState}>
         <Route path="/providers">
