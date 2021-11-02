@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 import CallbackView from 'container/Callback';
-import LoginForm from 'container/LoginForm';
 import EntityForm from 'container/EntityForm';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
@@ -11,6 +10,7 @@ import ProviderView from 'container/ProviderView';
 import LaunchTemplateView from 'container/LaunchTemplateView';
 import 'leaflet/dist/leaflet.css';
 import EntityTabs from 'molecules/EntityTabs';
+import LoginPage from 'pages/LoginPage';
 
 const App: React.VFC = () => {
   const appState = useAppState();
@@ -18,7 +18,7 @@ const App: React.VFC = () => {
   return <BrowserRouter basename={ROUTE_URL}>
     <Switch>
       <Route exact path="/">
-        <LoginForm />
+        <LoginPage />
       </Route>
       <Route path="/callback">
         <CallbackView />
