@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const LoginForm: React.VFC = () => {
+const LoginForm = () => {
   const [clientId, setClientId] = useState('');
   const [redirectUri, setRedirectUri] = useState('');
 
@@ -24,17 +24,11 @@ const LoginForm: React.VFC = () => {
     init();
   }, []);
 
-  return <div className="container-fluid">
-    <div className="row">
-      <div className="col">
-        <form>
-          <button type="button" className="btn btn-default"
-            onClick={login}
-            disabled={clientId === ''}>login</button>
-        </form>
-      </div>
-    </div>
-  </div>;
+  return <form>
+    <button type="button" className="btn btn-default"
+      onClick={login}
+      disabled={clientId === ''}>login</button>
+  </form>;
 }
 
 export default LoginForm;

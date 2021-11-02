@@ -1,4 +1,5 @@
-import DataTable from 'component/DataTable';
+import React, { useEffect, useState } from 'react';
+import DataTable from 'organisms/DataTable';
 import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
@@ -6,7 +7,6 @@ import DataRecord from 'model/DataRecord';
 import EntityColumn from 'model/EntityColumn';
 import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
-import React, { useEffect, useState } from 'react';
 import HttpService from 'service/http';
 import { convertEntityData, readDataCache } from 'service/utility';
 
@@ -78,9 +78,9 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
  * @param cloudContext cloud_context.
  * @returns JSX of LaunchTemplateView.
  */
-const LaunchTemplateView: React.VFC<{
+const LaunchTemplateTable = ({ cloudContext }: {
   cloudContext: CloudContext
-}> = ({ cloudContext }) => {
+}) => {
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -110,4 +110,4 @@ const LaunchTemplateView: React.VFC<{
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }
 
-export default LaunchTemplateView;
+export default LaunchTemplateTable;
