@@ -13,7 +13,7 @@ Introduction
 Requirements
 ============
 
-- `Drupal 9.2` or higher
+- `Drupal 9.3` or higher
 - `Cloud 4.x` or higher
 
 Installation
@@ -21,3 +21,8 @@ Installation
 
 - `composer require drupal/cloud`
 - For other tasks, please check `INSTALL.md`.
+
+Build from source code
+============
+
+- If you want to build the source code for the SPA side, please check `BUILD.md`.
