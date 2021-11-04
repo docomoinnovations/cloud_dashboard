@@ -25,4 +25,4 @@ Installation
 Build from source code
 ============
 
-- If you want to build the source code for the SPA side, please check `BUILD.md`.
+- If you want to build the source code for the SPA-side, please check `BUILD.md`.

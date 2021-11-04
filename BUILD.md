@@ -1,7 +1,7 @@
 Folder Structure
-============
+================
 
-## root directory
+## Root directory
 
 | File name             | Description                                      |
 |-----------------------|--------------------------------------------------|
@@ -25,7 +25,7 @@ Folder Structure
 
 ## cloud_dashboard directory
 
-- SPA side code that provides Cloud Dashboard (SPA client)
+- SPA-side code that provides Cloud Dashboard (SPA client)
 
 | File/Directory name | Description                                           |
 |---------------------|-------------------------------------------------------|
@@ -36,7 +36,7 @@ Folder Structure
 | public              | (Not used in this custom module)                      |
 | src                 | Source code of the SPA client                         |
 
-## other directory
+## Other directories
 
 | Directory name | Description                                   |
 |----------------|-----------------------------------------------|
@@ -44,7 +44,7 @@ Folder Structure
 | css            | CSS created by building the SPA client        |
 
 How to build the SPA client
-============
+===========================
 
 ```bash
 # Go to the directory where build.sh exists
@@ -58,7 +58,7 @@ sh ./build.sh
 ```
 
 SPA client Structure
-============
+====================
 
 - In `index.tsx`, the `<div id="root">` part will be replaced by the SPA client.
   - `src/Form/React/CloudDashboardForm.php`　provides the `<div id="root">` part.
