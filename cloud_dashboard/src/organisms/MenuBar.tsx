@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import { AppContext } from 'service/state';
-import { checkAndRefreshToken, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
+import { checkAndRefreshToken, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
 import { useTranslation } from 'react-i18next';
 import MenuLink from 'atoms/MenuLink';
 import MenuAnchor from 'atoms/MenuAnchor';
@@ -72,6 +72,17 @@ const MenuBar = () => {
                 cloudContextList.map((r) => {
                   return {
                     to: getLaunchTemplateViewUrl(r),
+                    onClick: () => setCloudContext(r),
+                    children: r.labelName
+                  };
+                })
+              } />
+              <DropdownLinkMenu menuName="Project" linkPropsList={
+                cloudContextList.filter((r) => {
+                  return r.cloudServiceProvider === 'k8s';
+                }).map((r) => {
+                  return {
+                    to: getProjectViewUrl(r),
                     onClick: () => setCloudContext(r),
                     children: r.labelName
                   };

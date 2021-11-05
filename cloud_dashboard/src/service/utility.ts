@@ -481,3 +481,14 @@ export const checkAndRefreshToken = async () => {
     window.location.href = ROUTE_URL;
   });
 };
+
+/**
+ * Getter of ProjectView's URL for CloudContext.
+ * @param cloudContext CloudContext
+ * @returns URL
+ */
+ export const getProjectViewUrl = (cloudContext: CloudContext) => {
+  return cloudContext.name === 'ALL'
+    ? `/${cloudContext.cloudServiceProvider as string}/project`
+    : `/project/${cloudContext.name}`;
+};
