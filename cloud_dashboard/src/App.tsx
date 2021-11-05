@@ -9,8 +9,12 @@ import ProviderPage from 'pages/ProviderPage';
 import 'leaflet/dist/leaflet.css';
 import LoginPage from 'pages/LoginPage';
 import LaunchTemplatePage from 'pages/LaunchTemplatePage';
-import 'App.css';
 import ProjectPage from 'pages/ProjectPage';
+import K8sCostPage from 'pages/K8sCostPage';
+import K8sNamespaceResourcePage from 'pages/K8sNamespaceResourcePage';
+import K8sNodeResourcePage from 'pages/K8sNodeResourcePage';
+import K8sPodResourcePage from 'pages/K8sPodResourcePage';
+import 'App.css';
 
 const App = () => {
   const appState = useAppState();
@@ -59,6 +63,18 @@ const App = () => {
             </Route>;
           })
         }
+        <Route path="/k8s_cost_store">
+          <K8sCostPage />
+        </Route>
+        <Route path="/k8s_namespace_resource_store">
+          <K8sNamespaceResourcePage />
+        </Route>
+        <Route path="/k8s_node_resource_store">
+          <K8sNodeResourcePage />
+        </Route>
+        <Route path="/k8s_pod_resource_store">
+          <K8sPodResourcePage />
+        </Route>
       </AppContext.Provider>
     </Switch>
   </BrowserRouter>;
