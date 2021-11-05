@@ -19,7 +19,7 @@ const getColumnList = (): EntityColumn[] => {
       { labelName: 'Name', name: 'name', type: 'default' },
       { labelName: 'Created', name: 'created', type: 'datetime' },
       { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-      { labelName: 'Resources', name: 'field_resources', type: 'default' },
+      { labelName: 'Resources', name: 'field_resources', type: 'key-value-crlf' },
     ];
 };
 
