@@ -1,6 +1,7 @@
 import React from 'react';
 import MenuBar from 'organisms/MenuBar';
 import CloudContext from 'model/CloudContext';
+import ProjectTable from 'organisms/ProjectTable';
 
 const ProjectPage = ({ cloudContext }: {
   cloudContext: CloudContext
@@ -10,7 +11,7 @@ const ProjectPage = ({ cloudContext }: {
     <div className="container-fluid px-0">
       <div className="row mx-0">
         <div className="col">
-          <span>{cloudContext.labelName}</span>
+          <ProjectTable cloudContext={cloudContext} />
         </div>
       </div>
     </div>
