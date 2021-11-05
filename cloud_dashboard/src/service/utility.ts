@@ -66,6 +66,60 @@ const roundNumber = (value: number, digit: number) => {
   return temp;
 };
 
+const convertKeyValueCrLfData = (data: string) => {
+  const temp = data.split('\n');
+  const CONVERT_KEY_VALUE_CRLF_DICT: Record<string, string> = {
+    'on_demand_hourly: ': 'On-demand Hourly ($): ',
+    'on_demand_daily: ': 'On-demand Daily ($): ',
+    'on_demand_monthly: ': 'On-demand Monthly ($): ',
+    'on_demand_yearly: ': 'On-demand Yearly ($): ',
+    'ri_one_year: ': 'RI 1 Year ($): ',
+    'ri_three_year: ': 'RI 3 Year ($): ',
+    'cpu: ': 'CPU (Usage): ',
+    'memory: !!float ': 'Memory (Usage): ',
+    'memory: ': 'Memory (Usage): ',
+    'pod_allocation: ': 'Pods (Allocation): ',
+    'cpu_capacity: !!float ': 'CPU (Capacity): ',
+    'memory_capacity: !!float ': 'Memory (Capacity): ',
+    'pod_capacity: ': 'Pods (Capacity): ',
+  };
+  const temp2: string[] = [];
+  for (const record of temp) {
+    if (record === '') {
+      continue;
+    }
+    let record2 = record;
+    for (const key in CONVERT_KEY_VALUE_CRLF_DICT) {
+      if (record.includes(key)) {
+        const value = record.replace(key, '');
+        const valueFloat = parseFloat(value);
+        if (key.includes('!!float') || key.includes('memory: ')) {
+          if (valueFloat >= 1024 * 1024 * 1024) {
+            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024 * 1024), 2)}Gi`;
+          } else if (valueFloat >= 1024 * 1024) {
+            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024), 2)}Mi`;
+          } else if (valueFloat >= 1024) {
+            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024), 2)}Ki`;
+          } else {
+            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat, 2)}`;
+          }
+        } else {
+          if (CONVERT_KEY_VALUE_CRLF_DICT[key].includes('Pods ')) {
+            record2 = CONVERT_KEY_VALUE_CRLF_DICT[key] + value;
+          } else {
+            record2 = CONVERT_KEY_VALUE_CRLF_DICT[key] + roundNumber(valueFloat, 2);
+          }
+        }
+        break;
+      }
+    }
+    temp2.push(record2);
+  }
+  return temp2.sort((a, b) => {
+    return a < b ? -1 : a > b ? 1 : 0;
+  }).join('\n');
+}
+
 /**
  * Converter of entity's data for UI.
  * @param data Entity's data
@@ -114,6 +168,8 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
         }
       }
       return `(${data})`;
+    case 'key-value-crlf':
+      return convertKeyValueCrLfData(data);
     default:
       return data;
   }
