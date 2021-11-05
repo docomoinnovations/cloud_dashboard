@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'organisms/DataTable';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
@@ -9,6 +9,7 @@ import { K8S_PROJECT_LIST } from 'constant';
 import HttpService from 'service/http';
 import EntityData from 'model/EntityData';
 import { convertEntityData } from 'service/utility';
+import { AppContext } from 'service/state';
 
 /**
  * Get ProjectColumnList by cloud_context.
@@ -74,6 +75,7 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
 const ProjectTable = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
+  const { cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -92,10 +94,11 @@ const ProjectTable = ({ cloudContext }: {
 
       // Load launch template's data.
       const rawData = await readProjectList(cloudContext, sortInfo);
-      setDataRecordList(convertEntityData(rawData, columnList, cloudContext, {}));
+      setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();
-  }, [cloudContext, sortInfo]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }

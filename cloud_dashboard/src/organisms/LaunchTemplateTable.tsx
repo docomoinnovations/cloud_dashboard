@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'organisms/DataTable';
 import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
@@ -9,6 +9,7 @@ import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import HttpService from 'service/http';
 import { convertEntityData, readDataCache } from 'service/utility';
+import { AppContext } from 'service/state';
 
 /**
  * Get LaunchTemplateColumnList by cloud_context.
@@ -81,6 +82,7 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
 const LaunchTemplateTable = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
+  const { cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -102,10 +104,11 @@ const LaunchTemplateTable = ({ cloudContext }: {
 
       // Load launch template's data.
       const rawData = await readLaunchTemplateList(cloudContext, sortInfo);
-      setDataRecordList(convertEntityData(rawData, launchTemplateColumnList, cloudContext, dataCache));
+      setDataRecordList(convertEntityData(rawData, launchTemplateColumnList, cloudContextList, dataCache));
     };
     init();
-  }, [cloudContext, sortInfo]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }

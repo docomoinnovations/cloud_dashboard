@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'organisms/DataTable';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
@@ -7,7 +7,7 @@ import EntityColumn from 'model/EntityColumn';
 import HttpService from 'service/http';
 import EntityData from 'model/EntityData';
 import { convertEntityData } from 'service/utility';
-import { DEFAULT_CLOUD_CONTEXTS } from 'constant';
+import { AppContext } from 'service/state';
 
 /**
  * Get columnList by cloud_context.
@@ -29,7 +29,7 @@ const getColumnList = (): EntityColumn[] => {
  * @param sortInfo Information of soring parameter.
  * @returns dataList.
  */
- const readDataList = async (sortInfo: SortInfo) => {
+const readDataList = async (sortInfo: SortInfo) => {
   // Create a GET parameter.
   const parameters: { key: string, value: string }[] = [];
   if (sortInfo.key !== '') {
@@ -62,6 +62,7 @@ const getColumnList = (): EntityColumn[] => {
  * @returns JSX of LaunchTemplateView.
  */
 const K8sCostTable = () => {
+  const { cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -80,10 +81,10 @@ const K8sCostTable = () => {
 
       // Load launch template's data.
       const rawData = await readDataList(sortInfo);
-      setDataRecordList(convertEntityData(rawData, columnList, DEFAULT_CLOUD_CONTEXTS[1], {}));
+      setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();
-  }, [sortInfo]);
+  }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }

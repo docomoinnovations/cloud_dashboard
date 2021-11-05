@@ -333,7 +333,7 @@ export const readDataCache = async (entityColumnList: EntityColumn[]) => {
 export const convertEntityData = (
   rawDataList: EntityData[],
   entityColumnList: EntityColumn[],
-  cloudContext: CloudContext,
+  cloudContextList: CloudContext[],
   dataCache: { [key: string]: EntityData[] }) => {
   const newDataRecordList: DataRecord[] = [];
   for (const rawRecord of rawDataList) {
@@ -343,9 +343,18 @@ export const convertEntityData = (
     };
     for (const launchTemplateColumn of entityColumnList) {
       const rawValue = rawRecord.attributes[launchTemplateColumn.name];
-      dataRecord.value[launchTemplateColumn.name] = launchTemplateColumn.name === 'cloud_context'
-        ? cloudContext.labelName
-        : convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+      if (launchTemplateColumn.name === 'cloud_context') {
+        const temp = cloudContextList.filter((r) => {
+          return r.name !== 'ALL' && r.name === rawValue;
+        });
+        if (temp.length >= 1) {
+          dataRecord.value[launchTemplateColumn.name] = temp[0].labelName;
+        } else {
+          dataRecord.value[launchTemplateColumn.name] = rawValue;
+        }
+      } else {
+        dataRecord.value[launchTemplateColumn.name] = convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+      }
     }
     newDataRecordList.push(dataRecord);
   }
