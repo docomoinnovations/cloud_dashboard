@@ -16,11 +16,11 @@ const CloudContenxtItemPopupLabel = ({ cloudServiceProvider, label } : {
   const { cloudContextList, dispatch } = useContext(AppContext);
 
   const onClickPopupLink = (labelName: string) => {
-    const temp = cloudContextList.filter((r) => {
+    const candidate = cloudContextList.filter((r) => {
       return r.cloudServiceProvider === cloudServiceProvider && r.labelName === labelName;
     });
-    if (temp.length >= 1) {
-      dispatch({ type: 'setCloudContext', message: temp[0] });
+    if (candidate.length >= 1) {
+      dispatch({ type: 'setCloudContext', message: candidate[0] });
     }
   }
 

@@ -19,14 +19,12 @@ interface AppState {
   dispatch: (action: Action) => void;
 }
 
-const loadCloudContext = () => {
+const loadCloudContext = (): CloudContext => {
   // Load Cloud Context.
-  const temp = localStorage.getItem('cloudContext');
-  if (temp !== null) {
-    const cloudContextTemp: CloudContext = JSON.parse(temp);
-    return cloudContextTemp;
-  }
-  return DEFAULT_CLOUD_CONTEXTS[0];
+  const cloudContextJson = localStorage.getItem('cloudContext');
+  return cloudContextJson !== null
+    ? JSON.parse(cloudContextJson)
+    : DEFAULT_CLOUD_CONTEXTS[0];
 };
 
 export const useAppState = (): AppState => {

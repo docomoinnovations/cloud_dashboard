@@ -56,18 +56,18 @@ const roundNumber = (value: number, digit: number) => {
     return `${Math.round(value * x) / x}`;
   }
 
-  let temp = `${value}`;
+  let textBuffer = `${value}`;
   if (digit !== 0) {
-    temp += '.';
+    textBuffer += '.';
     for (let i = 0; i < digit; i += 1) {
-      temp += '0';
+      textBuffer += '0';
     }
   }
-  return temp;
+  return textBuffer;
 };
 
 const convertKeyValueCrLfData = (data: string) => {
-  const temp = data.split('\n');
+  const records = data.split('\n');
   const CONVERT_KEY_VALUE_CRLF_DICT: Record<string, string> = {
     'on_demand_hourly: ': 'On-demand Hourly ($): ',
     'on_demand_daily: ': 'On-demand Daily ($): ',
@@ -83,8 +83,8 @@ const convertKeyValueCrLfData = (data: string) => {
     'memory_capacity: !!float ': 'Memory (Capacity): ',
     'pod_capacity: ': 'Pods (Capacity): ',
   };
-  const temp2: string[] = [];
-  for (const record of temp) {
+  const results: string[] = [];
+  for (const record of records) {
     if (record === '') {
       continue;
     }
@@ -111,9 +111,9 @@ const convertKeyValueCrLfData = (data: string) => {
         break;
       }
     }
-    temp2.push(record2);
+    results.push(record2);
   }
-  return temp2.sort((a, b) => {
+  return results.sort((a, b) => {
     return a < b ? -1 : a > b ? 1 : 0;
   }).join('\n');
 }
@@ -146,11 +146,11 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
       return roundNumber(data, 2);
     }
     case 'key-value': {
-      let temp: string[] = [];
+      let records: string[] = [];
       for (const record of data) {
-        temp.push(`${record['item_key']}:${record['item_value']}`);
+        records.push(`${record['item_key']}:${record['item_value']}`);
       }
-      return temp.join(', ');
+      return records.join(', ');
     }
     case 'cost':
       return `$${data}`;
@@ -353,12 +353,12 @@ export const convertEntityData = (
         continue;
       }
       // Search for possible candidates.
-      const temp = cloudContextList.filter((r) => {
+      const candidate = cloudContextList.filter((r) => {
         return r.name !== 'ALL' && r.name === rawValue;
       });
       // Branching depending on the number of candidates.
-      dataRecord.value[launchTemplateColumn.name] = temp.length >= 1
-        ? temp[0].labelName
+      dataRecord.value[launchTemplateColumn.name] = candidate.length >= 1
+        ? candidate[0].labelName
         : rawValue;
     }
     // Write it out.

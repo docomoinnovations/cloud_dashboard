@@ -11,9 +11,9 @@ const DataTableData = ({text}: {
   text: string | number
 }) => {
   if (typeof text === 'string' && text.includes('\n')) {
-    const temp = text.split('\n');
+    const records = text.split('\n');
     return <>
-      {temp.map((r, index) => {
+      {records.map((r, index) => {
         if (index === 0) {
           return <span key={index}>{r}</span>;
         }
