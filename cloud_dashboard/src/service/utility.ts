@@ -104,11 +104,9 @@ const convertKeyValueCrLfData = (data: string) => {
             record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat, 2)}`;
           }
         } else {
-          if (CONVERT_KEY_VALUE_CRLF_DICT[key].includes('Pods ')) {
-            record2 = CONVERT_KEY_VALUE_CRLF_DICT[key] + value;
-          } else {
-            record2 = CONVERT_KEY_VALUE_CRLF_DICT[key] + roundNumber(valueFloat, 2);
-          }
+          record2 = CONVERT_KEY_VALUE_CRLF_DICT[key].includes('Pods ')
+            ? CONVERT_KEY_VALUE_CRLF_DICT[key] + value
+            : CONVERT_KEY_VALUE_CRLF_DICT[key] + roundNumber(valueFloat, 2);
         }
         break;
       }
@@ -337,25 +335,33 @@ export const convertEntityData = (
   dataCache: { [key: string]: EntityData[] }) => {
   const newDataRecordList: DataRecord[] = [];
   for (const rawRecord of rawDataList) {
+    // convert (rawRecord: EntityData) => (dataRecord: DataRecord)
     const dataRecord: DataRecord = {
       id: rawRecord.id,
       value: {}
     };
+
+    // Read data column by launchTemplateColumn, convert as appropriate, and write it out.
     for (const launchTemplateColumn of entityColumnList) {
+      // Read data column by launchTemplateColumn.
       const rawValue = rawRecord.attributes[launchTemplateColumn.name];
-      if (launchTemplateColumn.name === 'cloud_context') {
-        const temp = cloudContextList.filter((r) => {
-          return r.name !== 'ALL' && r.name === rawValue;
-        });
-        if (temp.length >= 1) {
-          dataRecord.value[launchTemplateColumn.name] = temp[0].labelName;
-        } else {
-          dataRecord.value[launchTemplateColumn.name] = rawValue;
-        }
-      } else {
+
+      // Convert as appropriate.
+      if (launchTemplateColumn.name !== 'cloud_context') {
+        // If it is not 'cloud_context', convert it by convertDataForUI().
         dataRecord.value[launchTemplateColumn.name] = convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+        continue;
       }
+      // Search for possible candidates.
+      const temp = cloudContextList.filter((r) => {
+        return r.name !== 'ALL' && r.name === rawValue;
+      });
+      // Branching depending on the number of candidates.
+      dataRecord.value[launchTemplateColumn.name] = temp.length >= 1
+        ? temp[0].labelName
+        : rawValue;
     }
+    // Write it out.
     newDataRecordList.push(dataRecord);
   }
   return newDataRecordList;
