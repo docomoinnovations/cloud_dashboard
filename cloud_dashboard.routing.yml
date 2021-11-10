@@ -16,7 +16,7 @@ cloud_dashboard.callback:
   requirements:
     _permission: 'administer'
 
-# Callback endpoint
+# List view of provider
 cloud_dashboard.cloud_service_provider.list:
   path: '/clouds/dashboard/providers'
   defaults:
@@ -28,6 +28,15 @@ cloud_dashboard.cloud_service_provider.list:
 # form for AWS
 cloud_dashboard.aws_cloud.form:
   path: '/clouds/dashboard/aws_cloud/{parameter}'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
+# info for AWS entity
+cloud_dashboard.aws_cloud.info:
+  path: '/clouds/dashboard/aws_cloud/{parameter}/{parameter2}'
   defaults:
     _title: Cloud Dashboard
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'

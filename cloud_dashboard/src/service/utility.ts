@@ -26,7 +26,7 @@ const paddingZero = (data: any, length: number) => {
  * @param dateString datetime string
  * @returns datetime string for UI
  */
-const convertDateString = (dateString: string) => {
+export const convertDateString = (dateString: string) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
