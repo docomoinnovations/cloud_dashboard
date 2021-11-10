@@ -6,11 +6,11 @@ const LoginForm = () => {
 
   const init = async () => {
     window.localStorage.removeItem('jsonapiServerUri');
-    const res1 = await fetch('/clouds/cloud_dashboard/config/client_id');
-    const res2 = await fetch('/clouds/cloud_dashboard/config/callback_uri');
-    if (res1.ok && res2.ok) {
-      setClientId((await res1.json()).id);
-      setRedirectUri((await res2.json()).uri);
+    const clientIdResponse = await fetch('/clouds/cloud_dashboard/config/client_id');
+    const callbackUriResponse = await fetch('/clouds/cloud_dashboard/config/callback_uri');
+    if (clientIdResponse.ok && callbackUriResponse.ok) {
+      setClientId((await clientIdResponse.json()).id);
+      setRedirectUri((await callbackUriResponse.json()).uri);
     }
   };
 

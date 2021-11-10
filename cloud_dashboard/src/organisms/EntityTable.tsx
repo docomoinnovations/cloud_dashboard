@@ -15,7 +15,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
   namespaceName: string,
   pageIndex: number,
 }) => {
-  const { cloudContext } = useContext(AppContext);
+  const { cloudContext, cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -54,10 +54,11 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
 
       // Load entity data.
       const rawData = await getEntityData(entityTypeId, parameter);
-      setDataRecordList(convertEntityData(rawData, entityColumnList, cloudContext, dataCache));
+      setDataRecordList(convertEntityData(rawData, entityColumnList, cloudContextList, dataCache));
     };
     init();
-  }, [cloudContext, entityTypeId, entityColumnList, sortInfo, namespace, namespaceName, pageIndex]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cloudContextList, entityTypeId, entityColumnList, sortInfo, namespace, namespaceName, pageIndex]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }

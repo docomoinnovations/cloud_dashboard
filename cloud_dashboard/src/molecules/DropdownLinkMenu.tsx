@@ -11,7 +11,7 @@ const DropdownLinkMenu = ({ menuName, linkPropsList }: {
   menuName: string,
   linkPropsList: {
     to: string,
-    onClick: React.MouseEventHandler<HTMLAnchorElement>,
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>,
     children: React.ReactNode
   }[]
 }) => {

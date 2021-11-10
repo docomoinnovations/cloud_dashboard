@@ -4,7 +4,7 @@
 type EntityColumn = {
   labelName: string;
   name: string;
-  type: 'default' | 'datetime' | 'memory' | 'key-value' | 'cost' | 'array';
+  type: 'default' | 'datetime' | 'memory' | 'key-value' | 'cost' | 'array' | 'key-value-crlf';
 } | {
   labelName: string;
   name: string;

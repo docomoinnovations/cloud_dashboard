@@ -56,15 +56,67 @@ const roundNumber = (value: number, digit: number) => {
     return `${Math.round(value * x) / x}`;
   }
 
-  let temp = `${value}`;
+  let textBuffer = `${value}`;
   if (digit !== 0) {
-    temp += '.';
+    textBuffer += '.';
     for (let i = 0; i < digit; i += 1) {
-      temp += '0';
+      textBuffer += '0';
     }
   }
-  return temp;
+  return textBuffer;
 };
+
+const convertKeyValueCrLfData = (data: string) => {
+  const records = data.split('\n');
+  const CONVERT_KEY_VALUE_CRLF_DICT: Record<string, string> = {
+    'on_demand_hourly: ': 'On-demand Hourly ($): ',
+    'on_demand_daily: ': 'On-demand Daily ($): ',
+    'on_demand_monthly: ': 'On-demand Monthly ($): ',
+    'on_demand_yearly: ': 'On-demand Yearly ($): ',
+    'ri_one_year: ': 'RI 1 Year ($): ',
+    'ri_three_year: ': 'RI 3 Year ($): ',
+    'cpu: ': 'CPU (Usage): ',
+    'memory: !!float ': 'Memory (Usage): ',
+    'memory: ': 'Memory (Usage): ',
+    'pod_allocation: ': 'Pods (Allocation): ',
+    'cpu_capacity: !!float ': 'CPU (Capacity): ',
+    'memory_capacity: !!float ': 'Memory (Capacity): ',
+    'pod_capacity: ': 'Pods (Capacity): ',
+  };
+  const fixedRecords: string[] = [];
+  for (const record of records) {
+    if (record === '') {
+      continue;
+    }
+    let fixedRecord = record;
+    for (const key in CONVERT_KEY_VALUE_CRLF_DICT) {
+      if (record.includes(key)) {
+        const value = record.replace(key, '');
+        const valueFloat = parseFloat(value);
+        if (key.includes('!!float') || key.includes('memory: ')) {
+          if (valueFloat >= 1024 * 1024 * 1024) {
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024 * 1024), 2)}Gi`;
+          } else if (valueFloat >= 1024 * 1024) {
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024), 2)}Mi`;
+          } else if (valueFloat >= 1024) {
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024), 2)}Ki`;
+          } else {
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat, 2)}`;
+          }
+        } else {
+          fixedRecord = CONVERT_KEY_VALUE_CRLF_DICT[key].includes('Pods ')
+            ? CONVERT_KEY_VALUE_CRLF_DICT[key] + value
+            : CONVERT_KEY_VALUE_CRLF_DICT[key] + roundNumber(valueFloat, 2);
+        }
+        break;
+      }
+    }
+    fixedRecords.push(fixedRecord);
+  }
+  return fixedRecords.sort((a, b) => {
+    return a < b ? -1 : a > b ? 1 : 0;
+  }).join('\n');
+}
 
 /**
  * Converter of entity's data for UI.
@@ -94,11 +146,11 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
       return roundNumber(data, 2);
     }
     case 'key-value': {
-      let temp: string[] = [];
+      let records: string[] = [];
       for (const record of data) {
-        temp.push(`${record['item_key']}:${record['item_value']}`);
+        records.push(`${record['item_key']}:${record['item_value']}`);
       }
-      return temp.join(', ');
+      return records.join(', ');
     }
     case 'cost':
       return `$${data}`;
@@ -114,6 +166,8 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
         }
       }
       return `(${data})`;
+    case 'key-value-crlf':
+      return convertKeyValueCrLfData(data);
     default:
       return data;
   }
@@ -277,20 +331,37 @@ export const readDataCache = async (entityColumnList: EntityColumn[]) => {
 export const convertEntityData = (
   rawDataList: EntityData[],
   entityColumnList: EntityColumn[],
-  cloudContext: CloudContext,
+  cloudContextList: CloudContext[],
   dataCache: { [key: string]: EntityData[] }) => {
   const newDataRecordList: DataRecord[] = [];
   for (const rawRecord of rawDataList) {
+    // convert (rawRecord: EntityData) => (dataRecord: DataRecord)
     const dataRecord: DataRecord = {
       id: rawRecord.id,
       value: {}
     };
+
+    // Read data column by launchTemplateColumn, convert as appropriate, and write it out.
     for (const launchTemplateColumn of entityColumnList) {
+      // Read data column by launchTemplateColumn.
       const rawValue = rawRecord.attributes[launchTemplateColumn.name];
-      dataRecord.value[launchTemplateColumn.name] = launchTemplateColumn.name === 'cloud_context'
-        ? cloudContext.labelName
-        : convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+
+      // Convert as appropriate.
+      if (launchTemplateColumn.name !== 'cloud_context') {
+        // If it is not 'cloud_context', convert it by convertDataForUI().
+        dataRecord.value[launchTemplateColumn.name] = convertDataForUI(rawValue, launchTemplateColumn, dataCache);
+        continue;
+      }
+      // Search for possible candidates.
+      const candidate = cloudContextList.filter((r) => {
+        return r.name !== 'ALL' && r.name === rawValue;
+      });
+      // Branching depending on the number of candidates.
+      dataRecord.value[launchTemplateColumn.name] = candidate.length >= 1
+        ? candidate[0].labelName
+        : rawValue;
     }
+    // Write it out.
     newDataRecordList.push(dataRecord);
   }
   return newDataRecordList;
@@ -422,12 +493,12 @@ const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) =
   if ('access_token' in response_json) {
     // read tokens
     const accessToken = response_json['access_token'];
-    const refreshToken2 = response_json['refresh_token'];
+    const refreshTokenFromJson = response_json['refresh_token'];
     const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
 
     // save tokens to Localstrage
     window.localStorage.setItem('accessToken', accessToken);
-    window.localStorage.setItem('refreshToken', refreshToken2);
+    window.localStorage.setItem('refreshToken', refreshTokenFromJson);
     window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
   } else {
     throw new Error('Refresh failed');
@@ -450,16 +521,16 @@ export const checkAndRefreshToken = async () => {
   // If the information required to update the token cannot be loaded,
   // redirect route URL.
   console.group('Authorization Code Grant');
-  const res1 = await fetch('/clouds/cloud_dashboard/config/client_id');
+  const clientIdResponse = await fetch('/clouds/cloud_dashboard/config/client_id');
   const refreshToken = window.localStorage.getItem('refreshToken');
-  if (!res1.ok || refreshToken === null) {
+  if (!clientIdResponse.ok || refreshToken === null) {
     console.log('Client ID : No');
     console.error('Authorization failed.');
     console.groupEnd();
     window.location.href = ROUTE_URL;
     return;
   }
-  const clientId = (await res1.json()).id;
+  const clientId = (await clientIdResponse.json()).id;
   console.log('Client ID : Yes');
 
   // If the access token has expired, update it.
@@ -480,4 +551,15 @@ export const checkAndRefreshToken = async () => {
     console.groupEnd();
     window.location.href = ROUTE_URL;
   });
+};
+
+/**
+ * Getter of ProjectView's URL for CloudContext.
+ * @param cloudContext CloudContext
+ * @returns URL
+ */
+ export const getProjectViewUrl = (cloudContext: CloudContext) => {
+  return cloudContext.name === 'ALL'
+    ? `/${cloudContext.cloudServiceProvider as string}/project`
+    : `/project/${cloudContext.name}`;
 };

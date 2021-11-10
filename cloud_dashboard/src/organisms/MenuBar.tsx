@@ -2,12 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import { AppContext } from 'service/state';
-import { checkAndRefreshToken, getEntityListViewUrl, getLaunchTemplateViewUrl } from 'service/utility';
+import { checkAndRefreshToken, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
 import { useTranslation } from 'react-i18next';
 import MenuLink from 'atoms/MenuLink';
 import MenuAnchor from 'atoms/MenuAnchor';
 import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
-import DropdownAnchorMenu from 'molecules/DropdownAnchorMenu';
 
 const MenuBar = () => {
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
@@ -77,35 +76,25 @@ const MenuBar = () => {
                   };
                 })
               } />
-              <li className="dropdown">
-                <a href="/clouds/design" className="dropdown-toggle" data-toggle="dropdown">Design <span className="caret"></span></a>
-                <ul className="dropdown-menu" role="menu">
-                  <li className="dropdown-submenu">
-                    <a href="/clouds" className="dropdown-submenu-toggle">Projects <span className="caret"></span></a>
-                    <DropdownAnchorMenu anchorPropsList={
-                      cloudContextList.filter((r) => {
-                        return r.cloudServiceProvider === 'k8s' && r.name !== 'ALL';
-                      }).map((r) => {
-                        return {
-                          href: `/clouds/design/project/${r.name}`,
-                          children: r.labelName
-                        };
-                      })
-                    } />
-                  </li>
-                  <li className="dropdown-submenu">
-                    <a href="/clouds" className="dropdown-submenu-toggle">Stores <span className="caret"></span></a>
-                    <DropdownAnchorMenu anchorPropsList={
-                      [
-                        { href: '/clouds/design/store/k8s_cost_store', children: 'K8s cost store' },
-                        { href: '/clouds/design/store/k8s_namespace_resource_store', children: 'K8s namespace resource store' },
-                        { href: '/clouds/design/store/k8s_node_resource_store', children: 'K8s node resource store' },
-                        { href: '/clouds/design/store/k8s_pod_resource_store', children: 'K8s pod resource store' },
-                      ]
-                    } />
-                  </li>
-                </ul>
-              </li>
+              <DropdownLinkMenu menuName="Project" linkPropsList={
+                cloudContextList.filter((r) => {
+                  return r.cloudServiceProvider === 'k8s';
+                }).map((r) => {
+                  return {
+                    to: getProjectViewUrl(r),
+                    onClick: () => setCloudContext(r),
+                    children: r.labelName
+                  };
+                })
+              } />
+              <DropdownLinkMenu menuName="Resource" linkPropsList={
+                [
+                  { to: '/k8s_cost_store', children: 'K8s cost store' },
+                  { to: '/k8s_namespace_resource_store', children: 'K8s namespace resource store' },
+                  { to: '/k8s_node_resource_store', children: 'K8s node resource store' },
+                  { to: '/k8s_pod_resource_store', children: 'K8s pod resource store' },
+                ]
+              } />
               <MenuAnchor href="/admin/structure/cloud_config">{t('CloudConfig')}</MenuAnchor>
             </ul>
           </nav>

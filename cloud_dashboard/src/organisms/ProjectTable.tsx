@@ -1,49 +1,42 @@
 import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'organisms/DataTable';
-import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
-import EntityColumn from 'model/EntityColumn';
-import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
+import EntityColumn from 'model/EntityColumn';
+import { K8S_PROJECT_LIST } from 'constant';
 import HttpService from 'service/http';
-import { convertEntityData, readDataCache } from 'service/utility';
+import EntityData from 'model/EntityData';
+import { convertEntityData } from 'service/utility';
 import { AppContext } from 'service/state';
 
 /**
- * Get LaunchTemplateColumnList by cloud_context.
+ * Get ProjectColumnList by cloud_context.
  * 
  * @param cloudContext cloud_context.
- * @returns LaunchTemplateColumnList.
+ * @returns ProjectColumnList.
  */
-const getLaunchTemplateColumnList = (cloudContext: CloudContext): EntityColumn[] => {
+const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
   switch (cloudContext.cloudServiceProvider) {
     case 'aws_cloud':
-      return cloudContext.name !== 'ALL'
-        ? AWS_LAUNCH_TEMPLATE_LIST
-        : [
-          { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-          ...AWS_LAUNCH_TEMPLATE_LIST
-        ];
+      return [];
     case 'k8s':
       return cloudContext.name !== 'ALL'
-        ? K8S_LAUNCH_TEMPLATE_LIST
-        : [
-          { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-          ...K8S_LAUNCH_TEMPLATE_LIST
-        ];
+        ? K8S_PROJECT_LIST
+        : [{ labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
+          ...K8S_PROJECT_LIST];
   }
 };
 
 /**
- * Read LaunchTemplateList by JSON:API.
+ * Read ProjectList by JSON:API.
  * 
  * @param cloudContext cloud_context.
  * @param sortInfo Information of soring parameter.
- * @returns LaunchTemplateList.
+ * @returns ProjectList.
  */
-const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: SortInfo) => {
+ const readProjectList = async (cloudContext: CloudContext, sortInfo: SortInfo) => {
   // Create a GET parameter.
   const parameters: { key: string, value: string }[] = [];
   if (cloudContext.name !== 'ALL') {
@@ -58,7 +51,7 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
   }
 
   // Create the downloading URL.
-  let url = `/jsonapi/cloud_launch_template/${cloudContext.cloudServiceProvider}`;
+  let url = `/jsonapi/cloud_project/${cloudContext.cloudServiceProvider}`;
   if (parameters.length > 0) {
     url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
   }
@@ -74,12 +67,12 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
 };
 
 /**
- * ListView of LaunchTemplate.
+ * ListView of Project.
  *
  * @param cloudContext cloud_context.
  * @returns JSX of LaunchTemplateView.
  */
-const LaunchTemplateTable = ({ cloudContext }: {
+const ProjectTable = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
   const { cloudContextList } = useContext(AppContext);
@@ -93,18 +86,15 @@ const LaunchTemplateTable = ({ cloudContext }: {
   useEffect(() => {
     const init = async () => {
       // Load launch template's column data.
-      const launchTemplateColumnList = getLaunchTemplateColumnList(cloudContext);
-      let newDataColumnList: DataColumn[] = launchTemplateColumnList.map((launchTemplateColumn) => {
-        return { key: launchTemplateColumn.name, label: launchTemplateColumn.labelName };
+      const columnList = getProjectColumnList(cloudContext);
+      let newDataColumnList: DataColumn[] = columnList.map((column) => {
+        return { key: column.name, label: column.labelName };
       });
       setDataColumnList(newDataColumnList);
 
-      // Cache the data you need.
-      const dataCache = await readDataCache(launchTemplateColumnList);
-
       // Load launch template's data.
-      const rawData = await readLaunchTemplateList(cloudContext, sortInfo);
-      setDataRecordList(convertEntityData(rawData, launchTemplateColumnList, cloudContextList, dataCache));
+      const rawData = await readProjectList(cloudContext, sortInfo);
+      setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,4 +103,4 @@ const LaunchTemplateTable = ({ cloudContext }: {
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }
 
-export default LaunchTemplateTable;
+export default ProjectTable;
