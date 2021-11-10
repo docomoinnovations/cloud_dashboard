@@ -11,11 +11,11 @@ import CloudContenxtItemPopup from 'molecules/CloudContenxtItemPopup';
  * Load List of CloudContenxtItem.
  */
 const LoadCloudContenxtItemList = async () => {
-  const res1 = await fetch('/clouds/cloud_dashboard/config/marker_icon_uri');
-  if (!res1.ok) {
+  const response = await fetch('/clouds/cloud_dashboard/config/marker_icon_uri');
+  if (!response.ok) {
     return [];
   }
-  const resJson = await res1.json();
+  const resJson = await response.json();
   const defaultIconUri: string = resJson['uri'];
   const rawCloudContextItemList = await loadRawCloudContextItemList();
   const cloudContextItemList = convertCloudContenxtItemList(rawCloudContextItemList, defaultIconUri);
@@ -26,14 +26,14 @@ const LoadCloudContenxtItemList = async () => {
  * Load MapData.
  */
 const LoadMapData = async () => {
-  const res2 = await fetch('/clouds/cloud_dashboard/config/map_geojson_uri');
-  if (!res2.ok) {
+  const response = await fetch('/clouds/cloud_dashboard/config/map_geojson_uri');
+  if (!response.ok) {
     return {
       features: []
     };
   }
-  const resJson = await res2.json();
-  return await HttpService.getInstance().getJson<MapData>(resJson['uri']);
+  const responseJson = await response.json();
+  return await HttpService.getInstance().getJson<MapData>(responseJson['uri']);
 };
 
 const CloudServiceProviderMap = () => {

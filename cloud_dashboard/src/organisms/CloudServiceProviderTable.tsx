@@ -19,12 +19,12 @@ const CloudServiceProviderTable = () => {
       dataRecordList={
         cloudContextList
           .sort((a, b) => {
-            const key1 = a.labelName;
-            const key2 = b.labelName;
+            const keyA = a.labelName;
+            const keyB = b.labelName;
             if (sortInfo.direction === 'ASC') {
-              return key1 > key2 ? 1 : -1;
+              return keyA > keyB ? 1 : -1;
             } else {
-              return key1 > key2 ? -1 : 1;
+              return keyA > keyB ? -1 : 1;
             }
           })
           .filter((r) => r.name !== 'ALL')

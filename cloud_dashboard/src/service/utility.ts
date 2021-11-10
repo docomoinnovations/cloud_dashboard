@@ -83,37 +83,37 @@ const convertKeyValueCrLfData = (data: string) => {
     'memory_capacity: !!float ': 'Memory (Capacity): ',
     'pod_capacity: ': 'Pods (Capacity): ',
   };
-  const results: string[] = [];
+  const fixedRecords: string[] = [];
   for (const record of records) {
     if (record === '') {
       continue;
     }
-    let record2 = record;
+    let fixedRecord = record;
     for (const key in CONVERT_KEY_VALUE_CRLF_DICT) {
       if (record.includes(key)) {
         const value = record.replace(key, '');
         const valueFloat = parseFloat(value);
         if (key.includes('!!float') || key.includes('memory: ')) {
           if (valueFloat >= 1024 * 1024 * 1024) {
-            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024 * 1024), 2)}Gi`;
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024 * 1024), 2)}Gi`;
           } else if (valueFloat >= 1024 * 1024) {
-            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024), 2)}Mi`;
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024 * 1024), 2)}Mi`;
           } else if (valueFloat >= 1024) {
-            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024), 2)}Ki`;
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat / (1024), 2)}Ki`;
           } else {
-            record2 = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat, 2)}`;
+            fixedRecord = `${CONVERT_KEY_VALUE_CRLF_DICT[key]}${roundNumber(valueFloat, 2)}`;
           }
         } else {
-          record2 = CONVERT_KEY_VALUE_CRLF_DICT[key].includes('Pods ')
+          fixedRecord = CONVERT_KEY_VALUE_CRLF_DICT[key].includes('Pods ')
             ? CONVERT_KEY_VALUE_CRLF_DICT[key] + value
             : CONVERT_KEY_VALUE_CRLF_DICT[key] + roundNumber(valueFloat, 2);
         }
         break;
       }
     }
-    results.push(record2);
+    fixedRecords.push(fixedRecord);
   }
-  return results.sort((a, b) => {
+  return fixedRecords.sort((a, b) => {
     return a < b ? -1 : a > b ? 1 : 0;
   }).join('\n');
 }
@@ -493,12 +493,12 @@ const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) =
   if ('access_token' in response_json) {
     // read tokens
     const accessToken = response_json['access_token'];
-    const refreshToken2 = response_json['refresh_token'];
+    const refreshTokenFromJson = response_json['refresh_token'];
     const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
 
     // save tokens to Localstrage
     window.localStorage.setItem('accessToken', accessToken);
-    window.localStorage.setItem('refreshToken', refreshToken2);
+    window.localStorage.setItem('refreshToken', refreshTokenFromJson);
     window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
   } else {
     throw new Error('Refresh failed');
@@ -521,16 +521,16 @@ export const checkAndRefreshToken = async () => {
   // If the information required to update the token cannot be loaded,
   // redirect route URL.
   console.group('Authorization Code Grant');
-  const res1 = await fetch('/clouds/cloud_dashboard/config/client_id');
+  const clientIdResponse = await fetch('/clouds/cloud_dashboard/config/client_id');
   const refreshToken = window.localStorage.getItem('refreshToken');
-  if (!res1.ok || refreshToken === null) {
+  if (!clientIdResponse.ok || refreshToken === null) {
     console.log('Client ID : No');
     console.error('Authorization failed.');
     console.groupEnd();
     window.location.href = ROUTE_URL;
     return;
   }
-  const clientId = (await res1.json()).id;
+  const clientId = (await clientIdResponse.json()).id;
   console.log('Client ID : Yes');
 
   // If the access token has expired, update it.

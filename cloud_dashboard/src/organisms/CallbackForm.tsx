@@ -6,17 +6,17 @@ const callback = async () => {
   console.group('Authorization Code Grant');
 
   // If you not have Client ID or Redirect URI, redirect route URL.
-  const res1 = await fetch('/clouds/cloud_dashboard/config/client_id');
-  const res2 = await fetch('/clouds/cloud_dashboard/config/callback_uri');
-  if (!res1.ok || !res2.ok) {
+  const clientIdResponse = await fetch('/clouds/cloud_dashboard/config/client_id');
+  const callbackUriResponse = await fetch('/clouds/cloud_dashboard/config/callback_uri');
+  if (!clientIdResponse.ok || !callbackUriResponse.ok) {
     console.log('Client ID : No');
     console.error('Authorization failed.');
     console.groupEnd();
     window.location.href = ROUTE_URL;
     return;
   }
-  const clientId = (await res1.json()).id;
-  const redirectUri = (await res2.json()).uri;
+  const clientId = (await clientIdResponse.json()).id;
+  const redirectUri = (await callbackUriResponse.json()).uri;
   console.log('Client ID : Yes');
 
   // If you don't have authorization code, redirect route URL.
