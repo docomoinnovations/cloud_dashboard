@@ -5,7 +5,7 @@ cloud_dashboard.login:
     _title: Cloud Dashboard
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
   requirements:
-    _permission: 'administer'
+    _access: 'TRUE'
 
 # Callback endpoint
 cloud_dashboard.callback:
@@ -76,7 +76,7 @@ cloud_dashboard.callback_uri:
     _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getCallbackUri'
   methods: [GET]
   requirements:
-    _permission: 'administer'
+    _access: 'TRUE'
 
 # OAuth2 client ID for Cloud Admin Settings.
 cloud_dashboard.client_id:
@@ -85,7 +85,7 @@ cloud_dashboard.client_id:
     _controller: '\Drupal\cloud_dashboard\Controller\CloudDashboardConfigController::getClientId'
   methods: [GET]
   requirements:
-    _permission: 'administer'
+    _access: 'TRUE'
 
 # JSON:API server URI for Cloud Admin Settings.
 cloud_dashboard.jsonapi_server_uri:
