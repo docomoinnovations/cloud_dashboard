@@ -6,13 +6,22 @@ import EntityData from 'model/EntityData';
 import KeyValuePanel from 'molecules/KeyValuePanel';
 import { convertDataForUI, readDataCache } from 'service/utility';
 import EntityColumn from 'model/EntityColumn';
+import KeyValueTablePanel from 'molecules/KeyValueTablePanel';
 
-const DETAIL_ENTITY_INFO_RECORDS: {
+type EntityInfoRecord = {
   panelName: string,
+  panelType: 'div',
   keyValueRecords: EntityColumn[]
-}[] = [
+} | {
+  panelName: string,
+  panelType: 'table',
+  keyValueRecordKey: string,
+}
+
+const DETAIL_ENTITY_INFO_RECORDS: EntityInfoRecord[] = [
   {
     panelName: 'Instance',
+    panelType: 'div',
     keyValueRecords: [
       { labelName: 'Name', name: 'name', type: 'default' },
       { labelName: 'Instance ID', name: 'instance_id', type: 'default' },
@@ -29,6 +38,7 @@ const DETAIL_ENTITY_INFO_RECORDS: {
   },
   {
     panelName: 'Network',
+    panelType: 'div',
     keyValueRecords: [
       { labelName: 'Public IP', name: 'public_ip', type: 'default' },
       { labelName: 'Private IPs', name: 'private_ips', type: 'default' },
@@ -50,6 +60,7 @@ const DETAIL_ENTITY_INFO_RECORDS: {
   },
   {
     panelName: 'Storage',
+    panelType: 'div',
     keyValueRecords: [
       { labelName: 'Root Device Type', name: 'root_device_type', type: 'default' },
       { labelName: 'Root Device', name: 'root_device', type: 'default' },
@@ -58,7 +69,13 @@ const DETAIL_ENTITY_INFO_RECORDS: {
     ]
   },
   {
+    panelName: 'Tags',
+    panelType: 'table',
+    keyValueRecordKey: 'tags'
+  },
+  {
     panelName: 'Option',
+    panelType: 'div',
     keyValueRecords: [
       { labelName: 'Termination protection', name: 'termination_protection', type: 'boolean', value: ['On', 'Off'] },
       { labelName: 'AMI Launch Index', name: 'ami_launch_index', type: 'default' },
@@ -73,6 +90,7 @@ const AwsCloudInstanceInfoPage = () => {
   });
   const [keyValData, setKeyValData] = useState<{
     title: string,
+    panelType: 'div' | 'table',
     record: Record<string, string>
   }[]>([]);
   const { uuid } = useParams<{
@@ -92,19 +110,32 @@ const AwsCloudInstanceInfoPage = () => {
     const refresh = async () => {
       const newKeyValData: {
         title: string,
+        panelType: 'div' | 'table',
         record: Record<string, string>
       }[] = [];
       for (const infoRecord of DETAIL_ENTITY_INFO_RECORDS) {
-        const dataCache = await (readDataCache(infoRecord.keyValueRecords));
-        const keyVal: Record<string, string> = {};
-        for (const record of infoRecord.keyValueRecords) {
-          keyVal[record.labelName] = convertDataForUI(
-            entityData.attributes[record.name],
-            record,
-            dataCache
-          );
+        switch (infoRecord.panelType) {
+          case 'div': {
+            const dataCache = await (readDataCache(infoRecord.keyValueRecords));
+            const keyVal: Record<string, string> = {};
+            for (const record of infoRecord.keyValueRecords) {
+              keyVal[record.labelName] = convertDataForUI(
+                entityData.attributes[record.name],
+                record,
+                dataCache
+              );
+            }
+            newKeyValData.push( { title: infoRecord.panelName, panelType: 'div', record: keyVal } );
+            break;
+          }
+          case 'table':
+            const keyVal: Record<string, string> = {};
+            for (const record of entityData.attributes[infoRecord['keyValueRecordKey']]) {
+              keyVal[record['item_key']] = record['item_value'];
+            }
+            newKeyValData.push( { title: infoRecord.panelName, panelType: 'table', record: keyVal } );
+            break;
         }
-        newKeyValData.push( { title: infoRecord.panelName, record: keyVal } );
       }
       setKeyValData(newKeyValData);
     };
@@ -119,7 +150,11 @@ const AwsCloudInstanceInfoPage = () => {
         <MenuBar />
         {
           keyValData.map((keyValRecord) => {
-            return <KeyValuePanel key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
+            if (keyValRecord.panelType === 'div') {
+              return <KeyValuePanel key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
+            } else {
+              return <KeyValueTablePanel key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
+            }
           })
         }
       </div>
