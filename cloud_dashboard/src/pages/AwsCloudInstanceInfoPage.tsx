@@ -4,38 +4,77 @@ import { useParams } from 'react-router-dom';
 import HttpService from 'service/http';
 import EntityData from 'model/EntityData';
 import KeyValuePanel from 'molecules/KeyValuePanel';
-import { convertDateString, getEntityDataAll } from 'service/utility';
+import { convertDataForUI, readDataCache } from 'service/utility';
+import EntityColumn from 'model/EntityColumn';
 
-const getVpcData = async (vpcId: string) => {
-  const vpcList = await getEntityDataAll('aws_cloud_vpc');
-  const filteredVpc = vpcList.filter((r) => {
-    return r.attributes['vpc_id'] === vpcId;
-  });
-  if (filteredVpc.length >= 1) {
-    return `${filteredVpc[0].attributes['name']} (${vpcId})`;
-  } else {
-    return `??? (${vpcId})`;
-  }
-};
-
-const getSubnetData = async (subnetId: string) => {
-  const subnetList = await getEntityDataAll('aws_cloud_subnet');
-  const filteredSubnet = subnetList.filter((r) => {
-    return r.attributes['subnet_id'] === subnetId;
-  });
-  if (filteredSubnet.length >= 1) {
-    return `${filteredSubnet[0].attributes['name']} (${subnetId})`;
-  } else {
-    return `??? (${subnetId})`;
-  }
-};
+const DETAIL_ENTITY_INFO_RECORDS: {
+  panelName: string,
+  keyValueRecords: EntityColumn[]
+}[] = [
+  {
+    panelName: 'Instance',
+    keyValueRecords: [
+      { labelName: 'Name', name: 'name', type: 'default' },
+      { labelName: 'Instance ID', name: 'instance_id', type: 'default' },
+      { labelName: 'Instance State', name: 'instance_state', type: 'default' },
+      { labelName: 'Instance type', name: 'instance_type', type: 'default' },
+      { labelName: 'Cost', name: 'cost', type: 'cost' },
+      { labelName: 'AMI Image', name: 'image_id', type: 'default' },
+      { labelName: 'Virtualization', name: 'virtualization', type: 'default' },
+      { labelName: 'Reservation', name: 'reservation', type: 'default' },
+      { labelName: 'AWS account ID', name: 'account_id', type: 'default' },
+      { labelName: 'Launch Time', name: 'launch_time', type: 'datetime' },
+      { labelName: 'Created', name: 'created', type: 'datetime' },
+    ]
+  },
+  {
+    panelName: 'Network',
+    keyValueRecords: [
+      { labelName: 'Public IP', name: 'public_ip', type: 'default' },
+      { labelName: 'Private IPs', name: 'private_ips', type: 'default' },
+      { labelName: 'Public DNS', name: 'public_dns', type: 'default' },
+      { labelName: 'Security groups', name: 'security_groups', type: 'default' },
+      { labelName: 'VPC ID', name: 'vpc_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_vpc',
+        keyColumn: 'vpc_id',
+        valueColumn: 'name',
+      } },
+      { labelName: 'Subnet ID', name: 'subnet_id', type: 'join', info: {
+        entityTypeId: 'aws_cloud_subnet',
+        keyColumn: 'subnet_id',
+        valueColumn: 'name',
+      } },
+      { labelName: 'Availability Zone', name: 'availability_zone', type: 'default' },
+      { labelName: 'Network interfaces', name: 'network_interfaces', type: 'array' },
+    ]
+  },
+  {
+    panelName: 'Storage',
+    keyValueRecords: [
+      { labelName: 'Root Device Type', name: 'root_device_type', type: 'default' },
+      { labelName: 'Root Device', name: 'root_device', type: 'default' },
+      { labelName: 'EBS Optimized', name: 'ebs_optimized', type: 'boolean', value: ['On', 'Off'] },
+      { labelName: 'Volume', name: 'block_devices', type: 'default' },
+    ]
+  },
+  {
+    panelName: 'Option',
+    keyValueRecords: [
+      { labelName: 'Termination protection', name: 'termination_protection', type: 'boolean', value: ['On', 'Off'] },
+      { labelName: 'AMI Launch Index', name: 'ami_launch_index', type: 'default' },
+      { labelName: 'Tenancy', name: 'tenancy', type: 'default' },
+    ]
+  },
+];
 
 const AwsCloudInstanceInfoPage = () => {
   const [entityData, setEntityData] = useState<EntityData>({
     id: '', attributes: {}
   });
-  const [vpcText, setVpcText] = useState('');
-  const [subnetText, setSubnetText] = useState('');
+  const [keyValData, setKeyValData] = useState<{
+    title: string,
+    record: Record<string, string>
+  }[]>([]);
   const { uuid } = useParams<{
     uuid?: string
   }>();
@@ -51,74 +90,38 @@ const AwsCloudInstanceInfoPage = () => {
 
   useEffect(() => {
     const refresh = async () => {
-      if (entityData.id === '') {
-        return;
+      const newKeyValData: {
+        title: string,
+        record: Record<string, string>
+      }[] = [];
+      for (const infoRecord of DETAIL_ENTITY_INFO_RECORDS) {
+        const dataCache = await (readDataCache(infoRecord.keyValueRecords));
+        const keyVal: Record<string, string> = {};
+        for (const record of infoRecord.keyValueRecords) {
+          keyVal[record.labelName] = convertDataForUI(
+            entityData.attributes[record.name],
+            record,
+            dataCache
+          );
+        }
+        newKeyValData.push( { title: infoRecord.panelName, record: keyVal } );
       }
-
-      setVpcText(await getVpcData(entityData.attributes['vpc_id']));
-      setSubnetText(await getSubnetData(entityData.attributes['subnet_id']));
+      setKeyValData(newKeyValData);
     };
-    refresh();
+    if (entityData.id !== '') {
+      refresh();
+    }
   }, [entityData]);
 
   return <div className="container-fluid px-0">
     <div className="row mx-0">
       <div className="col">
         <MenuBar />
-        <KeyValuePanel title="Instance" record={
-          entityData.id !== ''
-            ? {
-              'Name': entityData.attributes['name'],
-              'Instance ID': entityData.attributes['instance_id'],
-              'Instance State': entityData.attributes['instance_state'],
-              'Instance type': entityData.attributes['instance_type'],
-              'Cost': '$' + entityData.attributes['cost'],
-              'AMI Image': entityData.attributes['image_id'],
-              'Virtualization': entityData.attributes['virtualization'],
-              'Reservation': entityData.attributes['reservation'],
-              'AWS account ID': entityData.attributes['account_id'],
-              'Launch Time': convertDateString(entityData.attributes['launch_time']),
-              'Created': convertDateString(entityData.attributes['created']),
-            }
-            : {
-              'Status': 'Loading...'
-            }} />
-        <KeyValuePanel title="Network" record={
-          entityData.id !== ''
-            ? {
-              'Public IP': entityData.attributes['public_ip'],
-              'Private IPs': entityData.attributes['private_ips'],
-              'Public DNS': entityData.attributes['public_dns'],
-              'Security groups': entityData.attributes['security_groups'],
-              'VPC ID': vpcText,
-              'Subnet ID': subnetText,
-              'Availability Zone': entityData.attributes['availability_zone'],
-              'Network interfaces': (entityData.attributes['network_interfaces'] as string[]).join(','),
-            }
-            : {
-              'Status': 'Loading...'
-            }} />
-        <KeyValuePanel title="Storage" record={
-          entityData.id !== ''
-            ? {
-              'Root Device Type': entityData.attributes['root_device_type'],
-              'Root Device': entityData.attributes['root_device'],
-              'EBS Optimized': entityData.attributes['ebs_optimized'] ? 'On' : 'Off',
-              'Volume': entityData.attributes['block_devices'],
-            }
-            : {
-              'Status': 'Loading...'
-            }} />
-        <KeyValuePanel title="Option" record={
-          entityData.id !== ''
-            ? {
-              'Termination protection': entityData.attributes['termination_protection'] ? 'On' : 'Off',
-              'AMI Launch Index': entityData.attributes['ami_launch_index'],
-              'Tenancy': entityData.attributes['tenancy'],
-            }
-            : {
-              'Status': 'Loading...'
-            }} />
+        {
+          keyValData.map((keyValRecord) => {
+            return <KeyValuePanel key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
+          })
+        }
       </div>
     </div>
   </div>;
