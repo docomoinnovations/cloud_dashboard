@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ROUTE_URL } from 'constant';
 import { requestTokenByCodeGrant } from 'service/utility';
+import Loader from 'react-loader-spinner';
 
 const callback = async () => {
   console.group('Authorization Code Grant');
@@ -51,8 +52,19 @@ const CallbackForm = () => {
   }, []);
 
   return <form>
-      <h2>Please waiting...</h2>
-    </form>;
+    <div style={{ display: 'flex' }}>
+      <Loader
+        type="Grid"
+        color="#00BFFF"
+        height="3rem"
+        width="3rem"
+      />
+      <span style={{
+        fontSize: '2rem',
+        marginLeft: '1rem'
+      }}>Please waiting...</span>
+    </div>
+  </form>;
 }
 
 export default CallbackForm;
