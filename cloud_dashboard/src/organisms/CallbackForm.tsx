@@ -62,7 +62,7 @@ const CallbackForm = () => {
       <span style={{
         fontSize: '2rem',
         marginLeft: '1rem'
-      }}>Please waiting...</span>
+      }}>One moment, please...</span>
     </div>
   </form>;
 }
