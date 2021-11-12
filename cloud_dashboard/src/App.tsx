@@ -6,7 +6,6 @@ import EntityPage from 'pages/EntityPage';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
 import { AppContext, useAppState } from 'service/state';
 import ProviderPage from 'pages/ProviderPage';
-import 'leaflet/dist/leaflet.css';
 import LoginPage from 'pages/LoginPage';
 import LaunchTemplatePage from 'pages/LaunchTemplatePage';
 import ProjectPage from 'pages/ProjectPage';
@@ -15,6 +14,8 @@ import K8sNamespaceResourcePage from 'pages/K8sNamespaceResourcePage';
 import K8sNodeResourcePage from 'pages/K8sNodeResourcePage';
 import K8sPodResourcePage from 'pages/K8sPodResourcePage';
 import 'App.css';
+import 'leaflet/dist/leaflet.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const App = () => {
   const appState = useAppState();
