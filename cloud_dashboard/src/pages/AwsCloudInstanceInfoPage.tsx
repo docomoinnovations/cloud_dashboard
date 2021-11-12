@@ -156,11 +156,11 @@ const AwsCloudInstanceInfoPage = () => {
       <div className="col">
         <MenuBar />
         {
-          keyValData.map((keyValRecord) => {
+          keyValData.map((keyValRecord, index) => {
             if (keyValRecord.panelType === 'div') {
-              return <KeyValuePanel key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
+              return <KeyValuePanel index={index} key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
             } else {
-              return <KeyValueTablePanel key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
+              return <KeyValueTablePanel index={index} key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
             }
           })
         }

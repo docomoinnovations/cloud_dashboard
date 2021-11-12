@@ -1,11 +1,14 @@
 import React from 'react';
 
-const KeyValueTablePanel = ({ title, record }: { title: string, record: Record<string, string> }) => {
+const KeyValueTablePanel = ({ index, title, record }: { index: number, title: string, record: Record<string, string> }) => {
+  const titleKey = index === 0
+    ? "bootstrap-panel--content"
+    : `bootstrap-panel--${index + 2}--content`;
   return <div className="js-form-wrapper form-wrapper form-item js-form-item panel panel-default" id="bootstrap-panel">
     <div className="panel-heading">
-      <a aria-controls="bootstrap-panel--content" aria-expanded="true" aria-pressed="true" data-toggle="collapse" role="button" className="panel-title" href="#bootstrap-panel--content">{title}</a>
+      <a aria-controls={titleKey} aria-expanded="true" aria-pressed="true" data-toggle="collapse" role="button" className="panel-title" href={`#${titleKey}`}>{title}</a>
     </div>
-    <div id="bootstrap-panel--4--content" className="panel-body panel-collapse collapse fade in">
+    <div id={titleKey} className="panel-body panel-collapse collapse fade in">
       <div className="field field--name-tags field--type-key-value field--label-above">
         <div className="field--label">Tags</div>
         <div className="field--items">
