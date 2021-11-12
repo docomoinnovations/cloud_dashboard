@@ -124,7 +124,7 @@ const convertKeyValueCrLfData = (data: string) => {
  * @param ec Information of Entity Column
  * @param dataCache Data cache for 'join' type
  */
-export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}) => {
+export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}): string => {
   // Null check.
   if (data === null) {
     return '';

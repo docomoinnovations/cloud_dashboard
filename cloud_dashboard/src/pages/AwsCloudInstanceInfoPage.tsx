@@ -40,7 +40,11 @@ const DETAIL_ENTITY_INFO_RECORDS: EntityInfoRecord[] = [
     panelName: 'Network',
     panelType: 'div',
     keyValueRecords: [
-      { labelName: 'Public IP', name: 'public_ip', type: 'default' },
+      { labelName: 'Public IP', name: 'public_ip', type: 'join', info: {
+        entityTypeId: 'aws_cloud_elastic_ip',
+        keyColumn: 'public_ip',
+        valueColumn: 'name',
+      } },
       { labelName: 'Private IPs', name: 'private_ips', type: 'default' },
       { labelName: 'Public DNS', name: 'public_dns', type: 'default' },
       { labelName: 'Security groups', name: 'security_groups', type: 'default' },
@@ -119,11 +123,14 @@ const AwsCloudInstanceInfoPage = () => {
             const dataCache = await (readDataCache(infoRecord.keyValueRecords));
             const keyVal: Record<string, string> = {};
             for (const record of infoRecord.keyValueRecords) {
-              keyVal[record.labelName] = convertDataForUI(
+              const convertedText = convertDataForUI(
                 entityData.attributes[record.name],
                 record,
                 dataCache
               );
+              keyVal[record.labelName] = record.type === 'join'
+                ? `${convertedText} (${entityData.attributes[record.name]})`
+                : convertedText;
             }
             newKeyValData.push( { title: infoRecord.panelName, panelType: 'div', record: keyVal } );
             break;
