@@ -1,5 +1,6 @@
 import CloudContext from "model/CloudContext";
 import EntityColumn from "model/EntityColumn";
+import EntityInfoTemplate from "model/EntityInfoTemplate";
 import MenuTemplate from "model/MenuTemplate";
 
 export const OAUTH2_CLIENT_LABEL = 'Cloud Dashboard';
@@ -591,6 +592,81 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
       { labelName: 'Created', name: 'created', type: 'datetime' }
     ],
   },
+];
+export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
+  {
+    cloudServiceProvider: 'aws_cloud',
+    entityName: 'instance',
+    entityRecords: [
+      {
+        panelName: 'Instance',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Name', name: 'name', type: 'default' },
+          { labelName: 'Instance ID', name: 'instance_id', type: 'default' },
+          { labelName: 'Instance State', name: 'instance_state', type: 'default' },
+          { labelName: 'Instance type', name: 'instance_type', type: 'default' },
+          { labelName: 'Cost', name: 'cost', type: 'cost' },
+          { labelName: 'AMI Image', name: 'image_id', type: 'default' },
+          { labelName: 'Virtualization', name: 'virtualization', type: 'default' },
+          { labelName: 'Reservation', name: 'reservation', type: 'default' },
+          { labelName: 'AWS account ID', name: 'account_id', type: 'default' },
+          { labelName: 'Launch Time', name: 'launch_time', type: 'datetime' },
+          { labelName: 'Created', name: 'created', type: 'datetime' },
+        ]
+      },
+      {
+        panelName: 'Network',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Public IP', name: 'public_ip', type: 'join', info: {
+            entityTypeId: 'aws_cloud_elastic_ip',
+            keyColumn: 'public_ip',
+            valueColumn: 'name',
+          } },
+          { labelName: 'Private IPs', name: 'private_ips', type: 'default' },
+          { labelName: 'Public DNS', name: 'public_dns', type: 'default' },
+          { labelName: 'Security groups', name: 'security_groups', type: 'default' },
+          { labelName: 'VPC ID', name: 'vpc_id', type: 'join', info: {
+            entityTypeId: 'aws_cloud_vpc',
+            keyColumn: 'vpc_id',
+            valueColumn: 'name',
+          } },
+          { labelName: 'Subnet ID', name: 'subnet_id', type: 'join', info: {
+            entityTypeId: 'aws_cloud_subnet',
+            keyColumn: 'subnet_id',
+            valueColumn: 'name',
+          } },
+          { labelName: 'Availability Zone', name: 'availability_zone', type: 'default' },
+          { labelName: 'Network interfaces', name: 'network_interfaces', type: 'array' },
+        ]
+      },
+      {
+        panelName: 'Storage',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Root Device Type', name: 'root_device_type', type: 'default' },
+          { labelName: 'Root Device', name: 'root_device', type: 'default' },
+          { labelName: 'EBS Optimized', name: 'ebs_optimized', type: 'boolean', value: ['On', 'Off'] },
+          { labelName: 'Volume', name: 'block_devices', type: 'default' },
+        ]
+      },
+      {
+        panelName: 'Tags',
+        panelType: 'table',
+        keyValueRecordKey: 'tags'
+      },
+      {
+        panelName: 'Option',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Termination protection', name: 'termination_protection', type: 'boolean', value: ['On', 'Off'] },
+          { labelName: 'AMI Launch Index', name: 'ami_launch_index', type: 'default' },
+          { labelName: 'Tenancy', name: 'tenancy', type: 'default' },
+        ]
+      },
+    ]
+  }
 ];
 export const ITEMS_PER_PAGE = 30;
 export const CACHE_EXPIRED_UNIXTIME = 1000 * 60 * 60 * 24;

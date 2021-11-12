@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
+import { AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 
 import { AppContext, useAppState } from 'service/state';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
 
-import AwsCloudInstanceInfoPage from 'pages/AwsCloudInstanceInfoPage';
 import CallbackPage from 'pages/CallbackPage';
+import EntityInfoPage from 'pages/EntityInfoPage';
 import EntityPage from 'pages/EntityPage';
 import K8sCostPage from 'pages/K8sCostPage';
 import K8sNamespaceResourcePage from 'pages/K8sNamespaceResourcePage';
@@ -37,9 +37,15 @@ const App = () => {
         <Route path="/providers">
           <ProviderPage />
         </Route>
-        <Route exact path={getEntityListViewUrl(AWS_MENU_LIST[0]) + '/:uuid'}>
-          <AwsCloudInstanceInfoPage />
-        </Route>
+        {
+          AWS_ENTITY_INFO_LIST.map((record) => {
+            return <Route exact
+              path={`/${record.cloudServiceProvider}/${record.entityName}/:uuid`}
+              key={`/${record.cloudServiceProvider}/${record.entityName}`}>
+              <EntityInfoPage entityInfoTemplate={record} />
+            </Route>;
+          })
+        }
         {
           ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
             return <Route exact
