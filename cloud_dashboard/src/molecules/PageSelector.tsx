@@ -23,23 +23,31 @@ const PageSelector = ({ pageIndex, setPageIndex, itemCount }: {
       <li className={disabledPageBack ? 'disabled' : ''}>
         <PageSelectorButton ariaLabel="First" onClick={() => {
           setPageIndex(0);
-        }}>«</PageSelectorButton>
+        }}>
+          <span className="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
+        </PageSelectorButton>
       </li>
       <li className={disabledPageBack ? 'disabled' : ''}>
         <PageSelectorButton ariaLabel="Previous" onClick={() => {
           setPageIndex(Math.max(0, pageIndex - 1));
-        }}>＜</PageSelectorButton>
+        }}>
+          <span className="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+        </PageSelectorButton>
       </li>
       <li><span>{pageIndex + 1}</span></li>
       <li className={disabledPageForward ? 'disabled' : ''}>
         <PageSelectorButton ariaLabel="Next" onClick={() => {
           setPageIndex(Math.min(pageIndex + 1, pageCount - 1));
-        }}>＞</PageSelectorButton>
+        }}>
+          <span className="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+        </PageSelectorButton>
       </li>
       <li className={disabledPageForward ? 'disabled' : ''}>
         <PageSelectorButton ariaLabel="Last" onClick={() => {
           setPageIndex(pageCount - 1);
-        }}>»</PageSelectorButton>
+        }}>
+          <span className="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+        </PageSelectorButton>
       </li>
     </ul>
   </nav>;
