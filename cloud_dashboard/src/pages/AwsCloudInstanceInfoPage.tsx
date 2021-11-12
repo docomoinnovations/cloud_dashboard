@@ -128,7 +128,7 @@ const AwsCloudInstanceInfoPage = () => {
                 record,
                 dataCache
               );
-              keyVal[record.labelName] = record.type === 'join'
+              keyVal[record.labelName] = record.type === 'join' && convertedText !== entityData.attributes[record.name]
                 ? `${convertedText} (${entityData.attributes[record.name]})`
                 : convertedText;
             }

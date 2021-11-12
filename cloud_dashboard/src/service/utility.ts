@@ -165,7 +165,7 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
           return recordData.attributes[ec.info.valueColumn];
         }
       }
-      return `(${data})`;
+      return `${data}`;
     case 'key-value-crlf':
       return convertKeyValueCrLfData(data);
     default:
