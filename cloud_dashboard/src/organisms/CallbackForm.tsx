@@ -62,7 +62,7 @@ const CallbackForm = () => {
       <span style={{
         fontSize: '2rem',
         marginLeft: '2rem'
-      }}>Orchestrating the clouds...</span>
+      }}>Orchestrating clouds...</span>
     </div>
   </form>;
 }

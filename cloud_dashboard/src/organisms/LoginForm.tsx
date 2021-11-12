@@ -27,7 +27,7 @@ const LoginForm = () => {
   return <form>
     <button type="button" className="btn btn-default"
       onClick={login}
-      disabled={clientId === ''}>login</button>
+      disabled={clientId === ''}>Log in</button>
   </form>;
 }
 
