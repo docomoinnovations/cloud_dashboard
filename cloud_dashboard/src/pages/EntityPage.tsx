@@ -6,7 +6,7 @@ import EntityTable from '../organisms/EntityTable';
 import MenuTemplate from 'model/MenuTemplate';
 import MenuBar from 'organisms/MenuBar';
 import EntityTabs from 'molecules/EntityTabs';
-import { getEntityTypeId } from 'service/utility';
+import { getEntityListViewUrl, getEntityTypeId } from 'service/utility';
 import ControlLabel from 'atoms/ControlLabel';
 
 /**
@@ -96,7 +96,14 @@ const EntityPage = ({ menuTemplate }: {
               entityColumnList={menuTemplate.entityColumn}
               namespace={namespace}
               namespaceName={namespaceName}
-              pageIndex={pageIndex} />
+              pageIndex={pageIndex}
+              detailInfo={
+                typeof menuTemplate.detailInfoColumn !== 'undefined'
+                ? {
+                  column: menuTemplate.detailInfoColumn,
+                  path: getEntityListViewUrl(menuTemplate)
+                }
+                : undefined} />
           </form>
         </div>
       </div>

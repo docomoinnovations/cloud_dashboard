@@ -1,28 +1,38 @@
 import React from 'react';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
+import { Link } from 'react-router-dom';
 
 /**
  * TD tag of DataTable.
  *
  * @param text Message.
  */
-const DataTableData = ({text}: {
-  text: string | number
+const DataTableData = ({text, link}: {
+  text: string | number,
+  link?: string
 }) => {
-  if (typeof text === 'string' && text.includes('\n')) {
-    const records = text.split('\n');
-    return <>
+  const records = typeof text === 'string' && text.includes('\n')
+    ? text.split('\n')
+    : [`${text}`];
+  if (typeof link === 'string') {
+    return <Link to={link}>
       {records.map((r, index) => {
         if (index === 0) {
           return <span key={index}>{r}</span>;
         }
         return <span key={index}><br />{r}</span>;
       })}
-    </>;
-  } else {
-    return <>{text}</>;
+    </Link>;
   }
+  return <>
+    {records.map((r, index) => {
+      if (index === 0) {
+        return <span key={index}>{r}</span>;
+      }
+      return <span key={index}><br />{r}</span>;
+    })}
+  </>;
 }
 
 /**
@@ -31,11 +41,16 @@ const DataTableData = ({text}: {
  * @param dataRecord Record of data.
  * @param dataColumn List of DataColumn.
  * @param className Parameter of className.
+ * @param detailInfo Information required to create a link to more information.
 */
-const DataTableRow = ({ dataRecord, dataColumnList, className }: {
+const DataTableRow = ({ dataRecord, dataColumnList, className, detailInfo }: {
   dataRecord: DataRecord,
   dataColumnList: DataColumn[],
   className?: string,
+  detailInfo?: {
+    column: string,
+    path: string,
+  },
 }) => {
 
   return <tr key={dataRecord.id} className={className}>
@@ -45,7 +60,9 @@ const DataTableRow = ({ dataRecord, dataColumnList, className }: {
           dataColumn.key in dataRecord.value
           ? dataRecord.value[dataColumn.key]
           : ''
-        } />
+        } link={dataColumn.key === detailInfo?.column
+            ? `${detailInfo.path}/${dataRecord.id}`
+            : undefined} />
       </td>;
     })}
   </tr>;

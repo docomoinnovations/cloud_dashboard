@@ -10,6 +10,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Instance',
     entityName: 'instance',
+    detailInfoColumn: 'name',
     entityColumn: [
       { labelName: 'Name', name: 'name', type: 'default' },
       { labelName: 'Public IP', name: 'public_ip', type: 'default' },

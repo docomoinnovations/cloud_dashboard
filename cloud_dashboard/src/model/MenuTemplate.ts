@@ -5,6 +5,7 @@ interface MenuTemplate {
   cloudServiceProvider: CloudServiceProvider;
   labelName: string;
   entityName: string;
+  detailInfoColumn?: string;
   entityColumn: EntityColumn[];
 }
 
