@@ -35,6 +35,10 @@ const EntityPage = ({ menuTemplate }: {
     }
   }, [namespaceName]);
 
+  useEffect(() => {
+    window.scrollBy(0, -window.pageYOffset);
+  }, [pageIndex]);
+
   const namespaceFlg = menuTemplate.entityColumn.map((c) => c.labelName).includes('Namespace');
   const namespaceNameFlg = menuTemplate.entityColumn.map((c) => c.labelName).includes('Namespace Name');
 
