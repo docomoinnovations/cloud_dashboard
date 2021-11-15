@@ -18,6 +18,10 @@ const PageSelector = ({ pageIndex, setPageIndex, itemCount }: {
   const disabledPageBack = pageIndex === 0;
   const disabledPageForward = itemCount === 0 || pageIndex === pageCount - 1;
 
+  if (pageCount <= 1) {
+    return <></>;
+  }
+
   return <nav className="pager-nav text-center" role="navigation" aria-labelledby="pagination-heading">
     <ul className="pagination">
       <li className={disabledPageBack ? 'disabled' : ''}>
