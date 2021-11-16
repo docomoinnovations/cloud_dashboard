@@ -601,7 +601,7 @@ export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
     entityRecords: [
       {
         panelName: 'Instance',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Name', name: 'name', type: 'default' },
           { labelName: 'Instance ID', name: 'instance_id', type: 'default' },
@@ -618,7 +618,7 @@ export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
       },
       {
         panelName: 'Network',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Public IP', name: 'public_ip', type: 'join', info: {
             entityTypeId: 'aws_cloud_elastic_ip',
@@ -644,7 +644,7 @@ export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
       },
       {
         panelName: 'Storage',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Root Device Type', name: 'root_device_type', type: 'default' },
           { labelName: 'Root Device', name: 'root_device', type: 'default' },
@@ -654,12 +654,14 @@ export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
       },
       {
         panelName: 'Tags',
-        panelType: 'table',
-        keyValueRecordKey: 'tags'
+        tableRecordList: ['tags'],
+        keyValueRecords: [
+          { labelName: 'Tags', name: 'tags', type: 'default' },
+        ]
       },
       {
         panelName: 'Option',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Termination protection', name: 'termination_protection', type: 'boolean', value: ['On', 'Off'] },
           { labelName: 'AMI Launch Index', name: 'ami_launch_index', type: 'default' },
@@ -676,9 +678,11 @@ export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
     entityRecords: [
       {
         panelName: 'Pod',
-        panelType: 'div',
+        tableRecordList: ['labels', 'annotations'],
         keyValueRecords: [
           { labelName: 'Name', name: 'name', type: 'default' },
+          { labelName: 'Labels', name: 'labels', type: 'default' },
+          { labelName: 'Annotations', name: 'annotations', type: 'default' },
           { labelName: 'Namespace', name: 'namespace', type: 'default' },
           { labelName: 'Status', name: 'status', type: 'default' },
           { labelName: 'Qos Class', name: 'qos_class', type: 'default' },
@@ -688,7 +692,7 @@ export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
       },
       {
         panelName: 'Metrics',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'CPU (Request)', name: 'cpu_request', type: 'cpu' },
           { labelName: 'CPU (Limit)', name: 'cpu_limit', type: 'cpu' },
@@ -700,21 +704,21 @@ export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
       },
       {
         panelName: 'Containers',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Containers', name: 'containers', type: 'array' },
         ]
       },
       {
         panelName: 'Detail',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Detail', name: 'detail', type: 'default' },
         ]
       },
       {
         panelName: 'Other',
-        panelType: 'div',
+        tableRecordList: [],
         keyValueRecords: [
           { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
         ]

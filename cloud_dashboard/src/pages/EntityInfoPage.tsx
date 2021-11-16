@@ -5,8 +5,8 @@ import HttpService from 'service/http';
 import EntityData from 'model/EntityData';
 import KeyValuePanel from 'molecules/KeyValuePanel';
 import { convertDataForUI, readDataCache } from 'service/utility';
-import KeyValueTablePanel from 'molecules/KeyValueTablePanel';
 import EntityInfoTemplate from 'model/EntityInfoTemplate';
+import EntityInfoPanelData from 'model/EntityInfoPanelData';
 
 const EntityInfoPage = ({ entityInfoTemplate }: {
   entityInfoTemplate: EntityInfoTemplate
@@ -14,11 +14,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
   const [entityData, setEntityData] = useState<EntityData>({
     id: '', attributes: {}
   });
-  const [keyValData, setKeyValData] = useState<{
-    title: string,
-    panelType: 'div' | 'table',
-    record: Record<string, string>
-  }[]>([]);
+  const [panelDataList, setPanelDataList] = useState<EntityInfoPanelData[]>([]);
   const { uuid } = useParams<{
     uuid?: string
   }>();
@@ -36,39 +32,47 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
 
   useEffect(() => {
     const refresh = async () => {
-      const newKeyValData: {
-        title: string,
-        panelType: 'div' | 'table',
-        record: Record<string, string>
-      }[] = [];
+      const newPanelDataList: EntityInfoPanelData[] = [];
       for (const infoRecord of entityInfoTemplate.entityRecords) {
-        switch (infoRecord.panelType) {
-          case 'div': {
-            const dataCache = await (readDataCache(infoRecord.keyValueRecords));
+        const newPanelData: EntityInfoPanelData = {
+          title: infoRecord.panelName,
+          records: []
+        };
+
+        const dataCache = await (readDataCache(infoRecord.keyValueRecords));
+        for (const keyValueRecord of infoRecord.keyValueRecords) {
+          if (infoRecord.tableRecordList.includes(keyValueRecord.name)) {
+            // type: 'table'
             const keyVal: Record<string, string> = {};
-            for (const record of infoRecord.keyValueRecords) {
-              const convertedText = convertDataForUI(
-                entityData.attributes[record.name],
-                record,
-                dataCache
-              );
-              keyVal[record.labelName] = record.type === 'join' && convertedText !== entityData.attributes[record.name]
-                ? `${convertedText} (${entityData.attributes[record.name]})`
-                : convertedText;
-            }
-            newKeyValData.push( { title: infoRecord.panelName, panelType: 'div', record: keyVal } );
-            break;
-          }
-          case 'table':
-            const keyVal: Record<string, string> = {};
-            for (const record of entityData.attributes[infoRecord['keyValueRecordKey']]) {
+            for (const record of entityData.attributes[keyValueRecord.name]) {
               keyVal[record['item_key']] = record['item_value'];
             }
-            newKeyValData.push( { title: infoRecord.panelName, panelType: 'table', record: keyVal } );
-            break;
+            newPanelData.records.push({
+              type: 'table',
+              title: keyValueRecord.labelName,
+              record: keyVal
+            });
+          } else {
+            // type: 'div'
+            const convertedText = convertDataForUI(
+              entityData.attributes[keyValueRecord.name],
+              keyValueRecord,
+              dataCache
+            );
+            const convertedText2 = keyValueRecord.type === 'join' && convertedText !== entityData.attributes[keyValueRecord.name]
+              ? `${convertedText} (${entityData.attributes[keyValueRecord.name]})`
+              : convertedText;
+              newPanelData.records.push({
+                type: 'div',
+                key: keyValueRecord.labelName,
+                value: convertedText2
+              });
+          }
         }
+
+        newPanelDataList.push(newPanelData);
       }
-      setKeyValData(newKeyValData);
+      setPanelDataList(newPanelDataList);
     };
     if (entityData.id !== '') {
       refresh();
@@ -81,12 +85,8 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
       <div className="col">
         <MenuBar />
         {
-          keyValData.map((keyValRecord, index) => {
-            if (keyValRecord.panelType === 'div') {
-              return <KeyValuePanel index={index} key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
-            } else {
-              return <KeyValueTablePanel index={index} key={keyValRecord.title} title={keyValRecord.title} record={keyValRecord.record} />;
-            }
+          panelDataList.map((panelData, index) => {
+            return <KeyValuePanel index={index} key={index} panelData={panelData} />;
           })
         }
       </div>

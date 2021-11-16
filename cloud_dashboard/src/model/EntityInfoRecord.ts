@@ -2,12 +2,8 @@ import EntityColumn from "./EntityColumn";
 
 type EntityInfoRecord = {
   panelName: string,
-  panelType: 'div',
+  tableRecordList: string[],
   keyValueRecords: EntityColumn[]
-} | {
-  panelName: string,
-  panelType: 'table',
-  keyValueRecordKey: string,
-}
+};
 
 export default EntityInfoRecord;
