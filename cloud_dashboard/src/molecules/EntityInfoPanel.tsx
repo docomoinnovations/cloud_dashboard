@@ -64,7 +64,7 @@ const TableBlock = ({ record }: { record: EntityInfoRecordData }) => {
   </div>;
 }
 
-const KeyValuePanel = ({ index, panelData }: {
+const EntityInfoPanel = ({ index, panelData }: {
   index: number, panelData: EntityInfoPanelData
 }) => {
   const titleKey = index === 0
@@ -86,4 +86,4 @@ const KeyValuePanel = ({ index, panelData }: {
   </div>;
 }
 
-export default KeyValuePanel;
+export default EntityInfoPanel;

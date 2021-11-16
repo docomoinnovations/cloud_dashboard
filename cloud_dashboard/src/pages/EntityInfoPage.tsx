@@ -3,7 +3,7 @@ import MenuBar from 'organisms/MenuBar';
 import { useParams } from 'react-router-dom';
 import HttpService from 'service/http';
 import EntityData from 'model/EntityData';
-import KeyValuePanel from 'molecules/KeyValuePanel';
+import EntityInfoPanel from 'molecules/EntityInfoPanel';
 import { convertDataForUI, readDataCache } from 'service/utility';
 import EntityInfoTemplate from 'model/EntityInfoTemplate';
 import EntityInfoPanelData from 'model/EntityInfoPanelData';
@@ -86,7 +86,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
         <MenuBar />
         {
           panelDataList.map((panelData, index) => {
-            return <KeyValuePanel index={index} key={index} panelData={panelData} />;
+            return <EntityInfoPanel index={index} key={index} panelData={panelData} />;
           })
         }
       </div>
