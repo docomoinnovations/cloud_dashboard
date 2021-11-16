@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
+import { AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 
 import { AppContext, useAppState } from 'service/state';
 import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
@@ -38,7 +38,7 @@ const App = () => {
           <ProviderPage />
         </Route>
         {
-          AWS_ENTITY_INFO_LIST.map((record) => {
+          [...AWS_ENTITY_INFO_LIST, ...K8S_ENTITY_INFO_LIST].map((record) => {
             return <Route exact
               path={`/${record.cloudServiceProvider}/${record.entityName}/:uuid`}
               key={`/${record.cloudServiceProvider}/${record.entityName}`}>

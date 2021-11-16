@@ -52,6 +52,15 @@ cloud_dashboard.k8s.form:
   requirements:
     _permission: 'administer'
 
+# info for K8s entity
+cloud_dashboard.k8s.info:
+  path: '/clouds/dashboard/k8s/{parameter}/{parameter2}'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
 # launch template
 cloud_dashboard.launch_template:
   path: '/clouds/dashboard/server_template/{parameter1}/{parameter2}'

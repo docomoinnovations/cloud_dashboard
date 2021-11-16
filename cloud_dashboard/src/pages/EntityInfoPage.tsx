@@ -25,11 +25,13 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
 
   useEffect(() => {
     if (typeof uuid !== 'undefined') {
-      const url = `/jsonapi/aws_cloud_instance/aws_cloud_instance/${uuid}`;
+      const entityTypeId = `${entityInfoTemplate.cloudServiceProvider}_${entityInfoTemplate.entityName}`;
+      const url = `/jsonapi/${entityTypeId}/${entityTypeId}/${uuid}`;
       HttpService.getInstance().getJson<{ data: EntityData }>(url).then((response) => {
         setEntityData(response.data);
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
   useEffect(() => {

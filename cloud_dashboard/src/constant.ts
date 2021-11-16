@@ -288,6 +288,7 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     cloudServiceProvider: 'k8s',
     labelName: 'Pod',
     entityName: 'pod',
+    detailInfoColumn: 'name',
     entityColumn: [
       { labelName: 'Namespace', name: 'namespace', type: 'default' },
       { labelName: 'Name', name: 'name', type: 'default' },
@@ -663,6 +664,59 @@ export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
           { labelName: 'Termination protection', name: 'termination_protection', type: 'boolean', value: ['On', 'Off'] },
           { labelName: 'AMI Launch Index', name: 'ami_launch_index', type: 'default' },
           { labelName: 'Tenancy', name: 'tenancy', type: 'default' },
+        ]
+      },
+    ]
+  }
+];
+export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
+  {
+    cloudServiceProvider: 'k8s',
+    entityName: 'pod',
+    entityRecords: [
+      {
+        panelName: 'Pod',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Name', name: 'name', type: 'default' },
+          { labelName: 'Namespace', name: 'namespace', type: 'default' },
+          { labelName: 'Status', name: 'status', type: 'default' },
+          { labelName: 'Qos Class', name: 'qos_class', type: 'default' },
+          { labelName: 'Node', name: 'node_name', type: 'default' },
+          { labelName: 'Pod IP', name: 'pod_ip', type: 'default' },
+        ]
+      },
+      {
+        panelName: 'Metrics',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'CPU (Request)', name: 'cpu_request', type: 'cpu' },
+          { labelName: 'CPU (Limit)', name: 'cpu_limit', type: 'cpu' },
+          { labelName: 'CPU (Usage)', name: 'cpu_usage', type: 'cpu' },
+          { labelName: 'Memory (Request)', name: 'memory_request', type: 'memory' },
+          { labelName: 'Memory (Limit)', name: 'memory_limit', type: 'memory' },
+          { labelName: 'Memory (Usage)', name: 'memory_usage', type: 'memory' },
+        ]
+      },
+      {
+        panelName: 'Containers',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Containers', name: 'containers', type: 'array' },
+        ]
+      },
+      {
+        panelName: 'Detail',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Detail', name: 'detail', type: 'default' },
+        ]
+      },
+      {
+        panelName: 'Other',
+        panelType: 'div',
+        keyValueRecords: [
+          { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
         ]
       },
     ]

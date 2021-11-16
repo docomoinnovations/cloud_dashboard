@@ -133,6 +133,8 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
   switch (ec.type) {
     case 'datetime':
       return convertDateString(data);
+    case 'cpu':
+      return roundNumber(data, 2);
     case 'memory': {
       if (data >= 1024 * 1024 * 1024) {
         return `${roundNumber(data / (1024 * 1024 * 1024), 2)}Gi`;
