@@ -13,7 +13,11 @@ const KeyValuePanel = ({ index, title, record }: { index: number, title: string,
         Object.entries(record).map((keyVal) => {
           return <div className="field field--name-name field--type-string field--label-inline">
             <div className="field--label">{keyVal[0]}</div>
-            <div className="field--item">{keyVal[1]}</div>
+            <div className="field--item">{
+              keyVal[1].includes('\n')
+              ? <pre>{keyVal[1]}</pre>
+              : <>{keyVal[1]}</>
+            }</div>
           </div>;
         })
       }
