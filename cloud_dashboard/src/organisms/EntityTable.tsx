@@ -8,12 +8,26 @@ import SortInfo from 'model/SortInfo';
 import { AppContext } from 'service/state';
 import { convertEntityData, getEntityData, readDataCache } from 'service/utility';
 
-const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, pageIndex}: {
+/**
+ * Table for entity data.
+ *
+ * @param entityTypeId Entity type ID.
+ * @param entityColumnList List of EntiyColumn.
+ * @param namespace Value of namespace.
+ * @param namespaceName Value of namespace.
+ * @param pageIndex Entity item's page index.
+ * @param detailInfo Information required to create a link to more information.
+*/
+const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, pageIndex, detailInfo}: {
   entityTypeId: string,
   entityColumnList: EntityColumn[],
   namespace: string,
   namespaceName: string,
   pageIndex: number,
+  detailInfo?: {
+    column: string,
+    path: string,
+  },
 }) => {
   const { cloudContext, cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
@@ -60,7 +74,12 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContextList, entityTypeId, entityColumnList, sortInfo, namespace, namespaceName, pageIndex]);
 
-  return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
+  return <DataTable
+    dataColumnList={dataColumnList}
+    dataRecordList={dataRecordList}
+    sortInfo={sortInfo}
+    setSortInfo={setSortInfo}
+    detailInfo={detailInfo} />;
 }
 
 export default EntityTable;

@@ -26,7 +26,7 @@ const paddingZero = (data: any, length: number) => {
  * @param dateString datetime string
  * @returns datetime string for UI
  */
-const convertDateString = (dateString: string) => {
+export const convertDateString = (dateString: string) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -124,7 +124,7 @@ const convertKeyValueCrLfData = (data: string) => {
  * @param ec Information of Entity Column
  * @param dataCache Data cache for 'join' type
  */
-export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}) => {
+export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}): string => {
   // Null check.
   if (data === null) {
     return '';
@@ -133,6 +133,8 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
   switch (ec.type) {
     case 'datetime':
       return convertDateString(data);
+    case 'cpu':
+      return roundNumber(data, 2);
     case 'memory': {
       if (data >= 1024 * 1024 * 1024) {
         return `${roundNumber(data / (1024 * 1024 * 1024), 2)}Gi`;
@@ -165,7 +167,7 @@ export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: 
           return recordData.attributes[ec.info.valueColumn];
         }
       }
-      return `(${data})`;
+      return `${data}`;
     case 'key-value-crlf':
       return convertKeyValueCrLfData(data);
     default:

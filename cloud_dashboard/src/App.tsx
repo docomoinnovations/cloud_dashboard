@@ -1,21 +1,26 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { AWS_MENU_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
-import CallbackPage from 'pages/CallbackPage';
-import EntityPage from 'pages/EntityPage';
-import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
+
+import { AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
+
 import { AppContext, useAppState } from 'service/state';
-import ProviderPage from 'pages/ProviderPage';
-import LoginPage from 'pages/LoginPage';
-import LaunchTemplatePage from 'pages/LaunchTemplatePage';
-import ProjectPage from 'pages/ProjectPage';
+import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
+
+import CallbackPage from 'pages/CallbackPage';
+import EntityInfoPage from 'pages/EntityInfoPage';
+import EntityPage from 'pages/EntityPage';
 import K8sCostPage from 'pages/K8sCostPage';
 import K8sNamespaceResourcePage from 'pages/K8sNamespaceResourcePage';
 import K8sNodeResourcePage from 'pages/K8sNodeResourcePage';
 import K8sPodResourcePage from 'pages/K8sPodResourcePage';
-import 'App.css';
+import LaunchTemplatePage from 'pages/LaunchTemplatePage';
+import LoginPage from 'pages/LoginPage';
+import ProjectPage from 'pages/ProjectPage';
+import ProviderPage from 'pages/ProviderPage';
+
 import 'leaflet/dist/leaflet.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import 'App.css';
 
 const App = () => {
   const appState = useAppState();
@@ -33,8 +38,17 @@ const App = () => {
           <ProviderPage />
         </Route>
         {
+          [...AWS_ENTITY_INFO_LIST, ...K8S_ENTITY_INFO_LIST].map((record) => {
+            return <Route exact
+              path={`/${record.cloudServiceProvider}/${record.entityName}/:uuid`}
+              key={`/${record.cloudServiceProvider}/${record.entityName}`}>
+              <EntityInfoPage entityInfoTemplate={record} />
+            </Route>;
+          })
+        }
+        {
           ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
-            return <Route
+            return <Route exact
               path={getEntityListViewUrl(record)}
               key={getEntityTypeId(record)}
             >

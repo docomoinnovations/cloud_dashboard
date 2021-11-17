@@ -6,6 +6,7 @@ interface MenuTemplate {
   labelName: string;
   entityName: string;
   entityColumn: EntityColumn[];
+  detailInfoColumn?: string;
 }
 
 export default MenuTemplate;

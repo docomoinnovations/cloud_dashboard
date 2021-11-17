@@ -1,5 +1,6 @@
 import CloudContext from "model/CloudContext";
 import EntityColumn from "model/EntityColumn";
+import EntityInfoTemplate from "model/EntityInfoTemplate";
 import MenuTemplate from "model/MenuTemplate";
 
 export const OAUTH2_CLIENT_LABEL = 'Cloud Dashboard';
@@ -591,6 +592,8 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
 ];
+export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [];
+export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [];
 export const ITEMS_PER_PAGE = 30;
 export const CACHE_EXPIRED_UNIXTIME = 1000 * 60 * 60 * 24;
 export const DEFAULT_CLOUD_CONTEXTS: CloudContext[] = [

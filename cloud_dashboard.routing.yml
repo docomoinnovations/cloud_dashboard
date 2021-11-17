@@ -16,7 +16,7 @@ cloud_dashboard.callback:
   requirements:
     _permission: 'administer'
 
-# Callback endpoint
+# List view of provider
 cloud_dashboard.cloud_service_provider.list:
   path: '/clouds/dashboard/providers'
   defaults:
@@ -34,9 +34,27 @@ cloud_dashboard.aws_cloud.form:
   requirements:
     _permission: 'administer'
 
+# info for AWS entity
+cloud_dashboard.aws_cloud.info:
+  path: '/clouds/dashboard/aws_cloud/{parameter}/{parameter2}'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
 # form for K8s
 cloud_dashboard.k8s.form:
   path: '/clouds/dashboard/k8s/{parameter}'
+  defaults:
+    _title: Cloud Dashboard
+    _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
+  requirements:
+    _permission: 'administer'
+
+# info for K8s entity
+cloud_dashboard.k8s.info:
+  path: '/clouds/dashboard/k8s/{parameter}/{parameter2}'
   defaults:
     _title: Cloud Dashboard
     _form: '\Drupal\cloud_dashboard\Form\React\CloudDashboardForm'
