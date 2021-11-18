@@ -1,5 +1,5 @@
 cloud_dashboard.settings:
-  title: 'Cloud Dashboard settings'
+  title: 'Cloud Dashboard'
   description: 'Configure Cloud Dashboard module.'
   parent: system.admin_config_services
   route_name: cloud_dashboard.settings
