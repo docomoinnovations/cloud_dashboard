@@ -679,6 +679,16 @@ export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
     entityName: 'pod',
     entityRecords: [
       {
+        panelName: 'Metrics',
+        tableRecordList: [],
+        keyValueRecords: [
+          { labelName: '', name: '', type: 'metrics', column: [
+            { title: 'CPU Usage', yLabel: 'CPU (Cores)', name: 'cpu', type: 'default' },
+            { title: 'Memory Usage', yLabel: 'Memory (Bytes)', name: 'memory', type: 'memory' }
+          ] },
+        ]
+      },
+      {
         panelName: 'Pod',
         tableRecordList: ['labels', 'annotations'],
         keyValueRecords: [
