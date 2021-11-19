@@ -15,7 +15,7 @@
     "@types/react-leaflet": "^2.8.2",
     "@types/react-loader-spinner": "^4.0.0",
     "@types/react-router-dom": "^5.1.7",
-    "chart.js": "2.7.0",
+    "chart.js": "2.9.4",
     "i18next": "^21.3.2",
     "leaflet": "^1.7.1",
     "react": "^17.0.2",
