@@ -27,7 +27,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
         setEntityData(response.data);
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
   useEffect(() => {
@@ -41,6 +41,25 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
 
         const dataCache = await (readDataCache(infoRecord.keyValueRecords));
         for (const keyValueRecord of infoRecord.keyValueRecords) {
+          if (keyValueRecord.type === 'metrics') {
+            // type: 'metrics'
+            const url = `/clouds/${entityInfoTemplate.cloudServiceProvider}/${entityData.attributes['cloud_context']}/${entityInfoTemplate.entityName}/${entityData.attributes['drupal_internal__id']}/metrics`;
+            const metricsData = await HttpService.getInstance().getJson<Record<string, number>[]>(url);
+            newPanelData.records.push({
+              type: 'metrics',
+              record: keyValueRecord.column.map((column) => {
+                return {
+                  title: column.title,
+                  yLabel: column.yLabel,
+                  record: metricsData.map((metrics) => {
+                    return { x: metrics['timestamp'], y: metrics[column.name] };
+                  })
+                }
+              })
+            });
+            continue;
+          }
+
           if (infoRecord.tableRecordList.includes(keyValueRecord.name)) {
             // type: 'table'
             const keyVal: Record<string, string> = {};
@@ -52,22 +71,23 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
               title: keyValueRecord.labelName,
               record: keyVal
             });
-          } else {
-            // type: 'div'
-            const convertedText = convertDataForUI(
-              entityData.attributes[keyValueRecord.name],
-              keyValueRecord,
-              dataCache
-            );
-            const convertedText2 = keyValueRecord.type === 'join' && convertedText !== entityData.attributes[keyValueRecord.name]
-              ? `${convertedText} (${entityData.attributes[keyValueRecord.name]})`
-              : convertedText;
-              newPanelData.records.push({
-                type: 'div',
-                key: keyValueRecord.labelName,
-                value: convertedText2
-              });
+            continue;
           }
+
+          // type: 'div'
+          const convertedText = convertDataForUI(
+            entityData.attributes[keyValueRecord.name],
+            keyValueRecord,
+            dataCache
+          );
+          const convertedText2 = keyValueRecord.type === 'join' && convertedText !== entityData.attributes[keyValueRecord.name]
+            ? `${convertedText} (${entityData.attributes[keyValueRecord.name]})`
+            : convertedText;
+          newPanelData.records.push({
+            type: 'div',
+            key: keyValueRecord.labelName,
+            value: convertedText2
+          });
         }
 
         newPanelDataList.push(newPanelData);
@@ -77,7 +97,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
     if (entityData.id !== '') {
       refresh();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityData]);
 
   return <div className="container-fluid px-0">

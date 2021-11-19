@@ -19,6 +19,16 @@ type EntityColumn = {
     keyColumn: string;
     valueColumn: string;
   }
-} ;
+} | {
+  labelName: '';
+  name: '';
+  type: 'metrics';
+  column: {
+    title: string,
+    name: string,
+    yLabel: string,
+    type: 'default' | 'memory'
+  }[]
+};
 
 export default EntityColumn;
