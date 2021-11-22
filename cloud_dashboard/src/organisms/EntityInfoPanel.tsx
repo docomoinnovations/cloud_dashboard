@@ -6,6 +6,7 @@ import KeyValueBlock from 'molecules/KeyValueBlock';
 import MetricsBlock from 'molecules/MetricsBlock';
 import PanelHeadingTitle from 'molecules/PanelHeadingTitle';
 import TableBlock from 'molecules/TableBlock';
+import D3MetricsBlock from 'molecules/D3MetricsBlock';
 
 const EntityInfoPanel = ({ index, panelData }: {
   index: number, panelData: EntityInfoPanelData
@@ -21,6 +22,7 @@ const EntityInfoPanel = ({ index, panelData }: {
         panelData.records.map((record) => {
           return <>
             <MetricsBlock record={record} />
+            <D3MetricsBlock record={record} />
             <KeyValueBlock record={record} />
             <TableBlock record={record} />
           </>;
