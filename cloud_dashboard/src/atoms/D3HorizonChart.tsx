@@ -22,7 +22,7 @@ const D3HorizonChart = ({
     d3.selectAll(`#${id} > svg`).remove();
 
     // Write new draw
-    const horizonChart = new HorizonChart;
+    const horizonChart = new HorizonChart();
     horizonChart.setSelector(`#${id}`);
     if (dataSet.length > 0) {
       horizonChart.setDataSet(dataSet);
@@ -49,6 +49,7 @@ const D3HorizonChart = ({
       horizonChart.setColors(colors);
     }
     horizonChart.draw();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataSet, height, width, yRange, title, titleColor, titleFontSize, colors]);
 
   return <div id={id}></div>;
