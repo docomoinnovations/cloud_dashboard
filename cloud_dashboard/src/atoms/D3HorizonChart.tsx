@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import * as d3 from 'd3';
 import { HorizonChart } from 'src/../../d3-horizon-chart/dist/d3-horizon-chart';
 
 const D3HorizonChart = ({
@@ -18,6 +18,10 @@ const D3HorizonChart = ({
 }) => {
 
   useEffect(() => {
+    // Erase old draw
+    d3.selectAll(`#${id} > svg`).remove();
+
+    // Write new draw
     const horizonChart = new HorizonChart;
     horizonChart.setSelector(`#${id}`);
     if (dataSet.length > 0) {
