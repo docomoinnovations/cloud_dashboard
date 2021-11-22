@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import LoginForm from 'organisms/LoginForm';
-import { HorizonChart } from 'src/../../d3-horizon-chart/dist/d3-horizon-chart';
+import D3HorizonChart from 'atoms/D3HorizonChart';
 
 const LoginPage = () => {
   const dataSet: [Date, number][] = [
@@ -11,19 +11,11 @@ const LoginPage = () => {
     [new Date(1637547926000), 4.0],
   ];
 
-  useEffect(() => {
-    const horizonChart = new HorizonChart;
-    horizonChart.setTitle('Sample Chart');
-    horizonChart.setDataSet(dataSet);
-    horizonChart.setSelector('#horizon-chart');
-    horizonChart.draw();
-  }, []);
-
   return <div className="container-fluid px-0">
     <div className="row mx-0">
       <div className="col">
         <LoginForm />
-        <div id="horizon-chart"></div>
+        <D3HorizonChart id="horizon-chart" dataSet={dataSet} title="Sample Chart" />
       </div>
     </div>
   </div>;
