@@ -12,12 +12,17 @@ const D3MetricsBlock = ({ record }: { record: EntityInfoRecordData }) => {
       record.record.map((data, index) => {
         return <div className="row">
           <div className="col" key={index}>
-            <D3HorizonChart id={`metric-${index}`} dataSet={
-              data.record.map((r) => {
-                return [new Date(r.x * 1000), r.y];
-              })
-            }
-              height={100} titleFontSize={10} titleColor="white" title={data.title}
+            <D3HorizonChart
+              id={`metric-${index}`}
+              dataSet={
+                data.record.map((r) => {
+                  return [new Date(r.x * 1000), r.y];
+                })
+              }
+              height={100}
+              titleFontSize={10}
+              titleColor="white"
+              title={data.title}
               colors={
                 index === 0
                   ? ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c']

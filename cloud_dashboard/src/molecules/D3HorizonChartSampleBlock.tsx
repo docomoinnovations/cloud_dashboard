@@ -784,7 +784,7 @@ const D3HorizonChartSampleBlock = () => {
             return;
           }
           const newColors: string[] = [];
-          for (let i = 0; i < temp.options.length; i += 1) {
+          for (let i = 0; i < temp.options.length; i++) {
             const record = temp.options.item(i);
             if (record !== null && !record.selected) {
               newColors.push(record.text);
