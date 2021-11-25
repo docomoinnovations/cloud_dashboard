@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import MenuBar from 'organisms/MenuBar';
 import { useParams } from 'react-router-dom';
-import HttpService from 'service/http';
+
 import EntityData from 'model/EntityData';
-import EntityInfoPanel from 'molecules/EntityInfoPanel';
-import { convertDataForUI, readDataCache } from 'service/utility';
-import EntityInfoTemplate from 'model/EntityInfoTemplate';
 import EntityInfoPanelData from 'model/EntityInfoPanelData';
+import EntityInfoTemplate from 'model/EntityInfoTemplate';
+
+import EntityInfoPanel from 'organisms/EntityInfoPanel';
+import MenuBar from 'organisms/MenuBar';
+
+import HttpService from 'service/http';
+import { convertDataForUI, readDataCache } from 'service/utility';
 
 const EntityInfoPage = ({ entityInfoTemplate }: {
   entityInfoTemplate: EntityInfoTemplate

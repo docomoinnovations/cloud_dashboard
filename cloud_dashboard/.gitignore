@@ -11,6 +11,9 @@
 # production
 /build
 
+# library
+/d3-horizon-chart
+
 # misc
 .DS_Store
 .env.local
