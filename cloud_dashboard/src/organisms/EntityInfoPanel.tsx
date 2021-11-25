@@ -7,9 +7,16 @@ import PanelHeadingTitle from 'molecules/PanelHeadingTitle';
 import TableBlock from 'molecules/TableBlock';
 import D3MetricsBlock from 'molecules/D3MetricsBlock';
 
+/**
+ * Panel of entity detail info.
+ *
+ * @param index Index for panel accordion logic. 
+ * @param panelData Entity info. 
+ */
 const EntityInfoPanel = ({ index, panelData }: {
   index: number, panelData: EntityInfoPanelData
 }) => {
+
   const titleKey = index === 0
     ? "bootstrap-panel--content"
     : `bootstrap-panel--${index + 2}--content`;
@@ -28,6 +35,7 @@ const EntityInfoPanel = ({ index, panelData }: {
       }
     </div>
   </div>;
+
 }
 
 export default EntityInfoPanel;

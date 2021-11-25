@@ -8,7 +8,11 @@ import MenuLink from 'atoms/MenuLink';
 import MenuAnchor from 'atoms/MenuAnchor';
 import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
 
+/**
+ * Menu bar component.
+ */
 const MenuBar = () => {
+
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
   const { t } = useTranslation();
 
@@ -109,6 +113,7 @@ const MenuBar = () => {
       </div>
     </div>
   </header>;
+
 }
 
 export default MenuBar;

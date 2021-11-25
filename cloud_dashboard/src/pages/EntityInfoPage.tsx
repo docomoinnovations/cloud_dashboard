@@ -11,9 +11,15 @@ import MenuBar from 'organisms/MenuBar';
 import HttpService from 'service/http';
 import { convertDataForUI, readDataCache } from 'service/utility';
 
+/**
+ * Page of entity info.
+ *
+ * @param entityInfoTemplate Template for viewing this entity data.
+ */
 const EntityInfoPage = ({ entityInfoTemplate }: {
   entityInfoTemplate: EntityInfoTemplate
 }) => {
+
   const [entityData, setEntityData] = useState<EntityData>({
     id: '', attributes: {}
   });
@@ -115,6 +121,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
       </div>
     </div>
   </div>;
+
 }
 
 export default EntityInfoPage;

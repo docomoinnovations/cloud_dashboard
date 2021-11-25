@@ -36,7 +36,11 @@ const LoadMapData = async () => {
   return await HttpService.getInstance().getJson<MapData>(responseJson['uri']);
 };
 
+/**
+ * Map for cloud service providers.
+ */
 const CloudServiceProviderMap = () => {
+
   const [cloudContenxtItemList, setCloudContenxtItemList] = useState<CloudContenxtItem[]>([]);
   const [mapData, setMapData] = useState<MapData>({
     features: []
@@ -66,6 +70,7 @@ const CloudServiceProviderMap = () => {
       })
     }
   </MapContainer>;
+
 };
 
 export default CloudServiceProviderMap;

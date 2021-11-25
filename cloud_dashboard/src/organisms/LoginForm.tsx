@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
+/**
+ * Login form component.
+ */
 const LoginForm = () => {
+
   const [clientId, setClientId] = useState('');
   const [redirectUri, setRedirectUri] = useState('');
 
@@ -29,6 +33,7 @@ const LoginForm = () => {
       onClick={login}
       disabled={clientId === ''}>Log in</button>
   </form>;
+
 }
 
 export default LoginForm;

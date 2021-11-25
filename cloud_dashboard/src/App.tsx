@@ -22,7 +22,11 @@ import 'leaflet/dist/leaflet.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'App.css';
 
+/**
+ * Component for application route.
+ */
 const App = () => {
+
   const appState = useAppState();
 
   return <BrowserRouter basename={ROUTE_URL}>
@@ -93,6 +97,7 @@ const App = () => {
       </AppContext.Provider>
     </Switch>
   </BrowserRouter>;
+
 }
 
 export default App;

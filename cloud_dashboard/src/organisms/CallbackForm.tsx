@@ -3,6 +3,9 @@ import { ROUTE_URL } from 'constant';
 import { requestTokenByCodeGrant } from 'service/utility';
 import Loader from 'react-loader-spinner';
 
+/**
+ * Callback routine for Authorization Code Grant.
+ */
 const callback = async () => {
   console.group('Authorization Code Grant');
 
@@ -46,7 +49,11 @@ const callback = async () => {
   }
 }
 
+/**
+ * Callback form for Authorization Code Grant.
+ */
 const CallbackForm = () => {
+
   useEffect(() => {
     callback();
   }, []);
@@ -65,6 +72,7 @@ const CallbackForm = () => {
       }}>Orchestrating clouds...</span>
     </div>
   </form>;
+
 }
 
 export default CallbackForm;

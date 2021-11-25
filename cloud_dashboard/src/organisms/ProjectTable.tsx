@@ -36,7 +36,7 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
  * @param sortInfo Information of soring parameter.
  * @returns ProjectList.
  */
- const readProjectList = async (cloudContext: CloudContext, sortInfo: SortInfo) => {
+const readProjectList = async (cloudContext: CloudContext, sortInfo: SortInfo) => {
   // Create a GET parameter.
   const parameters: { key: string, value: string }[] = [];
   if (cloudContext.name !== 'ALL') {
@@ -75,6 +75,7 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
 const ProjectTable = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
+
   const { cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
@@ -101,6 +102,7 @@ const ProjectTable = ({ cloudContext }: {
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
+
 }
 
 export default ProjectTable;

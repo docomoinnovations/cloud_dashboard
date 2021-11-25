@@ -19,6 +19,11 @@ interface AppState {
   dispatch: (action: Action) => void;
 }
 
+/**
+ * Load Cloud Context.
+ *
+ * @returns Cloud context.
+ */
 const loadCloudContext = (): CloudContext => {
   // Load Cloud Context.
   const cloudContextJson = localStorage.getItem('cloudContext');

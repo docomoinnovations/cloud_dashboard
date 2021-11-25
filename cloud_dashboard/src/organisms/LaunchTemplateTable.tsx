@@ -82,6 +82,7 @@ const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: Sort
 const LaunchTemplateTable = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
+
   const { cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
@@ -111,6 +112,7 @@ const LaunchTemplateTable = ({ cloudContext }: {
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
+
 }
 
 export default LaunchTemplateTable;

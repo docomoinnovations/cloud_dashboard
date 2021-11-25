@@ -2,12 +2,19 @@ import React from 'react';
 import { MapFeature } from 'model/MapData';
 import MapPolygonBlock from 'molecules/MapPolygonBlock';
 
+/**
+ * Polygon block of MapFeature.
+ *
+ * @param feature MapFeature.
+ */
 const MapFeaturePolygonBlock = ({ feature }: {
   feature: MapFeature
 }) => {
+
   if (feature.geometry.type === 'Polygon') {
     return <MapPolygonBlock coordinates={feature.geometry.coordinates} />;
   }
+
   return <>
     {
       feature.geometry.coordinates.map((coordinates, index) => {
@@ -15,6 +22,7 @@ const MapFeaturePolygonBlock = ({ feature }: {
       })
     }
   </>;
+
 }
 
 export default MapFeaturePolygonBlock;

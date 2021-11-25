@@ -62,6 +62,7 @@ const readDataList = async (sortInfo: SortInfo) => {
  * @returns JSX of LaunchTemplateView.
  */
 const K8sPodResourceTable = () => {
+
   const { cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
@@ -87,6 +88,7 @@ const K8sPodResourceTable = () => {
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
+
 }
 
 export default K8sPodResourceTable;

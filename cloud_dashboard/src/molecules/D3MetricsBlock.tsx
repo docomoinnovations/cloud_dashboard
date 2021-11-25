@@ -2,7 +2,13 @@ import React from 'react';
 import EntityInfoRecordData from 'model/EntityInfoRecordData';
 import D3HorizonChart from 'atoms/D3HorizonChart';
 
+/**
+ * Block of metric info view.
+ *
+ * @param record Record data fo metric info.
+ */
 const D3MetricsBlock = ({ record }: { record: EntityInfoRecordData }) => {
+
   if (record.type !== 'metrics') {
     return <></>;
   }
@@ -33,6 +39,7 @@ const D3MetricsBlock = ({ record }: { record: EntityInfoRecordData }) => {
       })
     }
   </>;
+
 }
 
 export default D3MetricsBlock;

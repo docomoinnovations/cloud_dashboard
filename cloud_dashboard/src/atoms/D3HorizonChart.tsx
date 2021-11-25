@@ -2,6 +2,19 @@ import React, { useEffect } from 'react';
 import * as d3 from 'd3';
 import { HorizonChart } from 'src/../../d3-horizon-chart/dist/d3-horizon-chart';
 
+/**
+ * Wrapper of d3-horizon-chart
+ *
+ * @param id The "id" attribute of tag.
+ * @param dataSet Data of chart.
+ * @param height Height of chart.
+ * @param width Width of chart.
+ * @param yRange Range of Y-Axis.
+ * @param title Title text of chart.
+ * @param titleColor Color of title on chart.
+ * @param titleFontSize Size of font of title on chart.
+ * @param colors Colors of chart's line.
+ */
 const D3HorizonChart = ({
   id, dataSet = [], height = 0, width = 0, yRange = undefined, title = '',
   titleColor = '', titleFontSize = 0, colors = []
@@ -53,6 +66,7 @@ const D3HorizonChart = ({
   }, [dataSet, height, width, yRange, title, titleColor, titleFontSize, colors]);
 
   return <div id={id}></div>;
+
 }
 
 export default D3HorizonChart;

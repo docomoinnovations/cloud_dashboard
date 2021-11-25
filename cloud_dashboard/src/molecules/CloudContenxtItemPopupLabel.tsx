@@ -13,6 +13,7 @@ const CloudContenxtItemPopupLabel = ({ cloudServiceProvider, label } : {
   cloudServiceProvider: string,
   label: CloudContenxtItemlabel
 }) => {
+
   const { cloudContextList, dispatch } = useContext(AppContext);
 
   const onClickPopupLink = (labelName: string) => {
@@ -46,6 +47,7 @@ const CloudContenxtItemPopupLabel = ({ cloudServiceProvider, label } : {
       </span>
     </div>
   </div>;
+
 };
 
 export default CloudContenxtItemPopupLabel;

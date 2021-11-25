@@ -29,6 +29,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
     path: string,
   },
 }) => {
+
   const { cloudContext, cloudContextList } = useContext(AppContext);
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
@@ -80,6 +81,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
     sortInfo={sortInfo}
     setSortInfo={setSortInfo}
     detailInfo={detailInfo} />;
+
 }
 
 export default EntityTable;

@@ -5,7 +5,11 @@ import FormButtonGroup from 'molecules/FormButtonGroup';
 import { useTranslation } from 'react-i18next';
 import { AppContext } from 'service/state';
 
+/**
+ * Form for setting language.
+ */
 const SetLanguageForm = () => {
+
   const { dispatch } = useContext(AppContext);
   const { t, i18n } = useTranslation();
 
@@ -25,6 +29,7 @@ const SetLanguageForm = () => {
       } />
     </div>
   </form>;
+
 }
 
 export default SetLanguageForm;
