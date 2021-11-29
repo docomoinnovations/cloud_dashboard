@@ -1,5 +1,6 @@
 import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from "constant";
 import { useEffect, useState } from "react";
+import { getLocalStorageItem, setLocalStorageItem } from "service/utility";
 
 const LOGIN_FORM_URI = ROUTE_URL;
 const ENTER_URI = ROUTE_URL + '/aws_cloud/instance';
@@ -10,28 +11,6 @@ const ENTER_URI = ROUTE_URL + '/aws_cloud/instance';
 const showErrorDialog = (message: string) => {
   window.alert(`Error: ${message}`);
   console.error(`Error: ${message}`);
-}
-
-/**
- * Wrapper of window.localStorage.getItem();
- *
- * @param key Key.
- * @param defaultValue Default value.
- * @returns Item value.
- */
-const getLocalStorageItem = (key: string, defaultValue: string) => {
-  const temp = window.localStorage.getItem(key);
-  return temp !== null ? temp : defaultValue;
-}
-
-/**
- * Wrapper of window.localStorage.setItem();
- *
- * @param key Key.
- * @param value Item value.
- */
-const setLocalStorageItem = (key: string, value: string) => {
-  window.localStorage.setItem(key, value);
 }
 
 /**

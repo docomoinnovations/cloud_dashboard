@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'service/state';
-import { getEntityDataAll } from 'service/utility';
 import FormSelect from 'atoms/FormSelect';
 import CloudContext from 'model/CloudContext';
+import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get name list of field entity.
@@ -11,6 +11,7 @@ import CloudContext from 'model/CloudContext';
  * @param columnKey Key of entity field.
  */
 const getFieldEntityNameList = async (
+  getEntityListAll: GetEntityListAllType,
   cloudContext: CloudContext,
   columnKey: string
 ): Promise<string[]> => {
@@ -20,7 +21,7 @@ const getFieldEntityNameList = async (
     filter['cloud_context'] = cloudContext.name;
   }
   const entityTypeId = `${cloudContext.cloudServiceProvider}_${columnKey}`;
-  const entityDataList = await getEntityDataAll(entityTypeId, filter);
+  const entityDataList = await getEntityListAll(entityTypeId, filter);
   return entityDataList.map((r) => r.attributes['name']);
 
 };
@@ -39,11 +40,12 @@ const FieldSelect = ({ columnKey, columnName, setColumnName }: {
 }) => {
 
   const { cloudContext } = useContext(AppContext);
+  const { getEntityListAll } = useDrupalJsonApi();
   const [dataList, setDataList] = useState<string[]>([]);
 
   // Set columnData list.
   useEffect(() => {
-    getFieldEntityNameList(cloudContext, columnKey).then((res) => {
+    getFieldEntityNameList(getEntityListAll, cloudContext, columnKey).then((res) => {
       setDataList(res);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

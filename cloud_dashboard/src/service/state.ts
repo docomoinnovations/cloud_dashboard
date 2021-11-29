@@ -2,8 +2,8 @@ import { DEFAULT_CLOUD_CONTEXTS } from "constant";
 import CloudContext from "model/CloudContext";
 import CloudServiceProvider from "model/CloudServiceProvider";
 import { createContext, useEffect, useState } from "react";
-import HttpService from "service/http";
 import { useTranslation } from 'react-i18next';
+import useDrupalJsonApi from "hooks/drupal_jsonapi";
 
 type Action = {
   type: 'setCloudContext',
@@ -33,6 +33,7 @@ const loadCloudContext = (): CloudContext => {
 };
 
 export const useAppState = (): AppState => {
+  const { getJsonData } = useDrupalJsonApi();
   const [cloudContext, setCloudContext] = useState<CloudContext>(loadCloudContext());
   const [cloudContextList, setCloudContextList] = useState<CloudContext[]>([...DEFAULT_CLOUD_CONTEXTS]);
   const { i18n } = useTranslation();
@@ -51,7 +52,7 @@ export const useAppState = (): AppState => {
       const cloudServiceProviderList = ['aws_cloud', 'k8s'];
       let newCloudContextList = [...DEFAULT_CLOUD_CONTEXTS];
       for (const cloudServiceProvider of cloudServiceProviderList) {
-        const data = (await HttpService.getInstance().getJson<{ data: any[] }>(
+        const data = (await getJsonData<{ data: any[] }>(
           `/jsonapi/cloud_config/${cloudServiceProvider}`
         )).data.map((record: any) => {
           return {

@@ -1,3 +1,4 @@
+import { GetEntityListAllType } from "hooks/drupal_jsonapi";
 import L from "leaflet";
 import CloudContenxtItem from "model/CloudContenxtItem";
 import CloudContext from "model/CloudContext";
@@ -6,9 +7,7 @@ import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
 import RawCloudContextItem from "model/RawCloudContextItem";
-import SortInfo from "model/SortInfo";
 import { useEffect, useRef } from "react";
-import HttpService from "./http";
 
 /**
  * Padding Zero String.
@@ -201,95 +200,6 @@ export const usePrevious =  <T> (value: T) => {
 }
 
 /**
- * Download entity data by JSON:API.
- * @param entityTypeId Entity type ID.
- * @param option Options of downloading.
- */
-export const getEntityData = async (entityTypeId: string, option: {
-  // Maximum number of data to be retrieved.
-  limit: number,
-  // Offset at which to retrieve the data (0 origin)
-  offset: number,
-  // Filters when retrieving data.
-  filter: {[key: string]: string},
-  // Keys and directions to sort.
-  sort: SortInfo,
-}) => {
-  // Create a GET parameter.
-  const parameters: { key: string, value: string }[] = [];
-  parameters.push({key: 'page[limit]', value: `${option.limit}`});
-  parameters.push({key: 'page[offset]', value: `${option.offset}`});
-  for (const key in option.filter) {
-    parameters.push({ key: `filter[${key}]`, value: option.filter[key] });
-  }
-  if (option.sort.key !== '') {
-    parameters.push(
-      option.sort.direction === 'ASC'
-        ? { key: 'sort', value: option.sort.key }
-        : { key: 'sort', value: '-' + option.sort.key }
-    );
-  }
-
-  // Create the downloading URL.
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
-  if (parameters.length > 0) {
-    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-
-  // Download Action.
-  const res = await HttpService.getInstance().getJson<{data: EntityData[]}>(url);
-  return res.data;
-};
-
-/**
- * Download ALL entity data by JSON:API.
- * @param entityTypeId Entity type ID.
- * @param filter Filter for searching by keyword.
- */
-export const getEntityDataAll = async (entityTypeId: string, filter: {[key: string]: string} = {}) => {
-  // Create a GET parameter.
-  const parameters: { key: string, value: string }[] = [];
-  for (const key in filter) {
-    parameters.push({ key: `filter[${key}]`, value: filter[key] });
-  }
-
-  // Create the downloading URL.
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
-  if (parameters.length > 0) {
-    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-
-  // Download Action.
-  let output: EntityData[] = [];
-  const httpService = HttpService.getInstance();
-  while (true) {
-    const res = await httpService.getJson<{
-      data: EntityData[],
-      links: {
-        next?: {
-          href: string
-        }
-      }
-    }>(url);
-    output = [...output, ...res.data];
-    if (res.links.next !== undefined) {
-      url = res.links.next!.href;
-    } else {
-      break;
-    }
-  }
-  return output;
-};
-
-/**
  * Getter of LaunchTemplateView's URL for CloudContext.
  * @param cloudContext CloudContext
  * @returns URL
@@ -302,10 +212,15 @@ export const getLaunchTemplateViewUrl = (cloudContext: CloudContext) => {
 
 /**
  * Read entity's data for convert entity's data by JSON:API.
+ *
+ * @param getEntityListAll The getEntityListAll() function;
  * @param entityColumnList Information about the entities that will be loaded in advance.
  * @returns Data cache.
  */
-export const readDataCache = async (entityColumnList: EntityColumn[]) => {
+export const readDataCache = async (
+  getEntityListAll: GetEntityListAllType,
+  entityColumnList: EntityColumn[]
+) => {
   const dataCache: { [key: string]: EntityData[] } = {};
   for (const entityColumn of entityColumnList) {
     if (entityColumn.type !== 'join') {
@@ -315,7 +230,7 @@ export const readDataCache = async (entityColumnList: EntityColumn[]) => {
     if (entityTypeId in dataCache) {
       continue;
     }
-    dataCache[entityTypeId] = await getEntityDataAll(entityTypeId);
+    dataCache[entityTypeId] = await getEntityListAll(entityTypeId, {});
   }
   return dataCache;
 };
@@ -366,21 +281,6 @@ export const convertEntityData = (
     newDataRecordList.push(dataRecord);
   }
   return newDataRecordList;
-};
-
-/**
- * Get a list of CloudContext coordinates from the Drupal Cloud module.
- *
- * @returns List of RawCloudContextItem.
- */
-export const loadRawCloudContextItemList = async () => {
-  let url = '/clouds/cloud_config_location';
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-  const http = HttpService.getInstance();
-  return await http.getJson<RawCloudContextItem[]>(url);
 };
 
 /**
@@ -439,3 +339,25 @@ export const getProjectViewUrl = (cloudContext: CloudContext) => {
     ? `/${cloudContext.cloudServiceProvider as string}/project`
     : `/project/${cloudContext.name}`;
 };
+
+/**
+ * Wrapper of window.localStorage.getItem();
+ *
+ * @param key Key.
+ * @param defaultValue Default value.
+ * @returns Item value.
+ */
+export const getLocalStorageItem = (key: string, defaultValue: string) => {
+  const temp = window.localStorage.getItem(key);
+  return temp !== null ? temp : defaultValue;
+}
+
+/**
+ * Wrapper of window.localStorage.setItem();
+ *
+ * @param key Key.
+ * @param value Item value.
+ */
+export const setLocalStorageItem = (key: string, value: string) => {
+  window.localStorage.setItem(key, value);
+}

@@ -8,6 +8,7 @@ import MenuLink from 'atoms/MenuLink';
 import MenuAnchor from 'atoms/MenuAnchor';
 import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
 /**
  * Menu bar component.
@@ -16,17 +17,12 @@ const MenuBar = () => {
 
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
   const { checkAndRefreshToken, logout: removeTokenAndLogout } = useDrupalOAuth2();
+  const { removeJsonapiServerUri } = useDrupalJsonApi();
   const { t } = useTranslation();
 
   useEffect(() => {
     const init = async () => {
       await checkAndRefreshToken();
-      if (window.localStorage.getItem('jsonapiServerUri') === null) {
-        const res = await fetch('/clouds/cloud_dashboard/config/jsonapi_server_uri');
-        if (res.ok) {
-          window.localStorage.setItem('jsonapiServerUri', (await res.json()).uri);
-        }
-      }
     }
     init();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +33,7 @@ const MenuBar = () => {
   };
 
   const logout = async () => {
-    window.localStorage.removeItem('jsonapiServerUri');
+    removeJsonapiServerUri();
     await removeTokenAndLogout();
   };
 

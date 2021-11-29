@@ -7,9 +7,9 @@ import DataRecord from 'model/DataRecord';
 import EntityColumn from 'model/EntityColumn';
 import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
-import HttpService from 'service/http';
 import { convertEntityData, readDataCache } from 'service/utility';
 import { AppContext } from 'service/state';
+import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get LaunchTemplateColumnList by cloud_context.
@@ -43,33 +43,21 @@ const getLaunchTemplateColumnList = (cloudContext: CloudContext): EntityColumn[]
  * @param sortInfo Information of soring parameter.
  * @returns LaunchTemplateList.
  */
-const readLaunchTemplateList = async (cloudContext: CloudContext, sortInfo: SortInfo) => {
-  // Create a GET parameter.
-  const parameters: { key: string, value: string }[] = [];
+const readLaunchTemplateList = async (
+  getJsonData: GetJsonDataType,
+  cloudContext: CloudContext,
+  sortInfo: SortInfo
+) => {
+
+  const url = `/jsonapi/cloud_launch_template/${cloudContext.cloudServiceProvider}`;
+  const filter: { [key: string]: string } = {};
   if (cloudContext.name !== 'ALL') {
-    parameters.push({ key: 'filter[cloud_context]', value: cloudContext.name });
+    filter['filter[cloud_context]'] = cloudContext.name;
   }
   if (sortInfo.key !== '') {
-    parameters.push(
-      sortInfo.direction === 'ASC'
-        ? { key: 'sort', value: sortInfo.key }
-        : { key: 'sort', value: '-' + sortInfo.key }
-    );
+    filter['sort'] = sortInfo.direction === 'ASC' ? sortInfo.key : '-' + sortInfo.key;
   }
-
-  // Create the downloading URL.
-  let url = `/jsonapi/cloud_launch_template/${cloudContext.cloudServiceProvider}`;
-  if (parameters.length > 0) {
-    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-
-  // Download Action.
-  const httpService = HttpService.getInstance();
-  const result = await httpService.getJson<{data: EntityData[]}>(url);
+  const result = await getJsonData<{data: EntityData[]}>(url, filter);
   return result.data;
 };
 
@@ -84,6 +72,7 @@ const LaunchTemplateTable = ({ cloudContext }: {
 }) => {
 
   const { cloudContextList } = useContext(AppContext);
+  const { getEntityListAll, getJsonData } = useDrupalJsonApi();
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -101,10 +90,10 @@ const LaunchTemplateTable = ({ cloudContext }: {
       setDataColumnList(newDataColumnList);
 
       // Cache the data you need.
-      const dataCache = await readDataCache(launchTemplateColumnList);
+      const dataCache = await readDataCache(getEntityListAll, launchTemplateColumnList);
 
       // Load launch template's data.
-      const rawData = await readLaunchTemplateList(cloudContext, sortInfo);
+      const rawData = await readLaunchTemplateList(getJsonData, cloudContext, sortInfo);
       setDataRecordList(convertEntityData(rawData, launchTemplateColumnList, cloudContextList, dataCache));
     };
     init();

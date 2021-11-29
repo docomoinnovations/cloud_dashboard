@@ -6,7 +6,8 @@ import DataRecord from 'model/DataRecord';
 import EntityColumn from 'model/EntityColumn';
 import SortInfo from 'model/SortInfo';
 import { AppContext } from 'service/state';
-import { convertEntityData, getEntityData, readDataCache } from 'service/utility';
+import { convertEntityData, readDataCache } from 'service/utility';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
 /**
  * Table for entity data.
@@ -31,6 +32,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
 }) => {
 
   const { cloudContext, cloudContextList } = useContext(AppContext);
+  const { getEntityList, getEntityListAll } = useDrupalJsonApi();
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -47,7 +49,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
       setDataColumnList(newDataColumnList);
 
       // Cache the data you need.
-      const dataCache = await readDataCache(entityColumnList);
+      const dataCache = await readDataCache(getEntityListAll, entityColumnList);
 
       // Create function parameter.
       const filter: {[key: string]: string} = {};
@@ -68,7 +70,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
       };
 
       // Load entity data.
-      const rawData = await getEntityData(entityTypeId, parameter);
+      const rawData = await getEntityList(entityTypeId, parameter);
       setDataRecordList(convertEntityData(rawData, entityColumnList, cloudContextList, dataCache));
     };
     init();
