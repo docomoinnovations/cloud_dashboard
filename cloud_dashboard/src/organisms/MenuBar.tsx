@@ -2,11 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import { AppContext } from 'service/state';
-import { checkAndRefreshToken, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
+import { getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
 import { useTranslation } from 'react-i18next';
 import MenuLink from 'atoms/MenuLink';
 import MenuAnchor from 'atoms/MenuAnchor';
 import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
+import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 
 /**
  * Menu bar component.
@@ -14,6 +15,7 @@ import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
 const MenuBar = () => {
 
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
+  const { checkAndRefreshToken, logout: removeTokenAndLogout } = useDrupalOAuth2();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -27,16 +29,16 @@ const MenuBar = () => {
       }
     }
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setCloudContext = (cloudContext: CloudContext) => {
     dispatch({ type: 'setCloudContext', message: cloudContext });
   };
 
-  const logout = () => {
-    window.localStorage.removeItem('accessToken');
-    window.localStorage.removeItem('refreshToken');
-    window.localStorage.removeItem('expiresDatetime');
+  const logout = async () => {
+    window.localStorage.removeItem('jsonapiServerUri');
+    await removeTokenAndLogout();
   };
 
   return <header className="navbar navbar-default navbar-fixed-top" role="banner">
