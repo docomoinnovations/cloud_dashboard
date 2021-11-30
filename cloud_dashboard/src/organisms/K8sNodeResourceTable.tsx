@@ -72,7 +72,6 @@ const K8sNodeResourceTable = () => {
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
-
 }
 
 export default K8sNodeResourceTable;

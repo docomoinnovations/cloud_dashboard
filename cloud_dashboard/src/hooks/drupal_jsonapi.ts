@@ -1,11 +1,11 @@
-import { CACHE_EXPIRED_UNIXTIME } from "constant";
+import { CACHE_EXPIRED_UNIXTIME, FETCH_TIMEOUT_MS } from "constant";
 import EntityData from "model/EntityData";
 import SortInfo from "model/SortInfo";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "service/utility";
 
-type CacheType = Record<string, {response: any, unixtime: number}>;
-export type GetEntityListAllType = (entityTypeId: string, filter?: {[key: string]: string}, bundleId?: string) => Promise<EntityData[]>;
+type CacheType = Record<string, { response: any, unixtime: number }>;
+export type GetEntityListAllType = (entityTypeId: string, filter?: { [key: string]: string }, bundleId?: string) => Promise<EntityData[]>;
 export type GetJsonDataType = <T>(url: string, filter?: { [key: string]: string; }) => Promise<T>;
 
 type GetEntityListOption = {
@@ -14,7 +14,7 @@ type GetEntityListOption = {
   // Offset at which to retrieve the data (0 origin)
   offset: number,
   // Filters when retrieving data.
-  filter: {[key: string]: string},
+  filter: { [key: string]: string },
   // Keys and directions to sort.
   sort: SortInfo,
 };
@@ -33,8 +33,8 @@ const getEntityListImpl = async (
 ) => {
   // Create a GET parameter.
   const parameters: { key: string, value: string }[] = [];
-  parameters.push({key: 'page[limit]', value: `${option.limit}`});
-  parameters.push({key: 'page[offset]', value: `${option.offset}`});
+  parameters.push({ key: 'page[limit]', value: `${option.limit}` });
+  parameters.push({ key: 'page[offset]', value: `${option.offset}` });
   for (const key in option.filter) {
     parameters.push({ key: `filter[${key}]`, value: option.filter[key] });
   }
@@ -53,7 +53,7 @@ const getEntityListImpl = async (
   }
 
   // Download Action.
-  const res = await getJson<{data: EntityData[]}>(url);
+  const res = await getJson<{ data: EntityData[] }>(url);
   return res.data;
 }
 
@@ -68,7 +68,7 @@ const getEntityListImpl = async (
 const getEntityListAllImpl = async (
   getJson: <T>(url: string, parameter?: RequestInit) => Promise<T>,
   entityTypeId: string,
-  filter: {[key: string]: string},
+  filter: { [key: string]: string },
   bundleId: string
 ) => {
   // Create a GET parameter.
@@ -149,10 +149,27 @@ const useDrupalJsonApi = () => {
       }
     }
 
-    const response = await (await fetch(fixedUrl, parameter)).json();
-    const unixtime = (new Date()).getTime();
-    cache[fixedUrl] = { response, unixtime };
-    return response as T;
+    // Controller for timeout in Fetch API.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => { controller.abort() }, FETCH_TIMEOUT_MS);
+
+    // Fetch API with timeout.
+    try {
+      const response = await fetch(url, {
+        signal: controller.signal,
+        ...parameter,
+      });
+      if (!response.ok) {
+        console.error(response);
+        throw new Error('Can not download data');
+      }
+      const response2 = await (response.json());
+      const unixtime = (new Date()).getTime();
+      cache[fixedUrl] = { response: response2, unixtime };
+      return response2 as T;
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   /**
@@ -171,7 +188,7 @@ const useDrupalJsonApi = () => {
    * @param entityTypeId Entity type ID.
    * @param filter Filter for searching by keyword.
    */
-  const getEntityListAll = async (entityTypeId: string, filter: {[key: string]: string} = {}, bundleId: string = '') => {
+  const getEntityListAll = async (entityTypeId: string, filter: { [key: string]: string } = {}, bundleId: string = '') => {
     return getEntityListAllImpl(getJson, entityTypeId, filter, bundleId === '' ? entityTypeId : bundleId);
   }
 
@@ -189,7 +206,7 @@ const useDrupalJsonApi = () => {
    * @param filter Filter for searching by keyword.
    * @returns JSON data with type T.
    */
-  const getJsonData = async <T>(url: string, filter: {[key: string]: string} = {}): Promise<T> => {
+  const getJsonData = async <T>(url: string, filter: { [key: string]: string } = {}): Promise<T> => {
     // Create a GET parameter.
     const parameters: { key: string, value: string }[] = [];
     for (const key in filter) {

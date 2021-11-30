@@ -73,7 +73,6 @@ const K8sNamespaceResourceTable = () => {
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
-
 }
 
 export default K8sNamespaceResourceTable;
