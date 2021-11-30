@@ -5,11 +5,10 @@ import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
 import EntityColumn from 'model/EntityColumn';
-import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import { convertEntityData, readDataCache } from 'service/utility';
 import { AppContext } from 'service/state';
-import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
+import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get LaunchTemplateColumnList by cloud_context.
@@ -44,12 +43,11 @@ const getLaunchTemplateColumnList = (cloudContext: CloudContext): EntityColumn[]
  * @returns LaunchTemplateList.
  */
 const readLaunchTemplateList = async (
-  getJsonData: GetJsonDataType,
+  getEntityListAll: GetEntityListAllType,
   cloudContext: CloudContext,
   sortInfo: SortInfo
 ) => {
 
-  const url = `/jsonapi/cloud_launch_template/${cloudContext.cloudServiceProvider}`;
   const filter: { [key: string]: string } = {};
   if (cloudContext.name !== 'ALL') {
     filter['filter[cloud_context]'] = cloudContext.name;
@@ -57,8 +55,8 @@ const readLaunchTemplateList = async (
   if (sortInfo.key !== '') {
     filter['sort'] = sortInfo.direction === 'ASC' ? sortInfo.key : '-' + sortInfo.key;
   }
-  const result = await getJsonData<{data: EntityData[]}>(url, filter);
-  return result.data;
+  return await getEntityListAll('cloud_launch_template', filter, cloudContext.cloudServiceProvider);
+
 };
 
 /**
@@ -72,7 +70,7 @@ const LaunchTemplateTable = ({ cloudContext }: {
 }) => {
 
   const { cloudContextList } = useContext(AppContext);
-  const { getEntityListAll, getJsonData } = useDrupalJsonApi();
+  const { getEntityListAll } = useDrupalJsonApi();
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -93,7 +91,7 @@ const LaunchTemplateTable = ({ cloudContext }: {
       const dataCache = await readDataCache(getEntityListAll, launchTemplateColumnList);
 
       // Load launch template's data.
-      const rawData = await readLaunchTemplateList(getJsonData, cloudContext, sortInfo);
+      const rawData = await readLaunchTemplateList(getEntityListAll, cloudContext, sortInfo);
       setDataRecordList(convertEntityData(rawData, launchTemplateColumnList, cloudContextList, dataCache));
     };
     init();

@@ -6,10 +6,9 @@ import DataRecord from 'model/DataRecord';
 import SortInfo from 'model/SortInfo';
 import EntityColumn from 'model/EntityColumn';
 import { K8S_PROJECT_LIST } from 'constant';
-import EntityData from 'model/EntityData';
 import { convertEntityData } from 'service/utility';
 import { AppContext } from 'service/state';
-import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
+import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get ProjectColumnList by cloud_context.
@@ -37,12 +36,11 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
  * @returns ProjectList.
  */
 const readProjectList = async (
-  getJsonData: GetJsonDataType,
+  getEntityListAll: GetEntityListAllType,
   cloudContext: CloudContext,
   sortInfo: SortInfo
 ) => {
 
-  const url = `/jsonapi/cloud_project/${cloudContext.cloudServiceProvider}`;
   const filter: { [key: string]: string } = {};
   if (cloudContext.name !== 'ALL') {
     filter['filter[cloud_context]'] = cloudContext.name;
@@ -50,8 +48,7 @@ const readProjectList = async (
   if (sortInfo.key !== '') {
     filter['sort'] = sortInfo.direction === 'ASC' ? sortInfo.key : '-' + sortInfo.key;
   }
-  const result = await getJsonData<{data: EntityData[]}>(url, filter);
-  return result.data;
+  return await getEntityListAll('cloud_project', filter, cloudContext.cloudServiceProvider);
 
 };
 
@@ -66,7 +63,7 @@ const ProjectTable = ({ cloudContext }: {
 }) => {
 
   const { cloudContextList } = useContext(AppContext);
-  const { getJsonData } = useDrupalJsonApi();
+  const { getEntityListAll } = useDrupalJsonApi();
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -84,7 +81,7 @@ const ProjectTable = ({ cloudContext }: {
       setDataColumnList(newDataColumnList);
 
       // Load launch template's data.
-      const rawData = await readProjectList(getJsonData, cloudContext, sortInfo);
+      const rawData = await readProjectList(getEntityListAll, cloudContext, sortInfo);
       setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();

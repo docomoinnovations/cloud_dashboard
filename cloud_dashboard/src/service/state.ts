@@ -33,7 +33,7 @@ const loadCloudContext = (): CloudContext => {
 };
 
 export const useAppState = (): AppState => {
-  const { getJsonData } = useDrupalJsonApi();
+  const { getEntityListAll } = useDrupalJsonApi();
   const [cloudContext, setCloudContext] = useState<CloudContext>(loadCloudContext());
   const [cloudContextList, setCloudContextList] = useState<CloudContext[]>([...DEFAULT_CLOUD_CONTEXTS]);
   const { i18n } = useTranslation();
@@ -52,9 +52,8 @@ export const useAppState = (): AppState => {
       const cloudServiceProviderList = ['aws_cloud', 'k8s'];
       let newCloudContextList = [...DEFAULT_CLOUD_CONTEXTS];
       for (const cloudServiceProvider of cloudServiceProviderList) {
-        const data = (await getJsonData<{ data: any[] }>(
-          `/jsonapi/cloud_config/${cloudServiceProvider}`
-        )).data.map((record: any) => {
+        const data = (await getEntityListAll('cloud_config', {}, cloudServiceProvider))
+          .map((record: any) => {
           return {
             cloudServiceProvider: cloudServiceProvider as CloudServiceProvider,
             name: record.attributes.cloud_context,

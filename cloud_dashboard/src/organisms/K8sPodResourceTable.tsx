@@ -4,10 +4,9 @@ import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
 import SortInfo from 'model/SortInfo';
 import EntityColumn from 'model/EntityColumn';
-import EntityData from 'model/EntityData';
 import { convertEntityData } from 'service/utility';
 import { AppContext } from 'service/state';
-import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
+import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get columnList by cloud_context.
@@ -29,15 +28,13 @@ const getColumnList = (): EntityColumn[] => {
  * @param sortInfo Information of soring parameter.
  * @returns dataList.
  */
-const readDataList = async (getJsonData: GetJsonDataType, sortInfo: SortInfo) => {
+const readDataList = async (getEntityListAll: GetEntityListAllType, sortInfo: SortInfo) => {
 
-  const url = `/jsonapi/cloud_store/k8s_pod_resource_store`;
   const filter: { [key: string]: string } = {};
   if (sortInfo.key !== '') {
     filter['sort'] = sortInfo.direction === 'ASC' ? sortInfo.key : '-' + sortInfo.key;
   }
-  const result = await getJsonData<{data: EntityData[]}>(url, filter);
-  return result.data;
+  return await getEntityListAll('cloud_store', filter, 'k8s_pod_resource_store');
 
 };
 
@@ -49,7 +46,7 @@ const readDataList = async (getJsonData: GetJsonDataType, sortInfo: SortInfo) =>
 const K8sPodResourceTable = () => {
 
   const { cloudContextList } = useContext(AppContext);
-  const { getJsonData } = useDrupalJsonApi();
+  const { getEntityListAll } = useDrupalJsonApi();
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -67,7 +64,7 @@ const K8sPodResourceTable = () => {
       setDataColumnList(newDataColumnList);
 
       // Load launch template's data.
-      const rawData = await readDataList(getJsonData, sortInfo);
+      const rawData = await readDataList(getEntityListAll, sortInfo);
       setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();

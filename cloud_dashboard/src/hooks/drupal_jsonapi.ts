@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "service/utility";
 
 type CacheType = Record<string, {response: any, unixtime: number}>;
-export type GetEntityListAllType = (entityTypeId: string, filter: {[key: string]: string}) => Promise<EntityData[]>;
+export type GetEntityListAllType = (entityTypeId: string, filter?: {[key: string]: string}, bundleId?: string) => Promise<EntityData[]>;
 export type GetJsonDataType = <T>(url: string, filter?: { [key: string]: string; }) => Promise<T>;
 
 type GetEntityListOption = {
@@ -63,20 +63,22 @@ const getEntityListImpl = async (
  * @param The getJson() function.
  * @param entityTypeId Entity type ID.
  * @param filter Filter for searching by keyword.
+ * @param bundleId Bundle ID.
  */
 const getEntityListAllImpl = async (
   getJson: <T>(url: string, parameter?: RequestInit) => Promise<T>,
   entityTypeId: string,
-  filter: {[key: string]: string}
+  filter: {[key: string]: string},
+  bundleId: string
 ) => {
   // Create a GET parameter.
   const parameters: { key: string, value: string }[] = [];
   for (const key in filter) {
-    parameters.push({ key: `filter[${key}]`, value: filter[key] });
+    parameters.push({ key, value: filter[key] });
   }
 
   // Create the downloading URL.
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
+  let url = `/jsonapi/${entityTypeId}/${bundleId}`;
   if (parameters.length > 0) {
     url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
   }
@@ -131,10 +133,12 @@ const useDrupalJsonApi = () => {
    *
    * @param url URL.
    * @param parameter Option of fetch().
+   * @param addJsonApiServerUriFlg If this is true, give the server address of JSON:API before the URL.
    * @returns JSON data with type T.
    */
   const getJson = async <T>(url: string, parameter?: RequestInit): Promise<T> => {
-    const fixedUrl = jsonApiServerUri + url;
+    const fixedUrl = url.includes('http://') || url.includes('https://')
+      ? url : jsonApiServerUri + url;
 
     // If the data exists in the cache and is not expired, return it.
     if (fixedUrl in cache) {
@@ -167,8 +171,8 @@ const useDrupalJsonApi = () => {
    * @param entityTypeId Entity type ID.
    * @param filter Filter for searching by keyword.
    */
-  const getEntityListAll = async (entityTypeId: string, filter: {[key: string]: string}) => {
-    return getEntityListAllImpl(getJson, entityTypeId, filter);
+  const getEntityListAll = async (entityTypeId: string, filter: {[key: string]: string} = {}, bundleId: string = '') => {
+    return getEntityListAllImpl(getJson, entityTypeId, filter, bundleId === '' ? entityTypeId : bundleId);
   }
 
   /**

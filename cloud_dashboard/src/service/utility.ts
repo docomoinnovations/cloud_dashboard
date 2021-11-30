@@ -230,7 +230,7 @@ export const readDataCache = async (
     if (entityTypeId in dataCache) {
       continue;
     }
-    dataCache[entityTypeId] = await getEntityListAll(entityTypeId, {});
+    dataCache[entityTypeId] = await getEntityListAll(entityTypeId);
   }
   return dataCache;
 };

@@ -18,7 +18,7 @@ const getFieldEntityNameList = async (
 
   const filter: { [key: string]: string } = {};
   if (cloudContext.name !== 'ALL') {
-    filter['cloud_context'] = cloudContext.name;
+    filter['filter[cloud_context]'] = cloudContext.name;
   }
   const entityTypeId = `${cloudContext.cloudServiceProvider}_${columnKey}`;
   const entityDataList = await getEntityListAll(entityTypeId, filter);
