@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Title bar of entity detail info panel.
+ *
+ * @param titleKey key string of title.
+ * @param title Title text.
+ */
 const PanelHeadingTitle = ({ titleKey, title }: {
   titleKey: string,
   title: string

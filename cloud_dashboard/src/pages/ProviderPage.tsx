@@ -4,7 +4,11 @@ import MenuBar from 'organisms/MenuBar';
 import SetLanguageForm from 'organisms/SetLanguageForm';
 import CloudServiceProviderTable from 'organisms/CloudServiceProviderTable';
 
+/**
+ * Page of cloud service provider info.
+ */
 const ProviderPage = () => {
+
   return <>
     <MenuBar />
     <div className="container-fluid px-0">
@@ -21,6 +25,7 @@ const ProviderPage = () => {
       </div>
     </div>
   </>;
+
 }
 
 export default ProviderPage;

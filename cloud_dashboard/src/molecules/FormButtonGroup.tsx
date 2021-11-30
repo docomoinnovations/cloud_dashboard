@@ -1,6 +1,11 @@
 import FormButton from 'atoms/FormButton';
 import React from 'react';
 
+/**
+ * Groups of button.
+ *
+ * @param buttonList List of buttons.
+ */
 const FormButtonGroup = ({ buttonList }: {
   buttonList: {
     disabled: boolean,
@@ -8,6 +13,7 @@ const FormButtonGroup = ({ buttonList }: {
     value: string
   }[]
 }) => {
+
   return <div className="btn-group" role="group">
     {
       buttonList.map((button, index) => {
@@ -17,6 +23,7 @@ const FormButtonGroup = ({ buttonList }: {
       })
     }
   </div>;
+
 }
 
 export default FormButtonGroup;

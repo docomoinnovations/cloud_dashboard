@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer } from "react-leaflet";
-import { convertCloudContenxtItemList, loadRawCloudContextItemList } from 'service/utility';
+
+import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
+
 import CloudContenxtItem from 'model/CloudContenxtItem';
 import { MapData } from 'model/MapData';
-import HttpService from 'service/http';
+import RawCloudContextItem from 'model/RawCloudContextItem';
+
 import MapPolygonLayer from 'molecules/MapPolygonLayer';
 import CloudContenxtItemPopup from 'molecules/CloudContenxtItemPopup';
+
+import { convertCloudContenxtItemList } from 'service/utility';
 
 /**
  * Load List of CloudContenxtItem.
  */
-const LoadCloudContenxtItemList = async () => {
+const LoadCloudContenxtItemList = async (getJsonData: GetJsonDataType) => {
   const response = await fetch('/clouds/cloud_dashboard/config/marker_icon_uri');
   if (!response.ok) {
     return [];
   }
   const resJson = await response.json();
   const defaultIconUri: string = resJson['uri'];
-  const rawCloudContextItemList = await loadRawCloudContextItemList();
+  const rawCloudContextItemList = await getJsonData<RawCloudContextItem[]>('/clouds/cloud_config_location');
   const cloudContextItemList = convertCloudContenxtItemList(rawCloudContextItemList, defaultIconUri);
   return cloudContextItemList;
 };
@@ -25,7 +30,9 @@ const LoadCloudContenxtItemList = async () => {
 /**
  * Load MapData.
  */
-const LoadMapData = async () => {
+const LoadMapData = async (
+  getJsonData: GetJsonDataType
+) => {
   const response = await fetch('/clouds/cloud_dashboard/config/map_geojson_uri');
   if (!response.ok) {
     return {
@@ -33,25 +40,31 @@ const LoadMapData = async () => {
     };
   }
   const responseJson = await response.json();
-  return await HttpService.getInstance().getJson<MapData>(responseJson['uri']);
+  return await getJsonData<MapData>(responseJson['uri']);
 };
 
+/**
+ * Map for cloud service providers.
+ */
 const CloudServiceProviderMap = () => {
+
   const [cloudContenxtItemList, setCloudContenxtItemList] = useState<CloudContenxtItem[]>([]);
   const [mapData, setMapData] = useState<MapData>({
     features: []
   });
+  const { getJsonData } = useDrupalJsonApi();
 
   useEffect(() => {
     const init = async () => {
       // Load CloudContenxtItemList.
-      setCloudContenxtItemList(await LoadCloudContenxtItemList());
+      setCloudContenxtItemList(await LoadCloudContenxtItemList(getJsonData));
 
       // Load MapData.
-      setMapData(await LoadMapData());
+      setMapData(await LoadMapData(getJsonData));
     }
 
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <MapContainer
@@ -66,6 +79,7 @@ const CloudServiceProviderMap = () => {
       })
     }
   </MapContainer>;
+
 };
 
 export default CloudServiceProviderMap;

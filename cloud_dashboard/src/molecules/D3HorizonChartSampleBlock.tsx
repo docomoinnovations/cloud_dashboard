@@ -1,5 +1,5 @@
-import D3HorizonChart from 'atoms/D3HorizonChart';
 import React, { useRef, useState } from 'react';
+import D3HorizonChart from 'atoms/D3HorizonChart';
 
 const sampleData = [
   {
@@ -669,6 +669,12 @@ const sampleData = [
   }
 ];
 
+/**
+ * Wrapper of parseInt()
+ *
+ * @param s String of integer number.
+ * @param defaultValue Default value when parseInt fails.
+ */
 const tryParseInt = (s: string, defaultValue: number) => {
   try {
     return parseInt(s, 10);
@@ -677,12 +683,22 @@ const tryParseInt = (s: string, defaultValue: number) => {
   }
 }
 
+/**
+ * Wrapper of parseFloat()
+ *
+ * @param s String of floating number.
+ * @param defaultValue Default value when parseFloat fails.
+ */
 const tryParseFloat = (s: string, defaultValue: number) => {
   const temp = parseFloat(s);
   return isNaN(temp) ? defaultValue : temp;
 }
 
+/**
+ * Sample compont for D3HorizonChart.
+ */
 const D3HorizonChartSampleBlock = () => {
+
   const [title, setTitle] = useState('Sample Chart');
   const [height, setHeight] = useState('100');
   const [width, setWidth] = useState('1000');
@@ -796,6 +812,7 @@ const D3HorizonChartSampleBlock = () => {
     </form>
     <hr />
   </>;
+
 }
 
 export default D3HorizonChartSampleBlock;

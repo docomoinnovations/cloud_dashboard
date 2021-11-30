@@ -1,10 +1,17 @@
 import React from 'react';
 import EntityInfoRecordData from 'model/EntityInfoRecordData';
 
+/**
+ * Block of table view.
+ *
+ * @param record Record data fo table.
+ */
 const TableBlock = ({ record }: { record: EntityInfoRecordData }) => {
+
   if (record.type !== 'table') {
     return <></>;
   }
+
   return <div className="field field--name-tags field--type-key-value field--label-above">
     <div className="field--label">{record.title}</div>
     <div className="field--items">
@@ -36,6 +43,7 @@ const TableBlock = ({ record }: { record: EntityInfoRecordData }) => {
       </div>
     </div>
   </div>;
+
 }
 
 export default TableBlock;

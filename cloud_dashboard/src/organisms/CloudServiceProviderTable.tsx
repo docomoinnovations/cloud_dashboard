@@ -4,7 +4,11 @@ import SortInfo from 'model/SortInfo';
 import { AppContext } from 'service/state';
 import DataTable from './DataTable';
 
+/**
+ * Table of cloud service providers.
+ */
 const CloudServiceProviderTable = () => {
+
   const { cloudContextList } = useContext(AppContext);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
     key: '', direction: 'ASC'
@@ -39,6 +43,7 @@ const CloudServiceProviderTable = () => {
       setSortInfo={setSortInfo}
     />
   </form>;
+
 }
 
 export default CloudServiceProviderTable;

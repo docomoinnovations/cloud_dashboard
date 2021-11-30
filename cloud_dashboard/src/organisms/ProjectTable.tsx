@@ -6,10 +6,9 @@ import DataRecord from 'model/DataRecord';
 import SortInfo from 'model/SortInfo';
 import EntityColumn from 'model/EntityColumn';
 import { K8S_PROJECT_LIST } from 'constant';
-import HttpService from 'service/http';
-import EntityData from 'model/EntityData';
 import { convertEntityData } from 'service/utility';
 import { AppContext } from 'service/state';
+import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get ProjectColumnList by cloud_context.
@@ -36,34 +35,21 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
  * @param sortInfo Information of soring parameter.
  * @returns ProjectList.
  */
- const readProjectList = async (cloudContext: CloudContext, sortInfo: SortInfo) => {
-  // Create a GET parameter.
-  const parameters: { key: string, value: string }[] = [];
+const readProjectList = async (
+  getEntityListAll: GetEntityListAllType,
+  cloudContext: CloudContext,
+  sortInfo: SortInfo
+) => {
+
+  const filter: { [key: string]: string } = {};
   if (cloudContext.name !== 'ALL') {
-    parameters.push({ key: 'filter[cloud_context]', value: cloudContext.name });
+    filter['filter[cloud_context]'] = cloudContext.name;
   }
   if (sortInfo.key !== '') {
-    parameters.push(
-      sortInfo.direction === 'ASC'
-        ? { key: 'sort', value: sortInfo.key }
-        : { key: 'sort', value: '-' + sortInfo.key }
-    );
+    filter['sort'] = sortInfo.direction === 'ASC' ? sortInfo.key : '-' + sortInfo.key;
   }
+  return await getEntityListAll('cloud_project', filter, cloudContext.cloudServiceProvider);
 
-  // Create the downloading URL.
-  let url = `/jsonapi/cloud_project/${cloudContext.cloudServiceProvider}`;
-  if (parameters.length > 0) {
-    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-
-  // Download Action.
-  const httpService = HttpService.getInstance();
-  const result = await httpService.getJson<{data: EntityData[]}>(url);
-  return result.data;
 };
 
 /**
@@ -75,7 +61,9 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
 const ProjectTable = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
+
   const { cloudContextList } = useContext(AppContext);
+  const { getEntityListAll } = useDrupalJsonApi();
   const [dataColumnList, setDataColumnList] = useState<DataColumn[]>([]);
   const [dataRecordList, setDataRecordList] = useState<DataRecord[]>([]);
   const [sortInfo, setSortInfo] = useState<SortInfo>({
@@ -93,7 +81,7 @@ const ProjectTable = ({ cloudContext }: {
       setDataColumnList(newDataColumnList);
 
       // Load launch template's data.
-      const rawData = await readProjectList(cloudContext, sortInfo);
+      const rawData = await readProjectList(getEntityListAll, cloudContext, sortInfo);
       setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();
@@ -101,6 +89,7 @@ const ProjectTable = ({ cloudContext }: {
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
+
 }
 
 export default ProjectTable;

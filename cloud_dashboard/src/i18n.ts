@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
+// Conversion information for translating text.
 const resources: { [key: string]: { translation: { [key: string]: string } } } = {
   en: {
     translation: {
@@ -28,11 +29,13 @@ const resources: { [key: string]: { translation: { [key: string]: string } } } =
   }
 };
 
+// List of languages to be translated.
 export const LANGUAGE_LIST = [
   { key: 'en', value: 'English' },
   { key: 'ja', value: '日本語' }
 ]
 
+// Initialize the conversion process.
 i18n
   .use(initReactI18next)
   .init({

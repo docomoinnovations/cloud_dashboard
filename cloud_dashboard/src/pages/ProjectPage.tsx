@@ -3,9 +3,15 @@ import MenuBar from 'organisms/MenuBar';
 import CloudContext from 'model/CloudContext';
 import ProjectTable from 'organisms/ProjectTable';
 
+/**
+ * Page of viewing project info.
+ *
+ * @param cloudContext CloudContext.
+ */
 const ProjectPage = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
+
   return <>
     <MenuBar />
     <div className="container-fluid px-0">
@@ -16,6 +22,7 @@ const ProjectPage = ({ cloudContext }: {
       </div>
     </div>
   </>;
+
 }
 
 export default ProjectPage;

@@ -2,37 +2,39 @@ import React, { useContext, useEffect } from 'react';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import CloudContext from 'model/CloudContext';
 import { AppContext } from 'service/state';
-import { checkAndRefreshToken, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
+import { getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
 import { useTranslation } from 'react-i18next';
 import MenuLink from 'atoms/MenuLink';
 import MenuAnchor from 'atoms/MenuAnchor';
 import DropdownLinkMenu from 'molecules/DropdownLinkMenu';
+import useDrupalOAuth2 from 'hooks/drupal_oauth2';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
+/**
+ * Menu bar component.
+ */
 const MenuBar = () => {
+
   const { cloudContext, cloudContextList, dispatch } = useContext(AppContext);
+  const { checkAndRefreshToken, logout: removeTokenAndLogout } = useDrupalOAuth2();
+  const { removeJsonapiServerUri } = useDrupalJsonApi();
   const { t } = useTranslation();
 
   useEffect(() => {
     const init = async () => {
       await checkAndRefreshToken();
-      if (window.localStorage.getItem('jsonapiServerUri') === null) {
-        const res = await fetch('/clouds/cloud_dashboard/config/jsonapi_server_uri');
-        if (res.ok) {
-          window.localStorage.setItem('jsonapiServerUri', (await res.json()).uri);
-        }
-      }
     }
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setCloudContext = (cloudContext: CloudContext) => {
     dispatch({ type: 'setCloudContext', message: cloudContext });
   };
 
-  const logout = () => {
-    window.localStorage.removeItem('accessToken');
-    window.localStorage.removeItem('refreshToken');
-    window.localStorage.removeItem('expiresDatetime');
+  const logout = async () => {
+    removeJsonapiServerUri();
+    await removeTokenAndLogout();
   };
 
   return <header className="navbar navbar-default navbar-fixed-top" role="banner">
@@ -109,6 +111,7 @@ const MenuBar = () => {
       </div>
     </div>
   </header>;
+
 }
 
 export default MenuBar;

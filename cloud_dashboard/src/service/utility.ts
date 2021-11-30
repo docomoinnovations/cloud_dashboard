@@ -1,4 +1,4 @@
-import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from "constant";
+import { GetEntityListAllType } from "hooks/drupal_jsonapi";
 import L from "leaflet";
 import CloudContenxtItem from "model/CloudContenxtItem";
 import CloudContext from "model/CloudContext";
@@ -7,9 +7,7 @@ import EntityColumn from "model/EntityColumn";
 import EntityData from "model/EntityData";
 import MenuTemplate from "model/MenuTemplate";
 import RawCloudContextItem from "model/RawCloudContextItem";
-import SortInfo from "model/SortInfo";
 import { useEffect, useRef } from "react";
-import HttpService from "./http";
 
 /**
  * Padding Zero String.
@@ -202,95 +200,6 @@ export const usePrevious =  <T> (value: T) => {
 }
 
 /**
- * Download entity data by JSON:API.
- * @param entityTypeId Entity type ID.
- * @param option Options of downloading.
- */
-export const getEntityData = async (entityTypeId: string, option: {
-  // Maximum number of data to be retrieved.
-  limit: number,
-  // Offset at which to retrieve the data (0 origin)
-  offset: number,
-  // Filters when retrieving data.
-  filter: {[key: string]: string},
-  // Keys and directions to sort.
-  sort: SortInfo,
-}) => {
-  // Create a GET parameter.
-  const parameters: { key: string, value: string }[] = [];
-  parameters.push({key: 'page[limit]', value: `${option.limit}`});
-  parameters.push({key: 'page[offset]', value: `${option.offset}`});
-  for (const key in option.filter) {
-    parameters.push({ key: `filter[${key}]`, value: option.filter[key] });
-  }
-  if (option.sort.key !== '') {
-    parameters.push(
-      option.sort.direction === 'ASC'
-        ? { key: 'sort', value: option.sort.key }
-        : { key: 'sort', value: '-' + option.sort.key }
-    );
-  }
-
-  // Create the downloading URL.
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
-  if (parameters.length > 0) {
-    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-
-  // Download Action.
-  const res = await HttpService.getInstance().getJson<{data: EntityData[]}>(url);
-  return res.data;
-};
-
-/**
- * Download ALL entity data by JSON:API.
- * @param entityTypeId Entity type ID.
- * @param filter Filter for searching by keyword.
- */
-export const getEntityDataAll = async (entityTypeId: string, filter: {[key: string]: string} = {}) => {
-  // Create a GET parameter.
-  const parameters: { key: string, value: string }[] = [];
-  for (const key in filter) {
-    parameters.push({ key: `filter[${key}]`, value: filter[key] });
-  }
-
-  // Create the downloading URL.
-  let url = `/jsonapi/${entityTypeId}/${entityTypeId}`;
-  if (parameters.length > 0) {
-    url += '?' + parameters.map((r) => r.key + '=' + r.value).join('&');
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-
-  // Download Action.
-  let output: EntityData[] = [];
-  const httpService = HttpService.getInstance();
-  while (true) {
-    const res = await httpService.getJson<{
-      data: EntityData[],
-      links: {
-        next?: {
-          href: string
-        }
-      }
-    }>(url);
-    output = [...output, ...res.data];
-    if (res.links.next !== undefined) {
-      url = res.links.next!.href;
-    } else {
-      break;
-    }
-  }
-  return output;
-};
-
-/**
  * Getter of LaunchTemplateView's URL for CloudContext.
  * @param cloudContext CloudContext
  * @returns URL
@@ -303,10 +212,15 @@ export const getLaunchTemplateViewUrl = (cloudContext: CloudContext) => {
 
 /**
  * Read entity's data for convert entity's data by JSON:API.
+ *
+ * @param getEntityListAll The getEntityListAll() function;
  * @param entityColumnList Information about the entities that will be loaded in advance.
  * @returns Data cache.
  */
-export const readDataCache = async (entityColumnList: EntityColumn[]) => {
+export const readDataCache = async (
+  getEntityListAll: GetEntityListAllType,
+  entityColumnList: EntityColumn[]
+) => {
   const dataCache: { [key: string]: EntityData[] } = {};
   for (const entityColumn of entityColumnList) {
     if (entityColumn.type !== 'join') {
@@ -316,7 +230,7 @@ export const readDataCache = async (entityColumnList: EntityColumn[]) => {
     if (entityTypeId in dataCache) {
       continue;
     }
-    dataCache[entityTypeId] = await getEntityDataAll(entityTypeId);
+    dataCache[entityTypeId] = await getEntityListAll(entityTypeId);
   }
   return dataCache;
 };
@@ -370,21 +284,6 @@ export const convertEntityData = (
 };
 
 /**
- * Get a list of CloudContext coordinates from the Drupal Cloud module.
- *
- * @returns List of RawCloudContextItem.
- */
-export const loadRawCloudContextItemList = async () => {
-  let url = '/clouds/cloud_config_location';
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
-  }
-  const http = HttpService.getInstance();
-  return await http.getJson<RawCloudContextItem[]>(url);
-};
-
-/**
  * Convert a list of RawCloudContextItem to a format more suitable for display.
  *
  * @param rawCloudContenxtItemList List of RawCloudContextItem.
@@ -431,137 +330,34 @@ export const convertCloudContenxtItemList = (
 }
 
 /**
- * Request the access token using Code Grant.
- *
- * @param code Authorization code.
- * @param clientId clientId Client ID.
- * @param redirectUri Redirect URI for Code Grant.
- */
-export const requestTokenByCodeGrant = async (code: string, clientId: string, redirectUri: string) => {
-  // request Access token
-  const formData = new FormData();
-  formData.append('grant_type', 'authorization_code');
-  formData.append('client_id', clientId);
-  formData.append('client_secret', OAUTH2_CLIENT_SECRET);
-  formData.append('code', code);
-  formData.append('redirect_uri', redirectUri);
-
-  const response = await fetch(`/oauth/token`, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!response.ok) {
-    throw new Error('Authorization failed');
-  }
-  const response_json = await response.json();
-  if ('access_token' in response_json) {
-    // read tokens
-    const accessToken = response_json['access_token'];
-    const refreshToken = response_json['refresh_token'];
-    const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
-
-    // save tokens to Localstrage
-    window.localStorage.setItem('accessToken', accessToken);
-    window.localStorage.setItem('refreshToken', refreshToken);
-    window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
-  } else {
-    throw new Error('Authorization failed');
-  }
-};
-
-/**
- * Update the access token using Code Grant.
- *
- * @param clientId Client ID.
- * @@aram refreshToken Refresh token for refresh access token.
- */
-const refreshTokenByCodeGrant = async (clientId: string, refreshToken: string) => {
-  const formData = new FormData();
-  formData.append('grant_type', 'refresh_token');
-  formData.append('client_id', clientId);
-  formData.append('client_secret', OAUTH2_CLIENT_SECRET);
-  formData.append('refresh_token', refreshToken);
-
-  const response = await fetch(`/oauth/token`, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!response.ok) {
-    throw new Error('Refresh failed');
-  }
-  const response_json = await response.json();
-  if ('access_token' in response_json) {
-    // read tokens
-    const accessToken = response_json['access_token'];
-    const refreshTokenFromJson = response_json['refresh_token'];
-    const expiresDatetime = (new Date()).getTime() + response_json['expires_in'] * 1000;
-
-    // save tokens to Localstrage
-    window.localStorage.setItem('accessToken', accessToken);
-    window.localStorage.setItem('refreshToken', refreshTokenFromJson);
-    window.localStorage.setItem('expiresDatetime', `${expiresDatetime}`);
-  } else {
-    throw new Error('Refresh failed');
-  }
-};
-
-/**
- * Check the status of the access token,
- * and if there is a problem, go to the login screen.
- */
-export const checkAndRefreshToken = async () => {
-  // If you don't have the access token, redirect route URL.
-  const accessToken = window.localStorage.getItem('accessToken');
-  const expiresDatetime = window.localStorage.getItem('expiresDatetime');
-  if (accessToken === null || expiresDatetime == null) {
-    window.location.href = ROUTE_URL;
-    return;
-  }
-
-  // If the information required to update the token cannot be loaded,
-  // redirect route URL.
-  console.group('Authorization Code Grant');
-  const clientIdResponse = await fetch('/clouds/cloud_dashboard/config/client_id');
-  const refreshToken = window.localStorage.getItem('refreshToken');
-  if (!clientIdResponse.ok || refreshToken === null) {
-    console.log('Client ID : No');
-    console.error('Authorization failed.');
-    console.groupEnd();
-    window.location.href = ROUTE_URL;
-    return;
-  }
-  const clientId = (await clientIdResponse.json()).id;
-  console.log('Client ID : Yes');
-
-  // If the access token has expired, update it.
-  const now = (new Date()).getTime();
-  if (now <= parseInt(expiresDatetime, 10)) {
-    console.log('Token expired : No');
-    console.groupEnd();
-    return;
-  }
-  console.log('Token expired : Yes');
-
-  refreshTokenByCodeGrant(clientId, refreshToken).then(() => {
-    console.log('Access token : Yes');
-    console.groupEnd();
-  }).catch(() => {
-    console.log('Access token : No');
-    console.error('Authorization failed.');
-    console.groupEnd();
-    window.location.href = ROUTE_URL;
-  });
-};
-
-/**
  * Getter of ProjectView's URL for CloudContext.
  * @param cloudContext CloudContext
  * @returns URL
  */
- export const getProjectViewUrl = (cloudContext: CloudContext) => {
+export const getProjectViewUrl = (cloudContext: CloudContext) => {
   return cloudContext.name === 'ALL'
     ? `/${cloudContext.cloudServiceProvider as string}/project`
     : `/project/${cloudContext.name}`;
 };
+
+/**
+ * Wrapper of window.localStorage.getItem();
+ *
+ * @param key Key.
+ * @param defaultValue Default value.
+ * @returns Item value.
+ */
+export const getLocalStorageItem = (key: string, defaultValue: string) => {
+  const temp = window.localStorage.getItem(key);
+  return temp !== null ? temp : defaultValue;
+}
+
+/**
+ * Wrapper of window.localStorage.setItem();
+ *
+ * @param key Key.
+ * @param value Item value.
+ */
+export const setLocalStorageItem = (key: string, value: string) => {
+  window.localStorage.setItem(key, value);
+}

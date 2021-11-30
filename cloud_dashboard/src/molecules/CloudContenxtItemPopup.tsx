@@ -11,6 +11,7 @@ import CloudContenxtItemPopupLabel from 'molecules/CloudContenxtItemPopupLabel';
 const CloudContenxtItemPopup = ({ item }: {
   item: CloudContenxtItem
 }) => {
+
   return <Marker position={item.position} icon={item.icon}>
     <Popup>
       {
@@ -23,6 +24,7 @@ const CloudContenxtItemPopup = ({ item }: {
       }
     </Popup>
   </Marker>;
+
 };
 
 export default CloudContenxtItemPopup;

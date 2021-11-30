@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import HttpService from 'service/http';
 import { AppContext } from 'service/state';
 import { useTranslation } from 'react-i18next';
 import ControlLabel from 'atoms/ControlLabel';
 import CloudContext from 'model/CloudContext';
+import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
 
 /**
  * Get entity item's count.
@@ -15,6 +15,7 @@ import CloudContext from 'model/CloudContext';
  * @returns Entity item's count.
  */
 const getItemCount = async  (
+  getJsonData: GetJsonDataType,
   cloudContext: CloudContext,
   entityTypeId: string,
   namespace: string,
@@ -22,21 +23,19 @@ const getItemCount = async  (
 ) => { 
 
   // Create URL for REST API.
-  let url = cloudContext.name === 'ALL'
+  const url = cloudContext.name === 'ALL'
     ? `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${entityTypeId}/entity/count`
     : `/cloud_dashboard/${cloudContext.cloudServiceProvider}/${cloudContext.name}/${entityTypeId}/entity/count`;
+  const filter: { [key: string]: string; } = {};
   if (namespace !== '') {
-    url += `?namespace=${namespace}`;
+    filter['namespace'] = namespace;
   }
   if (namespaceName !== '') {
-    url += `?namespace_name=${namespaceName}`;
-  }
-  const jsonApiServerUri = window.localStorage.getItem('jsonapiServerUri');
-  if (jsonApiServerUri !== null) {
-    url = jsonApiServerUri + url;
+    filter['namespace_name'] = namespaceName;
   }
 
-  return (await HttpService.getInstance().getJson<{count: number}>(url)).count;
+  // Download data.
+  return (await getJsonData<{count: number}>(url, filter)).count;
 
 };
 
@@ -58,11 +57,12 @@ const ItemCountLabel = ({ entityTypeId, namespace, namespaceName, itemCount, set
 }) => {
 
   const { cloudContext } = useContext(AppContext);
+  const { getJsonData } = useDrupalJsonApi();
   const { t } = useTranslation();
 
   // Set entity item's count.
   useEffect(() => {
-    getItemCount(cloudContext, entityTypeId, namespace, namespaceName).then((count) => {
+    getItemCount(getJsonData, cloudContext, entityTypeId, namespace, namespaceName).then((count) => {
       setItemCount(count);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps

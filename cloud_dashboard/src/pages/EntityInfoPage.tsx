@@ -8,12 +8,19 @@ import EntityInfoTemplate from 'model/EntityInfoTemplate';
 import EntityInfoPanel from 'organisms/EntityInfoPanel';
 import MenuBar from 'organisms/MenuBar';
 
-import HttpService from 'service/http';
 import { convertDataForUI, readDataCache } from 'service/utility';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
+/**
+ * Page of entity info.
+ *
+ * @param entityInfoTemplate Template for viewing this entity data.
+ */
 const EntityInfoPage = ({ entityInfoTemplate }: {
   entityInfoTemplate: EntityInfoTemplate
 }) => {
+
+  const { getEntityListAll, getJsonData } = useDrupalJsonApi();
   const [entityData, setEntityData] = useState<EntityData>({
     id: '', attributes: {}
   });
@@ -26,7 +33,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
     if (typeof uuid !== 'undefined') {
       const entityTypeId = `${entityInfoTemplate.cloudServiceProvider}_${entityInfoTemplate.entityName}`;
       const url = `/jsonapi/${entityTypeId}/${entityTypeId}/${uuid}`;
-      HttpService.getInstance().getJson<{ data: EntityData }>(url).then((response) => {
+      getJsonData<{ data: EntityData }>(url).then((response) => {
         setEntityData(response.data);
       });
     }
@@ -42,12 +49,12 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
           records: []
         };
 
-        const dataCache = await (readDataCache(infoRecord.keyValueRecords));
+        const dataCache = await (readDataCache(getEntityListAll, infoRecord.keyValueRecords));
         for (const keyValueRecord of infoRecord.keyValueRecords) {
           if (keyValueRecord.type === 'metrics') {
             // type: 'metrics'
             const url = `/clouds/${entityInfoTemplate.cloudServiceProvider}/${entityData.attributes['cloud_context']}/${entityInfoTemplate.entityName}/${entityData.attributes['drupal_internal__id']}/metrics`;
-            const metricsData = await HttpService.getInstance().getJson<Record<string, number>[]>(url);
+            const metricsData = await getJsonData<Record<string, number>[]>(url);
             newPanelData.records.push({
               type: 'metrics',
               record: keyValueRecord.column.map((column) => {
@@ -115,6 +122,7 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
       </div>
     </div>
   </div>;
+
 }
 
 export default EntityInfoPage;

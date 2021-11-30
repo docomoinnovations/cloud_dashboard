@@ -6,6 +6,11 @@ import { useHistory } from 'react-router';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl } from 'service/utility';
 
+/**
+ * Tab elements for entity view.
+ *
+ * @param tabColumnList List of tab columns.
+ */
 const EntityTabsImpl = ({ tabColumnList }: {
   tabColumnList: {
     isActive: boolean,
@@ -31,6 +36,12 @@ const EntityTabsImpl = ({ tabColumnList }: {
 
 }
 
+/**
+ * Tab elements for entity view.
+ *
+ * @param menuType Cloud service provider.
+ * @param menuName Active tab name.
+ */
 const EntityTabs = ({ menuType, menuName }: {
   menuType: CloudServiceProvider,
   menuName: string

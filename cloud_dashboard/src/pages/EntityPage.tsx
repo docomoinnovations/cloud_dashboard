@@ -16,6 +16,7 @@ import ControlLabel from 'atoms/ControlLabel';
 const EntityPage = ({ menuTemplate }: {
   menuTemplate: MenuTemplate
 }) => {
+
   const [namespace, setNamespace] = useState<string>('');
   const [namespaceName, setNamespaceName] = useState<string>('');
   const [itemCount, setItemCount] = useState(0);
@@ -113,6 +114,7 @@ const EntityPage = ({ menuTemplate }: {
       setPageIndex={setPageIndex}
       itemCount={itemCount} />
   </>;
+
 }
 
 export default EntityPage;
