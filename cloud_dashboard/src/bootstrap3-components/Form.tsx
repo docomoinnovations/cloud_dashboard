@@ -8,6 +8,13 @@ type DivProps = Omit<
   children: React.ReactNode;
 };
 
+type FormProps = Omit<
+  JSX.IntrinsicElements["form"],
+  "children" | "className"
+> & {
+  children: React.ReactNode;
+};
+
 type InputProps = Omit<
   JSX.IntrinsicElements["input"],
   "children" | "className"
@@ -36,7 +43,7 @@ type SelectProps = Omit<
  */
 const Group = ({ children, className, ...props }: DivProps) => {
 
-  return <div className={`form-group ${className}`} {...props}>{children}</div>;
+  return <div className={`form-group${className ? ' ' + className : ''}`} {...props}>{children}</div>;
 
 }
 
@@ -46,7 +53,7 @@ const Group = ({ children, className, ...props }: DivProps) => {
  */
 const Input = ({ className, ...props }: InputProps) => {
 
-  return <input className={`form-control ${className}`} {...props} />;
+  return <input className={`form-control${className ? ' ' + className : ''}`} {...props} />;
 
 }
 
@@ -66,15 +73,23 @@ const Label = ({ children, ...props }: LabelProps) => {
  */
 const Select = ({ children, className, ...props }: SelectProps) => {
 
-  return <select className={`form-control ${className}`} {...props}>{children}</select>;
+  return <select className={`form-control${className ? ' ' + className : ''}`} {...props}>{children}</select>;
 
 }
 
-const Form = {
-  Group,
-  Input,
-  Label,
-  Select,
+const Form: (({ children, ...props }: FormProps) => JSX.Element) & {
+  Group: ({ children, className, ...props }: DivProps) => JSX.Element,
+  Input: ({ className, ...props }: InputProps) => JSX.Element,
+  Label: ({ children, ...props }: LabelProps) => JSX.Element,
+  Select: ({ children, className, ...props }: SelectProps) => JSX.Element,
+} = ({ children, ...props }) => {
+
+  return <form {...props}>{children}</form>;
+
 };
+Form.Group = Group;
+Form.Input = Input;
+Form.Label = Label;
+Form.Select = Select;
 
 export default Form;

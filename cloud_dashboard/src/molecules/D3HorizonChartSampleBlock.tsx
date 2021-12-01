@@ -733,7 +733,7 @@ const D3HorizonChartSampleBlock = () => {
       colors={colors}
     />
     <hr />
-    <form>
+    <Form>
       <Form.Group>
         <Form.Label htmlFor="chartTitle">Title</Form.Label>
         <Form.Input type="text" id="chartTitle" value={title} onChange={(e) => {
@@ -810,7 +810,7 @@ const D3HorizonChartSampleBlock = () => {
           setColors(newColors);
         }}>削除</button>
       </Form.Group>
-    </form>
+    </Form>
     <hr />
   </>;
 

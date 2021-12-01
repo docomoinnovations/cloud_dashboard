@@ -49,7 +49,7 @@ const EntityPage = ({ menuTemplate }: {
     <div className="container-fluid px-0">
       <div className="row mx-0">
         <div className="col">
-          <form>
+          <Form>
             {
               namespaceFlg
                 ? <Form.Group style={{ marginTop: '2rem' }}>
@@ -80,7 +80,7 @@ const EntityPage = ({ menuTemplate }: {
                 itemCount={itemCount}
                 setItemCount={setItemCount} />
             </Form.Group>
-          </form>
+          </Form>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@ const EntityPage = ({ menuTemplate }: {
     <div className="container-fluid px-0">
       <div className="row mx-0">
         <div className="col">
-          <form>
+          <Form>
             <EntityTable
               entityTypeId={entityTypeId}
               entityColumnList={menuTemplate.entityColumn}
@@ -105,7 +105,7 @@ const EntityPage = ({ menuTemplate }: {
                     path: getEntityListViewUrl(menuTemplate)
                   }
                   : undefined} />
-          </form>
+          </Form>
         </div>
       </div>
     </div>

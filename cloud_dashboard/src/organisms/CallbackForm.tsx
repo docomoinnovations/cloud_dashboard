@@ -1,3 +1,4 @@
+import Form from 'bootstrap3-components/Form';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 import React, { useEffect } from 'react';
 import Loader from 'react-loader-spinner';
@@ -11,10 +12,10 @@ const CallbackForm = () => {
 
   useEffect(() => {
     getTokenByAuthorizationCodeGrant();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <form>
+  return <Form>
     <div style={{ display: 'flex' }}>
       <Loader
         type="Grid"
@@ -27,7 +28,7 @@ const CallbackForm = () => {
         marginLeft: '2rem'
       }}>Orchestrating clouds...</span>
     </div>
-  </form>;
+  </Form>;
 
 }
 

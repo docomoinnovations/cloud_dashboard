@@ -13,7 +13,7 @@ const SetLanguageForm = () => {
   const { dispatch } = useContext(AppContext);
   const { t, i18n } = useTranslation();
 
-  return <form>
+  return <Form>
     <Form.Group style={{ marginTop: '2rem' }}>
       <Form.Label>{t('Language')}</Form.Label><br />
       <FormButtonGroup buttonList={
@@ -28,7 +28,7 @@ const SetLanguageForm = () => {
         })
       } />
     </Form.Group>
-  </form>;
+  </Form>;
 
 }
 

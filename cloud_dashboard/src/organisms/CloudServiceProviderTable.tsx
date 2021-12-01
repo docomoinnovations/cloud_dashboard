@@ -14,7 +14,7 @@ const CloudServiceProviderTable = () => {
     key: '', direction: 'ASC'
   });
 
-  return <form>
+  return <Form>
     <Form.Group style={{ marginTop: '2rem' }}>
       <Form.Label>Cloud Service Providers</Form.Label>
     </Form.Group>
@@ -42,7 +42,7 @@ const CloudServiceProviderTable = () => {
       sortInfo={sortInfo}
       setSortInfo={setSortInfo}
     />
-  </form>;
+  </Form>;
 
 }
 
