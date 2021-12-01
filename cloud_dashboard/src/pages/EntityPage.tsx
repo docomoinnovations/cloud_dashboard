@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FieldSelect from 'molecules/FieldSelect';
 import ItemCountLabel from 'molecules/ItemCountLabel';
 import PageSelector from 'molecules/PageSelector';
-import EntityTable from '../organisms/EntityTable';
+import EntityTable from 'organisms/EntityTable';
 import MenuTemplate from 'model/MenuTemplate';
 import MenuBar from 'organisms/MenuBar';
 import EntityTabs from 'molecules/EntityTabs';
