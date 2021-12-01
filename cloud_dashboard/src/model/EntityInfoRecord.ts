@@ -1,4 +1,4 @@
-import EntityColumn from "./EntityColumn";
+import EntityColumn from './EntityColumn';
 
 type EntityInfoRecord = {
   panelName: string,

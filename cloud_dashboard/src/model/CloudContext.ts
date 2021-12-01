@@ -1,4 +1,4 @@
-import CloudServiceProvider from "model/CloudServiceProvider";
+import CloudServiceProvider from 'model/CloudServiceProvider';
 
 interface CloudContext {
   cloudServiceProvider: CloudServiceProvider;

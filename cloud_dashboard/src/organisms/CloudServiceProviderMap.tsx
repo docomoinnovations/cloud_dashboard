@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer } from "react-leaflet";
+import { MapContainer } from 'react-leaflet';
 
 import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
 

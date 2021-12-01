@@ -1,4 +1,4 @@
-import { LatLngTuple } from "leaflet";
+import { LatLngTuple } from 'leaflet';
 
 interface CloudContenxtItemlabel {
   iconUrl: string;

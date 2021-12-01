@@ -1,5 +1,5 @@
-import { LatLngTuple } from "leaflet";
-import CloudContenxtItemlabel from "model/CloudContenxtItemLabel";
+import { LatLngTuple } from 'leaflet';
+import CloudContenxtItemlabel from 'model/CloudContenxtItemLabel';
 
 interface CloudContenxtItem {
   icon: L.Icon | undefined,

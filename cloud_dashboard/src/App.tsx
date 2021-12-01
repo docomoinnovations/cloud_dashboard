@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
 
@@ -19,7 +19,7 @@ import ProjectPage from 'pages/ProjectPage';
 import ProviderPage from 'pages/ProviderPage';
 
 import 'leaflet/dist/leaflet.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import 'App.css';
 
 /**

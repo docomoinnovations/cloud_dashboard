@@ -1,4 +1,4 @@
-import EntityInfoRecordData from "./EntityInfoRecordData";
+import EntityInfoRecordData from './EntityInfoRecordData';
 
 interface EntityInfoPanelData {
   title: string;

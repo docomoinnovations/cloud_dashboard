@@ -1,5 +1,5 @@
-import CloudServiceProvider from "model/CloudServiceProvider";
-import EntityColumn from "model/EntityColumn";
+import CloudServiceProvider from 'model/CloudServiceProvider';
+import EntityColumn from 'model/EntityColumn';
 
 interface MenuTemplate {
   cloudServiceProvider: CloudServiceProvider;
