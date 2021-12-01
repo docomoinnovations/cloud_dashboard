@@ -1,4 +1,5 @@
 import D3HorizonChart from 'atoms/D3HorizonChart';
+import Button from 'bootstrap3-components/Button';
 import Form from 'bootstrap3-components/Form';
 import React, { useRef, useState } from 'react';
 
@@ -792,10 +793,10 @@ const D3HorizonChartSampleBlock = () => {
         }} />
       </Form.Group>
       <Form.Group>
-        <button type="button" className="btn btn-default" style={{ marginRight: 20 }} onClick={() => {
+        <Button style={{ marginRight: 20 }} onClick={() => {
           setColors([...colors, newColor]);
-        }}>追加</button>
-        <button type="button" className="btn btn-default" onClick={() => {
+        }}>追加</Button>
+        <Button onClick={() => {
           const temp = colorsRef.current;
           if (temp === null) {
             return;
@@ -808,7 +809,7 @@ const D3HorizonChartSampleBlock = () => {
             }
           }
           setColors(newColors);
-        }}>削除</button>
+        }}>削除</Button>
       </Form.Group>
     </Form>
     <hr />

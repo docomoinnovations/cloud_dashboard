@@ -1,17 +1,17 @@
 import React from 'react';
 
-type DivProps = Omit<
-  JSX.IntrinsicElements["div"],
-  "children" | "className"
-> & {
-  className?: string;
-  children: React.ReactNode;
-};
-
 type FormProps = Omit<
   JSX.IntrinsicElements["form"],
   "children" | "className"
 > & {
+  children: React.ReactNode;
+};
+
+type GroupProps = Omit<
+  JSX.IntrinsicElements["div"],
+  "children" | "className"
+> & {
+  className?: string;
   children: React.ReactNode;
 };
 
@@ -39,9 +39,11 @@ type SelectProps = Omit<
 
 /**
  * Group parts in form.
+ *
  * @param children Children Node.
+ * @param className Added text of className.
  */
-const Group = ({ children, className, ...props }: DivProps) => {
+const Group = ({ children, className, ...props }: GroupProps) => {
 
   return <div className={`form-group${className ? ' ' + className : ''}`} {...props}>{children}</div>;
 
@@ -49,7 +51,8 @@ const Group = ({ children, className, ...props }: DivProps) => {
 
 /**
  * Input parts in form.
- * @param children Children Node.
+ *
+ * @param className Added text of className.
  */
 const Input = ({ className, ...props }: InputProps) => {
 
@@ -59,6 +62,7 @@ const Input = ({ className, ...props }: InputProps) => {
 
 /**
  * Label parts in form.
+ *
  * @param children Children Node.
  */
 const Label = ({ children, ...props }: LabelProps) => {
@@ -69,7 +73,9 @@ const Label = ({ children, ...props }: LabelProps) => {
 
 /**
  * Select parts in form.
+ *
  * @param children Children Node.
+ * @param className Added text of className.
  */
 const Select = ({ children, className, ...props }: SelectProps) => {
 
@@ -77,8 +83,13 @@ const Select = ({ children, className, ...props }: SelectProps) => {
 
 }
 
+/**
+ * The <form> tag.
+ *
+ * @param children Children Node.
+ */
 const Form: (({ children, ...props }: FormProps) => JSX.Element) & {
-  Group: ({ children, className, ...props }: DivProps) => JSX.Element,
+  Group: ({ children, className, ...props }: GroupProps) => JSX.Element,
   Input: ({ className, ...props }: InputProps) => JSX.Element,
   Label: ({ children, ...props }: LabelProps) => JSX.Element,
   Select: ({ children, className, ...props }: SelectProps) => JSX.Element,
