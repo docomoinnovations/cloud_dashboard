@@ -1,3 +1,5 @@
+import React from 'react';
+
 type ButtonProps = Omit<
   JSX.IntrinsicElements['button'],
   'children' | 'className'

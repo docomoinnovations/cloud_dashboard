@@ -1,37 +1,37 @@
 import React from 'react';
 
 type FormProps = Omit<
-  JSX.IntrinsicElements["form"],
-  "children" | "className"
+  JSX.IntrinsicElements['form'],
+  'children'
 > & {
   children: React.ReactNode;
 };
 
 type GroupProps = Omit<
-  JSX.IntrinsicElements["div"],
-  "children" | "className"
+  JSX.IntrinsicElements['div'],
+  'children' | 'className'
 > & {
   className?: string;
   children: React.ReactNode;
 };
 
 type InputProps = Omit<
-  JSX.IntrinsicElements["input"],
-  "children" | "className"
+  JSX.IntrinsicElements['input'],
+  'className'
 > & {
   className?: string;
 };
 
 type LabelProps = Omit<
-  JSX.IntrinsicElements["label"],
-  "children" | "className"
+  JSX.IntrinsicElements['label'],
+  'children'
 > & {
   children: React.ReactNode;
 };
 
 type SelectProps = Omit<
-  JSX.IntrinsicElements["select"],
-  "children" | "className"
+  JSX.IntrinsicElements['select'],
+  'children' | 'className'
 > & {
   className?: string;
   children: React.ReactNode;

@@ -1,6 +1,8 @@
+import React from 'react';
+
 type TabProps = Omit<
-  JSX.IntrinsicElements["li"],
-  "children"
+  JSX.IntrinsicElements['li'],
+  'children'
 > & {
   children: React.ReactNode;
 };
