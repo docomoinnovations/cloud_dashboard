@@ -1,4 +1,5 @@
 import EntityTab from 'atoms/EntityTab';
+import Tab from 'bootstrap3-components/Tab';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import React, { useContext, useEffect } from 'react';
@@ -19,20 +20,18 @@ const EntityTabsImpl = ({ tabColumnList }: {
   }[]
 }) => {
 
-  return <nav className="tabs" role="navigation" aria-label="Tabs">
-    <ul className="tabs--primary nav nav-tabs">
-      {
-        tabColumnList.map((tabColumn, index) => {
-          return <EntityTab
-            key={index}
-            isActive={tabColumn.isActive}
-            location={tabColumn.location}
-            children={tabColumn.children}
-          />;
-        })
-      }
-    </ul>
-  </nav>;
+  return <Tab.Group>
+    {
+      tabColumnList.map((tabColumn, index) => {
+        return <EntityTab
+          key={index}
+          isActive={tabColumn.isActive}
+          location={tabColumn.location}
+          children={tabColumn.children}
+        />;
+      })
+    }
+  </Tab.Group>;
 
 }
 
