@@ -1,8 +1,8 @@
-import React from 'react';
 import CloudServiceProviderMap from 'organisms/CloudServiceProviderMap';
+import CloudServiceProviderTable from 'organisms/CloudServiceProviderTable';
 import MenuBar from 'organisms/MenuBar';
 import SetLanguageForm from 'organisms/SetLanguageForm';
-import CloudServiceProviderTable from 'organisms/CloudServiceProviderTable';
+import React from 'react';
 
 /**
  * Page of cloud service provider info.

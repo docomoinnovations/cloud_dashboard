@@ -1,7 +1,7 @@
-import React from 'react';
-import MenuBar from 'organisms/MenuBar';
 import CloudContext from 'model/CloudContext';
+import MenuBar from 'organisms/MenuBar';
 import ProjectTable from 'organisms/ProjectTable';
+import React from 'react';
 
 /**
  * Page of viewing project info.

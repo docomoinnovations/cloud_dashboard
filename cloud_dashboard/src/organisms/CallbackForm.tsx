@@ -1,6 +1,6 @@
+import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 import React, { useEffect } from 'react';
 import Loader from 'react-loader-spinner';
-import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 
 /**
  * Callback form for Authorization Code Grant.

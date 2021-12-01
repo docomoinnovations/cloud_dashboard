@@ -1,6 +1,6 @@
-import React from 'react';
 import K8sNodeResourceTable from 'organisms/K8sNodeResourceTable';
 import MenuBar from 'organisms/MenuBar';
+import React from 'react';
 
 /**
  * Page of K8s node resource.

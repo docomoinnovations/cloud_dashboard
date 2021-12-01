@@ -1,5 +1,5 @@
-import React from 'react';
 import EntityInfoRecordData from 'model/EntityInfoRecordData';
+import React from 'react';
 
 /**
  * Block of table view.

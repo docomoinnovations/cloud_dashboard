@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
 import EntityTab from 'atoms/EntityTab';
 import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
 import CloudServiceProvider from 'model/CloudServiceProvider';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl } from 'service/utility';

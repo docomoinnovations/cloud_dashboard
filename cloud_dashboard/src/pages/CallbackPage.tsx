@@ -1,5 +1,5 @@
-import React from 'react';
 import CallbackForm from 'organisms/CallbackForm';
+import React from 'react';
 
 /**
  * Callback page.

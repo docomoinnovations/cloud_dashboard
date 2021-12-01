@@ -1,6 +1,6 @@
-import React from 'react';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 /**

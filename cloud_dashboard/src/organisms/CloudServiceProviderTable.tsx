@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
 import ControlLabel from 'atoms/ControlLabel';
 import SortInfo from 'model/SortInfo';
-import { AppContext } from 'service/state';
 import DataTable from 'organisms/DataTable';
+import React, { useContext, useState } from 'react';
+import { AppContext } from 'service/state';
 
 /**
  * Table of cloud service providers.

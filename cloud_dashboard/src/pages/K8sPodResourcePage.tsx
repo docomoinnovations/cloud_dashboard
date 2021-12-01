@@ -1,6 +1,6 @@
-import React from 'react';
 import K8sPodResourceTable from 'organisms/K8sPodResourceTable';
 import MenuBar from 'organisms/MenuBar';
+import React from 'react';
 
 /**
  * Page of K8s pod resource.

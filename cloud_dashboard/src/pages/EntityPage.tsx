@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import ControlLabel from 'atoms/ControlLabel';
+import MenuTemplate from 'model/MenuTemplate';
+import EntityTabs from 'molecules/EntityTabs';
 import FieldSelect from 'molecules/FieldSelect';
 import ItemCountLabel from 'molecules/ItemCountLabel';
 import PageSelector from 'molecules/PageSelector';
 import EntityTable from 'organisms/EntityTable';
-import MenuTemplate from 'model/MenuTemplate';
 import MenuBar from 'organisms/MenuBar';
-import EntityTabs from 'molecules/EntityTabs';
+import React, { useEffect, useState } from 'react';
 import { getEntityListViewUrl, getEntityTypeId } from 'service/utility';
-import ControlLabel from 'atoms/ControlLabel';
 
 /**
  * Page of entity view.

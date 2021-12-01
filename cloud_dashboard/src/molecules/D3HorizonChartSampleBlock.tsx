@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
 import D3HorizonChart from 'atoms/D3HorizonChart';
+import React, { useRef, useState } from 'react';
 
 const sampleData = [
   {

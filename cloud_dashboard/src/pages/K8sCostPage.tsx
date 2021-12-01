@@ -1,6 +1,6 @@
-import React from 'react';
 import K8sCostTable from 'organisms/K8sCostTable';
 import MenuBar from 'organisms/MenuBar';
+import React from 'react';
 
 /**
  * Page of K8s cost.

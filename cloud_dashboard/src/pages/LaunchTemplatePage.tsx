@@ -1,7 +1,7 @@
-import React from 'react';
 import CloudContext from 'model/CloudContext';
 import LaunchTemplateTable from 'organisms/LaunchTemplateTable';
 import MenuBar from 'organisms/MenuBar';
+import React from 'react';
 
 /**
  * Page of launch template.

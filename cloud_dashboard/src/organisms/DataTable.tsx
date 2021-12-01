@@ -1,9 +1,9 @@
-import React from 'react';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
 import SortInfo from 'model/SortInfo';
 import DataTableHeader from 'molecules/DataTableHeader';
 import DataTableRow from 'molecules/DataTableRow';
+import React from 'react';
 
 /**
  * Table for listing data.

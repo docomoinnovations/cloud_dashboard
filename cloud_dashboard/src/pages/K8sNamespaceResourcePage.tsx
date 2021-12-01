@@ -1,6 +1,6 @@
-import React from 'react';
 import K8sNamespaceResourceTable from 'organisms/K8sNamespaceResourceTable';
 import MenuBar from 'organisms/MenuBar';
+import React from 'react';
 
 /**
  * Page of K8s namespace resource.

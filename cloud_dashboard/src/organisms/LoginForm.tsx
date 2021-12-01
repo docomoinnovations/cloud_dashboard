@@ -1,5 +1,5 @@
-import React from 'react';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
+import React from 'react';
 
 /**
  * Login form component.

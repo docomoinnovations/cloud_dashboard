@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import EntityData from 'model/EntityData';
 import EntityInfoPanelData from 'model/EntityInfoPanelData';
 import EntityInfoTemplate from 'model/EntityInfoTemplate';
-
 import EntityInfoPanel from 'organisms/EntityInfoPanel';
 import MenuBar from 'organisms/MenuBar';
-
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { convertDataForUI, readDataCache } from 'service/utility';
-import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
 /**
  * Page of entity info.

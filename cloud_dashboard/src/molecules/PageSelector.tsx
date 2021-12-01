@@ -1,6 +1,6 @@
-import React from 'react';
 import PageSelectorButton from 'atoms/PageSelectorButton';
 import { ITEMS_PER_PAGE } from 'constant';
+import React from 'react';
 
 /**
  * Page selector for EntityForm.

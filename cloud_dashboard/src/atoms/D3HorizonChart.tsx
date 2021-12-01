@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import * as d3 from 'd3';
+import React, { useEffect } from 'react';
 import { HorizonChart } from 'src/../../d3-horizon-chart/dist/d3-horizon-chart';
 
 /**

@@ -1,7 +1,7 @@
-import React from 'react';
 import SortDirectionIcon from 'atoms/SortDirectionIcon';
 import DataColumn from 'model/DataColumn';
 import SortInfo from 'model/SortInfo';
+import React from 'react';
 
 /**
  * TableHeader with sorting data function.

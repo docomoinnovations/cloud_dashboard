@@ -1,11 +1,9 @@
-import React from 'react';
-
 import EntityInfoPanelData from 'model/EntityInfoPanelData';
-
+import D3MetricsBlock from 'molecules/D3MetricsBlock';
 import KeyValueBlock from 'molecules/KeyValueBlock';
 import PanelHeadingTitle from 'molecules/PanelHeadingTitle';
 import TableBlock from 'molecules/TableBlock';
-import D3MetricsBlock from 'molecules/D3MetricsBlock';
+import React from 'react';
 
 /**
  * Panel of entity detail info.

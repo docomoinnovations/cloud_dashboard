@@ -1,6 +1,6 @@
-import React from 'react';
-import EntityInfoRecordData from 'model/EntityInfoRecordData';
 import D3HorizonChart from 'atoms/D3HorizonChart';
+import EntityInfoRecordData from 'model/EntityInfoRecordData';
+import React from 'react';
 
 /**
  * Block of metric info view.
