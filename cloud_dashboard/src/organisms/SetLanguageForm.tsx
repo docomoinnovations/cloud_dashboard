@@ -1,4 +1,4 @@
-import ControlLabel from 'atoms/ControlLabel';
+import Form from 'bootstrap3-components/Form';
 import { LANGUAGE_LIST } from 'i18n';
 import FormButtonGroup from 'molecules/FormButtonGroup';
 import React, { useContext } from 'react';
@@ -14,8 +14,8 @@ const SetLanguageForm = () => {
   const { t, i18n } = useTranslation();
 
   return <form>
-    <div className="form-group" style={{ marginTop: '2rem' }}>
-      <ControlLabel>{t('Language')}</ControlLabel><br />
+    <Form.Group style={{ marginTop: '2rem' }}>
+      <Form.Label>{t('Language')}</Form.Label><br />
       <FormButtonGroup buttonList={
         LANGUAGE_LIST.map((language) => {
           return {
@@ -27,7 +27,7 @@ const SetLanguageForm = () => {
           };
         })
       } />
-    </div>
+    </Form.Group>
   </form>;
 
 }

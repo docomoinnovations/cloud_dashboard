@@ -1,4 +1,4 @@
-import ControlLabel from 'atoms/ControlLabel';
+import Form from 'bootstrap3-components/Form';
 import MenuTemplate from 'model/MenuTemplate';
 import EntityTabs from 'molecules/EntityTabs';
 import FieldSelect from 'molecules/FieldSelect';
@@ -52,34 +52,34 @@ const EntityPage = ({ menuTemplate }: {
           <form>
             {
               namespaceFlg
-                ? <div className="form-group" style={{ marginTop: '2rem' }}>
-                  <ControlLabel>Namespace</ControlLabel>
+                ? <Form.Group style={{ marginTop: '2rem' }}>
+                  <Form.Label>Namespace</Form.Label>
                   <FieldSelect
                     columnKey="namespace"
                     columnName={namespace}
                     setColumnName={setNamespace} />
-                </div>
+                </Form.Group>
                 : <></>
             }
             {
               namespaceNameFlg
-                ? <div className="form-group" style={{ marginTop: '2rem' }}>
-                  <ControlLabel>Namespace Name</ControlLabel>
+                ? <Form.Group style={{ marginTop: '2rem' }}>
+                  <Form.Label>Namespace Name</Form.Label>
                   <FieldSelect
                     columnKey="namespace_name"
                     columnName={namespaceName}
                     setColumnName={setNamespaceName} />
-                </div>
+                </Form.Group>
                 : <></>
             }
-            <div className="form-group" style={{ marginTop: '2rem' }}>
+            <Form.Group style={{ marginTop: '2rem' }}>
               <ItemCountLabel
                 entityTypeId={entityTypeId}
                 namespace={namespace}
                 namespaceName={namespaceName}
                 itemCount={itemCount}
                 setItemCount={setItemCount} />
-            </div>
+            </Form.Group>
           </form>
         </div>
       </div>
@@ -100,11 +100,11 @@ const EntityPage = ({ menuTemplate }: {
               pageIndex={pageIndex}
               detailInfo={
                 typeof menuTemplate.detailInfoColumn !== 'undefined'
-                ? {
-                  column: menuTemplate.detailInfoColumn,
-                  path: getEntityListViewUrl(menuTemplate)
-                }
-                : undefined} />
+                  ? {
+                    column: menuTemplate.detailInfoColumn,
+                    path: getEntityListViewUrl(menuTemplate)
+                  }
+                  : undefined} />
           </form>
         </div>
       </div>

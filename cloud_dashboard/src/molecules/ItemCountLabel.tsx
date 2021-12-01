@@ -1,4 +1,4 @@
-import ControlLabel from 'atoms/ControlLabel';
+import Form from 'bootstrap3-components/Form';
 import useDrupalJsonApi, { GetJsonDataType } from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import React, { useContext, useEffect } from 'react';
@@ -14,13 +14,13 @@ import { AppContext } from 'service/state';
  * @param namespaceName Value of namespace.
  * @returns Entity item's count.
  */
-const getItemCount = async  (
+const getItemCount = async (
   getJsonData: GetJsonDataType,
   cloudContext: CloudContext,
   entityTypeId: string,
   namespace: string,
   namespaceName: string
-) => { 
+) => {
 
   // Create URL for REST API.
   const url = cloudContext.name === 'ALL'
@@ -35,7 +35,7 @@ const getItemCount = async  (
   }
 
   // Download data.
-  return (await getJsonData<{count: number}>(url, filter)).count;
+  return (await getJsonData<{ count: number }>(url, filter)).count;
 
 };
 
@@ -65,10 +65,10 @@ const ItemCountLabel = ({ entityTypeId, namespace, namespaceName, itemCount, set
     getItemCount(getJsonData, cloudContext, entityTypeId, namespace, namespaceName).then((count) => {
       setItemCount(count);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext, namespace, namespaceName]);
 
-  return <ControlLabel>{t('ItemCount')}: {itemCount}</ControlLabel>;
+  return <Form.Label>{t('ItemCount')}: {itemCount}</Form.Label>;
 
 };
 

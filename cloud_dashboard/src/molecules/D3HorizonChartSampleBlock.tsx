@@ -1,4 +1,5 @@
 import D3HorizonChart from 'atoms/D3HorizonChart';
+import Form from 'bootstrap3-components/Form';
 import React, { useRef, useState } from 'react';
 
 const sampleData = [
@@ -733,64 +734,64 @@ const D3HorizonChartSampleBlock = () => {
     />
     <hr />
     <form>
-      <div className="form-group">
-        <label htmlFor="chartTitle">Title</label>
-        <input type="text" className="form-control" id="chartTitle" value={title} onChange={(e) => {
+      <Form.Group>
+        <Form.Label htmlFor="chartTitle">Title</Form.Label>
+        <Form.Input type="text" id="chartTitle" value={title} onChange={(e) => {
           setTitle(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartHeight">Height</label>
-        <input type="number" className="form-control" id="chartHeight" value={height} onChange={(e) => {
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartHeight">Height</Form.Label>
+        <Form.Input type="number" id="chartHeight" value={height} onChange={(e) => {
           setHeight(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartWidth">Width</label>
-        <input type="number" className="form-control" id="chartWidth" value={width} onChange={(e) => {
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartWidth">Width</Form.Label>
+        <Form.Input type="number" id="chartWidth" value={width} onChange={(e) => {
           setWidth(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartYRangeMin">yRangeMin</label>
-        <input type="number" className="form-control" id="chartYRangeMin" value={yRangeMin} onChange={(e) => {
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartYRangeMin">yRangeMin</Form.Label>
+        <Form.Input type="number" id="chartYRangeMin" value={yRangeMin} onChange={(e) => {
           setYRangeMin(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartYRangeMax">yRangeMax</label>
-        <input type="number" className="form-control" id="chartYRangeMax" value={yRangeMax} onChange={(e) => {
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartYRangeMax">yRangeMax</Form.Label>
+        <Form.Input type="number" id="chartYRangeMax" value={yRangeMax} onChange={(e) => {
           setYRangeMax(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartTitleColor">TitleColor</label>
-        <input type="text" className="form-control" id="chartTitleColor" value={titleColor} onChange={(e) => {
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartTitleColor">TitleColor</Form.Label>
+        <Form.Input type="text" id="chartTitleColor" value={titleColor} onChange={(e) => {
           setTitleColor(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartTitleFontSize">TitleFontSize</label>
-        <input type="number" className="form-control" id="chartTitleFontSize" value={titleFontSize} onChange={(e) => {
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartTitleFontSize">TitleFontSize</Form.Label>
+        <Form.Input type="number" id="chartTitleFontSize" value={titleFontSize} onChange={(e) => {
           setTitleFontSize(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="chartColors">Colors</label>
-        <select ref={colorsRef} multiple className="form-control" style={{ marginLeft: 0, marginRight: 0 }}>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label htmlFor="chartColors">Colors</Form.Label>
+        <Form.Select ref={colorsRef} multiple style={{ marginLeft: 0, marginRight: 0 }}>
           {
             colors.map((c, index) => {
               return <option key={index}>{c}</option>
             })
           }
-        </select>
-      </div>
-      <div className="form-group">
-        <input type="text" className="form-control" id="chartColors" value={newColor} onChange={(e) => {
+        </Form.Select>
+      </Form.Group>
+      <Form.Group>
+        <Form.Input type="text" id="chartColors" value={newColor} onChange={(e) => {
           setNewColor(e.currentTarget.value);
         }} />
-      </div>
-      <div className="form-group">
+      </Form.Group>
+      <Form.Group>
         <button type="button" className="btn btn-default" style={{ marginRight: 20 }} onClick={() => {
           setColors([...colors, newColor]);
         }}>追加</button>
@@ -808,7 +809,7 @@ const D3HorizonChartSampleBlock = () => {
           }
           setColors(newColors);
         }}>削除</button>
-      </div>
+      </Form.Group>
     </form>
     <hr />
   </>;

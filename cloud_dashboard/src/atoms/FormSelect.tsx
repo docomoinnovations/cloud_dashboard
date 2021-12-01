@@ -1,3 +1,4 @@
+import Form from 'bootstrap3-components/Form';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,15 +7,15 @@ import { useTranslation } from 'react-i18next';
  *
  * @param children Children Node.
  */
-const FormSelect = ({value, setvalue, dataList}: {
-    value: string,
-    setvalue: (s: string) => void,
-    dataList: string[]
-  }) => {
+const FormSelect = ({ value, setvalue, dataList }: {
+  value: string,
+  setvalue: (s: string) => void,
+  dataList: string[]
+}) => {
 
   const { t } = useTranslation();
 
-  return <select className="form-select form-control" value={value}
+  return <Form.Select value={value}
     onChange={(e) => {
       setvalue(e.currentTarget.value);
     }}>
@@ -22,7 +23,7 @@ const FormSelect = ({value, setvalue, dataList}: {
     {dataList.map((data) => {
       return <option value={data} key={data}>{data}</option>
     })}
-  </select>;
+  </Form.Select>;
 
 }
 
