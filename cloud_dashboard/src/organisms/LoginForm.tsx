@@ -1,5 +1,7 @@
-import React from 'react';
+import Button from 'bootstrap3-components/Button';
+import Form from 'bootstrap3-components/Form';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
+import React from 'react';
 
 /**
  * Login form component.
@@ -7,13 +9,9 @@ import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 const LoginForm = () => {
   const { toCallbackUrl } = useDrupalOAuth2();
 
-  return <form>
-    <button type="button"
-      className="btn btn-default"
-      onClick={toCallbackUrl}>
-        Log in
-    </button>
-  </form>;
+  return <Form>
+    <Button onClick={toCallbackUrl}>Log in</Button>
+  </Form>;
 
 }
 

@@ -1,9 +1,10 @@
-import React from 'react';
+import Table from 'bootstrap3-components/Table';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
 import SortInfo from 'model/SortInfo';
 import DataTableHeader from 'molecules/DataTableHeader';
 import DataTableRow from 'molecules/DataTableRow';
+import React from 'react';
 
 /**
  * Table for listing data.
@@ -25,29 +26,27 @@ const DataTable = ({ dataColumnList, dataRecordList, sortInfo, setSortInfo, deta
   },
 }) => {
 
-  return <div className="table-responsive">
-    <table className="responsive-enabled table table-hover table-striped">
-      <thead>
-        <tr>
-          {dataColumnList.map((dataColumn) => {
-            return <DataTableHeader dataColumn={dataColumn} sortInfo={sortInfo} setSortInfo={setSortInfo} />
-          })}
-        </tr>
-      </thead>
-      <tbody>
-        {
-          dataRecordList.map((dataRecord, index) => {
-            return <DataTableRow
-              dataRecord={dataRecord}
-              dataColumnList={dataColumnList}
-              className={index % 2 === 0 ? 'odd' : 'even'}
-              detailInfo={detailInfo}
-            />;
-          })
-        }
-      </tbody>
-    </table>
-  </div>;
+  return <Table hover={true} striped={true} responsive={true}>
+    <thead>
+      <tr>
+        {dataColumnList.map((dataColumn) => {
+          return <DataTableHeader dataColumn={dataColumn} sortInfo={sortInfo} setSortInfo={setSortInfo} />
+        })}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        dataRecordList.map((dataRecord, index) => {
+          return <DataTableRow
+            dataRecord={dataRecord}
+            dataColumnList={dataColumnList}
+            className={index % 2 === 0 ? 'odd' : 'even'}
+            detailInfo={detailInfo}
+          />;
+        })
+      }
+    </tbody>
+  </Table>
 
 };
 

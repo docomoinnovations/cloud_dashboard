@@ -1,9 +1,9 @@
-import { DEFAULT_CLOUD_CONTEXTS } from "constant";
-import CloudContext from "model/CloudContext";
-import CloudServiceProvider from "model/CloudServiceProvider";
-import { createContext, useEffect, useState } from "react";
+import { DEFAULT_CLOUD_CONTEXTS } from 'constant';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
+import CloudContext from 'model/CloudContext';
+import CloudServiceProvider from 'model/CloudServiceProvider';
+import { createContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useDrupalJsonApi from "hooks/drupal_jsonapi";
 
 type Action = {
   type: 'setCloudContext',

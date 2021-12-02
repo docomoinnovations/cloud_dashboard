@@ -1,3 +1,4 @@
+import Tab from 'bootstrap3-components/Tab';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -14,9 +15,9 @@ const EntityTab = ({ isActive, location, children }: {
   children: React.ReactNode
 }) => {
 
-  return <li className={isActive ? 'active' : ''}>
+  return <Tab className={isActive ? 'active' : ''}>
     <Link to={location} className={isActive ? 'is-active' : ''}>{children}</Link>
-  </li>;
+  </Tab>;
 
 }
 

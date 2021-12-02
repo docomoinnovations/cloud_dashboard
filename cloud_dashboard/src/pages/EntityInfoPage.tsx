@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Row from 'bootstrap3-components/Row';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import EntityData from 'model/EntityData';
 import EntityInfoPanelData from 'model/EntityInfoPanelData';
 import EntityInfoTemplate from 'model/EntityInfoTemplate';
-
 import EntityInfoPanel from 'organisms/EntityInfoPanel';
 import MenuBar from 'organisms/MenuBar';
-
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { convertDataForUI, readDataCache } from 'service/utility';
-import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
 /**
  * Page of entity info.
@@ -110,18 +110,18 @@ const EntityInfoPage = ({ entityInfoTemplate }: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityData]);
 
-  return <div className="container-fluid px-0">
-    <div className="row mx-0">
-      <div className="col">
+  return <FluidContainer className="px-0">
+    <Row className="mx-0">
+      <Col>
         <MenuBar />
         {
           panelDataList.map((panelData, index) => {
             return <EntityInfoPanel index={index} key={index} panelData={panelData} />;
           })
         }
-      </div>
-    </div>
-  </div>;
+      </Col>
+    </Row>
+  </FluidContainer>;
 
 }
 

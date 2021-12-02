@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
-import ControlLabel from 'atoms/ControlLabel';
+import Form from 'bootstrap3-components/Form';
 import SortInfo from 'model/SortInfo';
+import DataTable from 'organisms/DataTable';
+import React, { useContext, useState } from 'react';
 import { AppContext } from 'service/state';
-import DataTable from './DataTable';
 
 /**
  * Table of cloud service providers.
@@ -14,10 +14,10 @@ const CloudServiceProviderTable = () => {
     key: '', direction: 'ASC'
   });
 
-  return <form>
-    <div className="form-group" style={{ marginTop: '2rem' }}>
-      <ControlLabel>Cloud Service Providers</ControlLabel>
-    </div>
+  return <Form>
+    <Form.Group style={{ marginTop: '2rem' }}>
+      <Form.Label>Cloud Service Providers</Form.Label>
+    </Form.Group>
     <DataTable
       dataColumnList={[{ key: 'labelName', label: 'Name' }]}
       dataRecordList={
@@ -42,7 +42,7 @@ const CloudServiceProviderTable = () => {
       sortInfo={sortInfo}
       setSortInfo={setSortInfo}
     />
-  </form>;
+  </Form>;
 
 }
 

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import DataTable from 'organisms/DataTable';
 import { ITEMS_PER_PAGE } from 'constant';
+import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
 import EntityColumn from 'model/EntityColumn';
 import SortInfo from 'model/SortInfo';
+import DataTable from 'organisms/DataTable';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'service/state';
 import { convertEntityData, readDataCache } from 'service/utility';
-import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 
 /**
  * Table for entity data.

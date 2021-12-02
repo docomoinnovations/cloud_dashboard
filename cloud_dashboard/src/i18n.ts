@@ -1,5 +1,5 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
 // Conversion information for translating text.
 const resources: { [key: string]: { translation: { [key: string]: string } } } = {

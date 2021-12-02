@@ -1,7 +1,10 @@
-import React from 'react';
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Row from 'bootstrap3-components/Row';
 import CloudContext from 'model/CloudContext';
 import LaunchTemplateTable from 'organisms/LaunchTemplateTable';
 import MenuBar from 'organisms/MenuBar';
+import React from 'react';
 
 /**
  * Page of launch template.
@@ -12,14 +15,14 @@ const LaunchTemplatePage = ({ cloudContext }: {
   cloudContext: CloudContext
 }) => {
 
-  return <div className="container-fluid px-0">
-    <div className="row mx-0">
-      <div className="col">
+  return <FluidContainer className="px-0">
+    <Row className="mx-0">
+      <Col>
         <MenuBar />
         <LaunchTemplateTable cloudContext={cloudContext} />
-      </div>
-    </div>
-  </div>;
+      </Col>
+    </Row>
+  </FluidContainer>;
 
 }
 

@@ -1,6 +1,6 @@
-import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from "constant";
-import { useEffect, useState } from "react";
-import { getLocalStorageItem, setLocalStorageItem } from "service/utility";
+import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
+import { useEffect, useState } from 'react';
+import { getLocalStorageItem, setLocalStorageItem } from 'service/utility';
 
 const LOGIN_FORM_URI = ROUTE_URL;
 const ENTER_URI = ROUTE_URL + '/aws_cloud/instance';

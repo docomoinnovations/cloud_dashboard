@@ -1,6 +1,7 @@
+import GlyphIcon from 'bootstrap3-components/GlyphIcon';
+import CloudContenxtItemlabel from 'model/CloudContenxtItemLabel';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import CloudContenxtItemlabel from "model/CloudContenxtItemLabel";
 import { AppContext } from 'service/state';
 
 /**
@@ -9,7 +10,7 @@ import { AppContext } from 'service/state';
  * @param cloudServiceProvider Name of cloudServiceProvider.
  * @param label Labeling data of CloudContenxtItem.
  */
-const CloudContenxtItemPopupLabel = ({ cloudServiceProvider, label } : {
+const CloudContenxtItemPopupLabel = ({ cloudServiceProvider, label }: {
   cloudServiceProvider: string,
   label: CloudContenxtItemlabel
 }) => {
@@ -42,7 +43,7 @@ const CloudContenxtItemPopupLabel = ({ cloudServiceProvider, label } : {
         </Link>
       </strong><br />
       <span className="location">
-        <span className="glyphicon glyphicon-map-marker"></span>
+        <GlyphIcon iconName="map-marker" />
         {label.positionLabel}
       </span>
     </div>

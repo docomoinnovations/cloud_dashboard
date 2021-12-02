@@ -1,7 +1,7 @@
-import CloudContext from "model/CloudContext";
-import EntityColumn from "model/EntityColumn";
-import EntityInfoTemplate from "model/EntityInfoTemplate";
-import MenuTemplate from "model/MenuTemplate";
+import CloudContext from 'model/CloudContext';
+import EntityColumn from 'model/EntityColumn';
+import EntityInfoTemplate from 'model/EntityInfoTemplate';
+import MenuTemplate from 'model/MenuTemplate';
 
 export const OAUTH2_CLIENT_LABEL = 'Cloud Dashboard';
 export const OAUTH2_CLIENT_SECRET = 'cloud_dashboard';

@@ -1,6 +1,6 @@
-import React from 'react';
 import { MapFeature } from 'model/MapData';
 import MapPolygonBlock from 'molecules/MapPolygonBlock';
+import React from 'react';
 
 /**
  * Polygon block of MapFeature.

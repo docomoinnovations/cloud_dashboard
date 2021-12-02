@@ -1,11 +1,10 @@
-import React from 'react';
-
+import Panel from 'bootstrap3-components/Panel';
 import EntityInfoPanelData from 'model/EntityInfoPanelData';
-
+import D3MetricsBlock from 'molecules/D3MetricsBlock';
 import KeyValueBlock from 'molecules/KeyValueBlock';
 import PanelHeadingTitle from 'molecules/PanelHeadingTitle';
 import TableBlock from 'molecules/TableBlock';
-import D3MetricsBlock from 'molecules/D3MetricsBlock';
+import React from 'react';
 
 /**
  * Panel of entity detail info.
@@ -21,9 +20,9 @@ const EntityInfoPanel = ({ index, panelData }: {
     ? "bootstrap-panel--content"
     : `bootstrap-panel--${index + 2}--content`;
 
-  return <div className="js-form-wrapper form-wrapper form-item js-form-item panel panel-default" id="bootstrap-panel">
+  return <Panel className="js-form-wrapper form-wrapper form-item js-form-item" id="bootstrap-panel">
     <PanelHeadingTitle titleKey={titleKey} title={panelData.title} />
-    <div id={titleKey} className="panel-body panel-collapse collapse fade in">
+    <Panel.Body id={titleKey} className="panel-collapse collapse fade in">
       {
         panelData.records.map((record) => {
           return <>
@@ -33,8 +32,8 @@ const EntityInfoPanel = ({ index, panelData }: {
           </>;
         })
       }
-    </div>
-  </div>;
+    </Panel.Body>
+  </Panel>
 
 }
 

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Form from 'bootstrap3-components/Form';
+import Row from 'bootstrap3-components/Row';
+import MenuTemplate from 'model/MenuTemplate';
+import EntityTabs from 'molecules/EntityTabs';
 import FieldSelect from 'molecules/FieldSelect';
 import ItemCountLabel from 'molecules/ItemCountLabel';
 import PageSelector from 'molecules/PageSelector';
-import EntityTable from '../organisms/EntityTable';
-import MenuTemplate from 'model/MenuTemplate';
+import EntityTable from 'organisms/EntityTable';
 import MenuBar from 'organisms/MenuBar';
-import EntityTabs from 'molecules/EntityTabs';
+import React, { useEffect, useState } from 'react';
 import { getEntityListViewUrl, getEntityTypeId } from 'service/utility';
-import ControlLabel from 'atoms/ControlLabel';
 
 /**
  * Page of entity view.
@@ -46,52 +49,52 @@ const EntityPage = ({ menuTemplate }: {
   return <>
     <MenuBar />
     <EntityTabs menuType={menuTemplate.cloudServiceProvider} menuName={menuTemplate.labelName} />
-    <div className="container-fluid px-0">
-      <div className="row mx-0">
-        <div className="col">
-          <form>
+    <FluidContainer className="px-0">
+      <Row className="mx-0">
+        <Col>
+          <Form>
             {
               namespaceFlg
-                ? <div className="form-group" style={{ marginTop: '2rem' }}>
-                  <ControlLabel>Namespace</ControlLabel>
+                ? <Form.Group style={{ marginTop: '2rem' }}>
+                  <Form.Label>Namespace</Form.Label>
                   <FieldSelect
                     columnKey="namespace"
                     columnName={namespace}
                     setColumnName={setNamespace} />
-                </div>
+                </Form.Group>
                 : <></>
             }
             {
               namespaceNameFlg
-                ? <div className="form-group" style={{ marginTop: '2rem' }}>
-                  <ControlLabel>Namespace Name</ControlLabel>
+                ? <Form.Group style={{ marginTop: '2rem' }}>
+                  <Form.Label>Namespace Name</Form.Label>
                   <FieldSelect
                     columnKey="namespace_name"
                     columnName={namespaceName}
                     setColumnName={setNamespaceName} />
-                </div>
+                </Form.Group>
                 : <></>
             }
-            <div className="form-group" style={{ marginTop: '2rem' }}>
+            <Form.Group style={{ marginTop: '2rem' }}>
               <ItemCountLabel
                 entityTypeId={entityTypeId}
                 namespace={namespace}
                 namespaceName={namespaceName}
                 itemCount={itemCount}
                 setItemCount={setItemCount} />
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
+    </FluidContainer>
     <PageSelector
       pageIndex={pageIndex}
       setPageIndex={setPageIndex}
       itemCount={itemCount} />
-    <div className="container-fluid px-0">
-      <div className="row mx-0">
-        <div className="col">
-          <form>
+    <FluidContainer className="px-0">
+      <Row className="mx-0">
+        <Col>
+          <Form>
             <EntityTable
               entityTypeId={entityTypeId}
               entityColumnList={menuTemplate.entityColumn}
@@ -100,15 +103,15 @@ const EntityPage = ({ menuTemplate }: {
               pageIndex={pageIndex}
               detailInfo={
                 typeof menuTemplate.detailInfoColumn !== 'undefined'
-                ? {
-                  column: menuTemplate.detailInfoColumn,
-                  path: getEntityListViewUrl(menuTemplate)
-                }
-                : undefined} />
-          </form>
-        </div>
-      </div>
-    </div>
+                  ? {
+                    column: menuTemplate.detailInfoColumn,
+                    path: getEntityListViewUrl(menuTemplate)
+                  }
+                  : undefined} />
+          </Form>
+        </Col>
+      </Row>
+    </FluidContainer>
     <PageSelector
       pageIndex={pageIndex}
       setPageIndex={setPageIndex}

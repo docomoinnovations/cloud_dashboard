@@ -1,7 +1,10 @@
-import React from 'react';
-import MenuBar from 'organisms/MenuBar';
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Row from 'bootstrap3-components/Row';
 import CloudContext from 'model/CloudContext';
+import MenuBar from 'organisms/MenuBar';
 import ProjectTable from 'organisms/ProjectTable';
+import React from 'react';
 
 /**
  * Page of viewing project info.
@@ -14,13 +17,13 @@ const ProjectPage = ({ cloudContext }: {
 
   return <>
     <MenuBar />
-    <div className="container-fluid px-0">
-      <div className="row mx-0">
-        <div className="col">
+    <FluidContainer className="px-0">
+      <Row className="mx-0">
+        <Col>
           <ProjectTable cloudContext={cloudContext} />
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </FluidContainer>
   </>;
 
 }

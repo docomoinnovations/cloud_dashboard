@@ -1,4 +1,4 @@
-import FormButton from 'atoms/FormButton';
+import Button from 'bootstrap3-components/Button';
 import React from 'react';
 
 /**
@@ -14,15 +14,15 @@ const FormButtonGroup = ({ buttonList }: {
   }[]
 }) => {
 
-  return <div className="btn-group" role="group">
+  return <Button.Group>
     {
       buttonList.map((button, index) => {
-        return <FormButton key={index} disabled={button.disabled} onClick={button.onClick}>
+        return <Button key={index} disabled={button.disabled} onClick={button.onClick}>
           {button.value}
-        </FormButton>;
+        </Button>;
       })
     }
-  </div>;
+  </Button.Group>;
 
 }
 

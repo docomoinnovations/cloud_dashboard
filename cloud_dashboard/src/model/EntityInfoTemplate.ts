@@ -1,4 +1,4 @@
-import EntityInfoRecord from "./EntityInfoRecord";
+import EntityInfoRecord from 'model/EntityInfoRecord';
 
 type EntityInfoTemplate = {
   cloudServiceProvider: string,

@@ -1,11 +1,10 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import 'leaflet/dist/leaflet.css';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import 'App.css';
 
-import { AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL } from 'constant';
-
-import { AppContext, useAppState } from 'service/state';
-import { getEntityTypeId, getEntityListViewUrl, getLaunchTemplateViewUrl, getProjectViewUrl } from 'service/utility';
-
+import {
+    AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL
+} from 'constant';
 import CallbackPage from 'pages/CallbackPage';
 import EntityInfoPage from 'pages/EntityInfoPage';
 import EntityPage from 'pages/EntityPage';
@@ -17,10 +16,12 @@ import LaunchTemplatePage from 'pages/LaunchTemplatePage';
 import LoginPage from 'pages/LoginPage';
 import ProjectPage from 'pages/ProjectPage';
 import ProviderPage from 'pages/ProviderPage';
-
-import 'leaflet/dist/leaflet.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import 'App.css';
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { AppContext, useAppState } from 'service/state';
+import {
+    getEntityListViewUrl, getEntityTypeId, getLaunchTemplateViewUrl, getProjectViewUrl
+} from 'service/utility';
 
 /**
  * Component for application route.

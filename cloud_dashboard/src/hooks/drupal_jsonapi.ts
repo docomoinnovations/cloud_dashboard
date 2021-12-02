@@ -1,8 +1,8 @@
-import { CACHE_EXPIRED_UNIXTIME, FETCH_TIMEOUT_MS } from "constant";
-import EntityData from "model/EntityData";
-import SortInfo from "model/SortInfo";
-import { useEffect, useState } from "react";
-import { getLocalStorageItem } from "service/utility";
+import { CACHE_EXPIRED_UNIXTIME, FETCH_TIMEOUT_MS } from 'constant';
+import EntityData from 'model/EntityData';
+import SortInfo from 'model/SortInfo';
+import { useEffect, useState } from 'react';
+import { getLocalStorageItem } from 'service/utility';
 
 type CacheType = Record<string, { response: any, unixtime: number }>;
 export type GetEntityListAllType = (entityTypeId: string, filter?: { [key: string]: string }, bundleId?: string) => Promise<EntityData[]>;
