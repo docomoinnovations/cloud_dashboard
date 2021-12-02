@@ -1,3 +1,6 @@
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Row from 'bootstrap3-components/Row';
 import CloudServiceProviderMap from 'organisms/CloudServiceProviderMap';
 import CloudServiceProviderTable from 'organisms/CloudServiceProviderTable';
 import MenuBar from 'organisms/MenuBar';
@@ -11,19 +14,19 @@ const ProviderPage = () => {
 
   return <>
     <MenuBar />
-    <div className="container-fluid px-0">
-      <div className="row mx-0">
-        <div className="col">
+    <FluidContainer className="px-0">
+      <Row className="mx-0">
+        <Col>
           <CloudServiceProviderMap />
-        </div>
-      </div>
-      <div className="row mx-0">
-        <div className="col">
+        </Col>
+      </Row>
+      <Row className="mx-0">
+        <Col>
           <SetLanguageForm />
           <CloudServiceProviderTable />
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </FluidContainer>
   </>;
 
 }

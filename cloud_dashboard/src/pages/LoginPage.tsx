@@ -1,3 +1,6 @@
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Row from 'bootstrap3-components/Row';
 import LoginForm from 'organisms/LoginForm';
 import React from 'react';
 
@@ -6,13 +9,13 @@ import React from 'react';
  */
 const LoginPage = () => {
 
-  return <div className="container-fluid px-0">
-    <div className="row mx-0">
-      <div className="col">
+  return <FluidContainer className="px-0">
+    <Row className="mx-0">
+      <Col>
         <LoginForm />
-      </div>
-    </div>
-  </div>;
+      </Col>
+    </Row>
+  </FluidContainer>;
 
 }
 

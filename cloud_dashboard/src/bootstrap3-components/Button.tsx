@@ -9,11 +9,7 @@ type ButtonProps = Omit<
 };
 
 
-type GroupProps = Omit<
-  JSX.IntrinsicElements['div'],
-  'children' | 'className' | 'role'
-> & {
-  className?: string;
+type GroupProps = {
   children: React.ReactNode;
 };
 
@@ -23,9 +19,9 @@ type GroupProps = Omit<
  * @param children Children Node.
  * @param className Added text of className.
  */
-const Group = ({ children, className, ...props }: GroupProps) => {
+const Group = ({ children }: GroupProps) => {
 
-  return <div className={`btn-group${className ? ' ' + className : ''}`} role="group" {...props}>{children}</div>;
+  return <div className={'btn-group'} role="group">{children}</div>;
 
 }
 
@@ -36,7 +32,7 @@ const Group = ({ children, className, ...props }: GroupProps) => {
  * @param className Added text of className.
  */
 const Button: (({ children, className, ...props }: ButtonProps) => JSX.Element) & {
-  Group: ({ children, className, ...props }: GroupProps) => JSX.Element
+  Group: ({ children }: GroupProps) => JSX.Element
 } = ({ children, className, ...props }) => {
 
   return <button type="button"

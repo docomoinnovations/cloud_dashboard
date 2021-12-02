@@ -1,4 +1,6 @@
 import D3HorizonChart from 'atoms/D3HorizonChart';
+import Col from 'bootstrap3-components/Col';
+import Row from 'bootstrap3-components/Row';
 import EntityInfoRecordData from 'model/EntityInfoRecordData';
 import React from 'react';
 
@@ -16,8 +18,8 @@ const D3MetricsBlock = ({ record }: { record: EntityInfoRecordData }) => {
   return <>
     {
       record.record.map((data, index) => {
-        return <div className="row">
-          <div className="col" key={index}>
+        return <Row key={index}>
+          <Col>
             <D3HorizonChart
               id={`metric-${index}`}
               dataSet={
@@ -34,8 +36,8 @@ const D3MetricsBlock = ({ record }: { record: EntityInfoRecordData }) => {
                   ? ['#edf8e9', '#bae4b3', '#74c476', '#31a354', '#006d2c']
                   : ['#e9f8f4', '#b3e4dc', '#74c1c4', '#317fa3', '#003f6d']
               } />
-          </div>
-        </div>;
+          </Col>
+        </Row>;
       })
     }
   </>;

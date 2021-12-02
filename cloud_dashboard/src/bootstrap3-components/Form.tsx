@@ -1,9 +1,6 @@
 import React from 'react';
 
-type FormProps = Omit<
-  JSX.IntrinsicElements['form'],
-  'children'
-> & {
+type FormProps = {
   children: React.ReactNode;
 };
 
@@ -88,14 +85,14 @@ const Select = ({ children, className, ...props }: SelectProps) => {
  *
  * @param children Children Node.
  */
-const Form: (({ children, ...props }: FormProps) => JSX.Element) & {
+const Form: (({ children }: FormProps) => JSX.Element) & {
   Group: ({ children, className, ...props }: GroupProps) => JSX.Element,
   Input: ({ className, ...props }: InputProps) => JSX.Element,
   Label: ({ children, ...props }: LabelProps) => JSX.Element,
   Select: ({ children, className, ...props }: SelectProps) => JSX.Element,
-} = ({ children, ...props }) => {
+} = ({ children }) => {
 
-  return <form {...props}>{children}</form>;
+  return <form>{children}</form>;
 
 };
 Form.Group = Group;

@@ -1,3 +1,6 @@
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
+import Row from 'bootstrap3-components/Row';
 import K8sNamespaceResourceTable from 'organisms/K8sNamespaceResourceTable';
 import MenuBar from 'organisms/MenuBar';
 import React from 'react';
@@ -7,14 +10,14 @@ import React from 'react';
  */
 const K8sNamespaceResourcePage = () => {
 
-  return <div className="container-fluid px-0">
-    <div className="row mx-0">
-      <div className="col">
+  return <FluidContainer className="px-0">
+    <Row className="mx-0">
+      <Col>
         <MenuBar />
         <K8sNamespaceResourceTable />
-      </div>
-    </div>
-  </div>;
+      </Col>
+    </Row>
+  </FluidContainer>;
 
 }
 

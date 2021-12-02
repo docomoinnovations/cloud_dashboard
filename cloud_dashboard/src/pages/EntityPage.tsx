@@ -1,4 +1,7 @@
+import Col from 'bootstrap3-components/Col';
+import FluidContainer from 'bootstrap3-components/FluidContainer';
 import Form from 'bootstrap3-components/Form';
+import Row from 'bootstrap3-components/Row';
 import MenuTemplate from 'model/MenuTemplate';
 import EntityTabs from 'molecules/EntityTabs';
 import FieldSelect from 'molecules/FieldSelect';
@@ -46,9 +49,9 @@ const EntityPage = ({ menuTemplate }: {
   return <>
     <MenuBar />
     <EntityTabs menuType={menuTemplate.cloudServiceProvider} menuName={menuTemplate.labelName} />
-    <div className="container-fluid px-0">
-      <div className="row mx-0">
-        <div className="col">
+    <FluidContainer className="px-0">
+      <Row className="mx-0">
+        <Col>
           <Form>
             {
               namespaceFlg
@@ -81,16 +84,16 @@ const EntityPage = ({ menuTemplate }: {
                 setItemCount={setItemCount} />
             </Form.Group>
           </Form>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </FluidContainer>
     <PageSelector
       pageIndex={pageIndex}
       setPageIndex={setPageIndex}
       itemCount={itemCount} />
-    <div className="container-fluid px-0">
-      <div className="row mx-0">
-        <div className="col">
+    <FluidContainer className="px-0">
+      <Row className="mx-0">
+        <Col>
           <Form>
             <EntityTable
               entityTypeId={entityTypeId}
@@ -106,9 +109,9 @@ const EntityPage = ({ menuTemplate }: {
                   }
                   : undefined} />
           </Form>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </FluidContainer>
     <PageSelector
       pageIndex={pageIndex}
       setPageIndex={setPageIndex}
