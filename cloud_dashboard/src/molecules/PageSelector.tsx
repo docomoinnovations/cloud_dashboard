@@ -1,5 +1,6 @@
 import PageSelectorButton from 'atoms/PageSelectorButton';
 import GlyphIcon from 'bootstrap3-components/GlyphIcon';
+import Pager from 'bootstrap3-components/Pager';
 import { ITEMS_PER_PAGE } from 'constant';
 import React from 'react';
 
@@ -23,39 +24,39 @@ const PageSelector = ({ pageIndex, setPageIndex, itemCount }: {
     return <></>;
   }
 
-  return <nav className="pager-nav text-center" role="navigation" aria-labelledby="pagination-heading">
-    <ul className="pagination">
-      <li className={disabledPageBack ? 'disabled' : ''}>
-        <PageSelectorButton ariaLabel="First" onClick={() => {
-          setPageIndex(0);
-        }}>
-          <GlyphIcon iconName="step-backward" aria-hidden="true" />
-        </PageSelectorButton>
-      </li>
-      <li className={disabledPageBack ? 'disabled' : ''}>
-        <PageSelectorButton ariaLabel="Previous" onClick={() => {
-          setPageIndex(Math.max(0, pageIndex - 1));
-        }}>
-          <GlyphIcon iconName="triangle-left" aria-hidden="true" />
-        </PageSelectorButton>
-      </li>
-      <li><span>{pageIndex + 1}</span></li>
-      <li className={disabledPageForward ? 'disabled' : ''}>
-        <PageSelectorButton ariaLabel="Next" onClick={() => {
-          setPageIndex(Math.min(pageIndex + 1, pageCount - 1));
-        }}>
-          <GlyphIcon iconName="triangle-right" aria-hidden="true" />
-        </PageSelectorButton>
-      </li>
-      <li className={disabledPageForward ? 'disabled' : ''}>
-        <PageSelectorButton ariaLabel="Last" onClick={() => {
-          setPageIndex(pageCount - 1);
-        }}>
-          <GlyphIcon iconName="step-forward" aria-hidden="true" />
-        </PageSelectorButton>
-      </li>
-    </ul>
-  </nav>;
+  return <Pager className="pager-nav text-center" role="navigation" aria-labelledby="pagination-heading">
+    <Pager.Item className={disabledPageBack ? 'disabled' : ''}>
+      <PageSelectorButton ariaLabel="First" onClick={() => {
+        setPageIndex(0);
+      }}>
+        <GlyphIcon iconName="step-backward" aria-hidden="true" />
+      </PageSelectorButton>
+    </Pager.Item>
+    <Pager.Item className={disabledPageBack ? 'disabled' : ''}>
+      <PageSelectorButton ariaLabel="Previous" onClick={() => {
+        setPageIndex(Math.max(0, pageIndex - 1));
+      }}>
+        <GlyphIcon iconName="triangle-left" aria-hidden="true" />
+      </PageSelectorButton>
+    </Pager.Item>
+    <Pager.Item>
+      <span>{pageIndex + 1}</span>
+    </Pager.Item>
+    <Pager.Item className={disabledPageForward ? 'disabled' : ''}>
+      <PageSelectorButton ariaLabel="Next" onClick={() => {
+        setPageIndex(Math.min(pageIndex + 1, pageCount - 1));
+      }}>
+        <GlyphIcon iconName="triangle-right" aria-hidden="true" />
+      </PageSelectorButton>
+    </Pager.Item>
+    <Pager.Item className={disabledPageForward ? 'disabled' : ''}>
+      <PageSelectorButton ariaLabel="Last" onClick={() => {
+        setPageIndex(pageCount - 1);
+      }}>
+        <GlyphIcon iconName="step-forward" aria-hidden="true" />
+      </PageSelectorButton>
+    </Pager.Item>
+  </Pager>;
 
 }
 
