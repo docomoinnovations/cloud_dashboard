@@ -1,3 +1,4 @@
+import GlyphIcon from 'bootstrap3-components/GlyphIcon';
 import React from 'react';
 
 /**
@@ -7,15 +8,13 @@ import React from 'react';
  */
 const SortDirectionIcon = ({ direction }: { direction: "ASC" | "DESC" }) => {
 
-  const glyphiconClass = direction === 'ASC' ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down';
+  const iconName = direction === 'ASC' ? 'chevron-up' : 'chevron-down';
   const originalTitle = direction === 'ASC' ? 'descending' : 'ascending';
 
-  return <span
-      className={`icon glyphicon ${glyphiconClass} icon-after`}
-      aria-hidden="true" data-toggle="tooltip"
-      data-placement="bottom" title=""
-      data-original-title={`Sort by ${originalTitle} order`}>
-    </span>;
+  return <GlyphIcon className="icon icon-after" iconName={iconName}
+    aria-hidden="true" data-toggle="tooltip"
+    data-placement="bottom" title=""
+    data-original-title={`Sort by ${originalTitle} order`} />;
 
 };
 
