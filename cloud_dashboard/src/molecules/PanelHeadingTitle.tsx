@@ -1,3 +1,4 @@
+import Panel from 'bootstrap3-components/Panel';
 import React from 'react';
 
 /**
@@ -10,11 +11,11 @@ const PanelHeadingTitle = ({ titleKey, title }: {
   titleKey: string,
   title: string
 }) => {
-  return <div className="panel-heading">
+  return <Panel.Header>
     <a aria-controls={titleKey} aria-expanded="true" aria-pressed="true"
       data-toggle="collapse" role="button" className="panel-title"
       href={`#${titleKey}`}>{title}</a>
-  </div>;
+  </Panel.Header>;
 }
 
 export default PanelHeadingTitle;
