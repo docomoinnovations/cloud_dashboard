@@ -1,4 +1,4 @@
-import { DEFAULT_CLOUD_CONTEXTS } from 'constant/constant';
+import { DEFAULT_CLOUD_CONTEXTS } from 'constant/other';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import CloudServiceProvider from 'model/CloudServiceProvider';

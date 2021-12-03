@@ -1,4 +1,4 @@
-import { ITEMS_PER_PAGE } from 'constant/constant';
+import { ITEMS_PER_PAGE } from 'constant/other';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';

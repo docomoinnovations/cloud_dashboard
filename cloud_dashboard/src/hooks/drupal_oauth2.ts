@@ -1,4 +1,4 @@
-import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant/constant';
+import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant/other';
 import { useEffect, useState } from 'react';
 import { getLocalStorageItem, setLocalStorageItem } from 'service/utility';
 

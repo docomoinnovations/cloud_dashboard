@@ -4,7 +4,7 @@ import 'App.css';
 
 import {
   ROUTE_URL
-} from 'constant/constant';
+} from 'constant/other';
 import { AWS_ENTITY_INFO_LIST, K8S_ENTITY_INFO_LIST } from "constant/entity_info_template";
 import { AWS_MENU_LIST, K8S_MENU_LIST } from "constant/menu_template";
 import CallbackPage from 'pages/CallbackPage';
