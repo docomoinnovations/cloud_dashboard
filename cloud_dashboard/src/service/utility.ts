@@ -1,7 +1,9 @@
+import { getMenuTemplateList } from 'constant/menu_template';
 import { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import L from 'leaflet';
 import CloudContenxtItem from 'model/CloudContenxtItem';
 import CloudContext from 'model/CloudContext';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import DataRecord from 'model/DataRecord';
 import EntityColumn from 'model/EntityColumn';
 import EntityData from 'model/EntityData';
@@ -122,7 +124,7 @@ const convertKeyValueCrLfData = (data: string) => {
  * @param ec Information of Entity Column
  * @param dataCache Data cache for 'join' type
  */
-export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: {[key: string]: EntityData[]}): string => {
+export const convertDataForUI = (data: any, ec: EntityColumn, dataCache: { [key: string]: EntityData[] }): string => {
   // Null check.
   if (data === null) {
     return '';
@@ -191,7 +193,7 @@ export const getEntityTypeId = (menu: MenuTemplate) => {
   return `${menu.cloudServiceProvider as string}_${menu.entityName}`;
 };
 
-export const usePrevious =  <T> (value: T) => {
+export const usePrevious = <T>(value: T) => {
   const ref = useRef<T>();
   useEffect(() => {
     ref.current = value;
@@ -315,11 +317,14 @@ export const convertCloudContenxtItemList = (
     }
 
     const itemList = rawCloudContenxtItem.Items.map((rawItem) => {
+      const entityViewUrl = getEntityListViewUrl(
+        getMenuTemplateList(
+          rawCloudContenxtItem.Type as CloudServiceProvider
+        )[0]
+      );
       return {
         iconUrl: rawItem.Image,
-        entityViewUrl: rawCloudContenxtItem.Type === 'aws_cloud'
-          ? '/aws_cloud/instance'
-          : '/k8s/node',
+        entityViewUrl,
         name: rawItem.Name,
         positionLabel: `${rawCloudContenxtItem.City}, ${rawCloudContenxtItem.Country}`,
       };

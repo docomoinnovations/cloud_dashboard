@@ -1,24 +1,25 @@
 import Col from 'bootstrap3-components/Col';
 import FluidContainer from 'bootstrap3-components/FluidContainer';
 import Row from 'bootstrap3-components/Row';
-import K8sCostTable from 'organisms/K8sCostTable';
+import ResourceStoreTemplate from 'model/ResourceStoreTemplate';
 import MenuBar from 'organisms/MenuBar';
+import ResourceStoreTable from 'organisms/ResourceStoreTable';
 import React from 'react';
 
 /**
- * Page of K8s cost.
+ * Page of Cloud Resource.
  */
-const K8sCostPage = () => {
+const ResourceStorePage = ({ template }: { template: ResourceStoreTemplate }) => {
 
   return <FluidContainer className="px-0">
     <Row className="mx-0">
       <Col>
         <MenuBar />
-        <K8sCostTable />
+        <ResourceStoreTable template={template} />
       </Col>
     </Row>
   </FluidContainer>;
 
 }
 
-export default K8sCostPage;
+export default ResourceStorePage;

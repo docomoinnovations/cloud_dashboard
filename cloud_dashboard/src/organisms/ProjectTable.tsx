@@ -1,32 +1,13 @@
-import { K8S_PROJECT_LIST } from 'constant';
+import { getProjectColumnList } from 'constant/project_template';
 import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
-import EntityColumn from 'model/EntityColumn';
 import SortInfo from 'model/SortInfo';
 import DataTable from 'organisms/DataTable';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'service/state';
 import { convertEntityData } from 'service/utility';
-
-/**
- * Get ProjectColumnList by cloud_context.
- * 
- * @param cloudContext cloud_context.
- * @returns ProjectColumnList.
- */
-const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
-  switch (cloudContext.cloudServiceProvider) {
-    case 'aws_cloud':
-      return [];
-    case 'k8s':
-      return cloudContext.name !== 'ALL'
-        ? K8S_PROJECT_LIST
-        : [{ labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-          ...K8S_PROJECT_LIST];
-  }
-};
 
 /**
  * Read ProjectList by JSON:API.
@@ -85,7 +66,7 @@ const ProjectTable = ({ cloudContext }: {
       setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;

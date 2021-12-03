@@ -1,5 +1,7 @@
 import NavBar from 'bootstrap3-components/NavBar';
-import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
+import { getMenuTemplateList } from 'constant/menu_template';
+import { PROJECT_CLOUD_CONTEXT_LIST } from 'constant/project_template';
+import RESOURCE_STORE_LIST from 'constant/resource_store_template';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 import CloudContext from 'model/CloudContext';
@@ -50,10 +52,8 @@ const MenuBar = () => {
         <NavBar.Dropdown menuName={cloudContext.labelName}>
           {
             cloudContextList.map((r, index) => {
-              const list = r.cloudServiceProvider === 'aws_cloud'
-                ? AWS_MENU_LIST : K8S_MENU_LIST;
               return <NavBar.Item key={index}>
-                <Link to={getEntityListViewUrl(list[0])}
+                <Link to={getEntityListViewUrl(getMenuTemplateList(r.cloudServiceProvider)[0])}
                   onClick={() => setCloudContext(r)}>
                   {r.labelName}
                 </Link>
@@ -76,7 +76,7 @@ const MenuBar = () => {
         <NavBar.Dropdown menuName="Project">
           {
             cloudContextList.filter((r) => {
-              return r.cloudServiceProvider === 'k8s';
+              return PROJECT_CLOUD_CONTEXT_LIST.includes((r.cloudServiceProvider));
             }).map((r, index) => {
               return <NavBar.Item key={index}>
                 <Link to={getProjectViewUrl(r)}
@@ -89,15 +89,10 @@ const MenuBar = () => {
         </NavBar.Dropdown>
         <NavBar.Dropdown menuName="Resource">
           {
-            [
-              { to: '/k8s_cost_store', children: 'K8s cost store' },
-              { to: '/k8s_namespace_resource_store', children: 'K8s namespace resource store' },
-              { to: '/k8s_node_resource_store', children: 'K8s node resource store' },
-              { to: '/k8s_pod_resource_store', children: 'K8s pod resource store' },
-            ].map((r, index) => {
+            RESOURCE_STORE_LIST.map((r, index) => {
               return <NavBar.Item key={index}>
-                <Link to={r.to}>
-                  {r.children}
+                <Link to={`/${r.bundleId}`}>
+                  {r.title}
                 </Link>
               </NavBar.Item>;
             })

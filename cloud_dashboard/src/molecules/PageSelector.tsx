@@ -1,7 +1,7 @@
 import PageSelectorButton from 'atoms/PageSelectorButton';
 import GlyphIcon from 'bootstrap3-components/GlyphIcon';
 import Pager from 'bootstrap3-components/Pager';
-import { ITEMS_PER_PAGE } from 'constant';
+import { ITEMS_PER_PAGE } from 'constant/other';
 import React from 'react';
 
 /**

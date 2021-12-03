@@ -1,13 +1,8 @@
-import CloudContext from 'model/CloudContext';
-import EntityColumn from 'model/EntityColumn';
-import EntityInfoTemplate from 'model/EntityInfoTemplate';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import MenuTemplate from 'model/MenuTemplate';
 
-export const OAUTH2_CLIENT_LABEL = 'Cloud Dashboard';
-export const OAUTH2_CLIENT_SECRET = 'cloud_dashboard';
-export const ROUTE_URL = '/clouds/dashboard';
-export const FETCH_TIMEOUT_MS = 10000;
-export const AWS_MENU_LIST: MenuTemplate[] = [
+// Template for displaying a list of entities in AWS Cloud.
+const AWS_MENU_LIST: MenuTemplate[] = [
   {
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Instance',
@@ -247,7 +242,9 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
 ];
-export const K8S_MENU_LIST: MenuTemplate[] = [
+
+// Template for displaying a list of entities in K8s.
+const K8S_MENU_LIST: MenuTemplate[] = [
   {
     cloudServiceProvider: 'k8s',
     labelName: 'Node',
@@ -596,180 +593,15 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
   },
 ];
 
-export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
-  {
-    cloudServiceProvider: 'aws_cloud',
-    entityName: 'instance',
-    entityRecords: [
-      {
-        panelName: 'Instance',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Name', name: 'name', type: 'default' },
-          { labelName: 'Instance ID', name: 'instance_id', type: 'default' },
-          { labelName: 'Instance State', name: 'instance_state', type: 'default' },
-          { labelName: 'Instance type', name: 'instance_type', type: 'default' },
-          { labelName: 'Cost', name: 'cost', type: 'cost' },
-          { labelName: 'AMI Image', name: 'image_id', type: 'default' },
-          { labelName: 'Virtualization', name: 'virtualization', type: 'default' },
-          { labelName: 'Reservation', name: 'reservation', type: 'default' },
-          { labelName: 'AWS account ID', name: 'account_id', type: 'default' },
-          { labelName: 'Launch Time', name: 'launch_time', type: 'datetime' },
-          { labelName: 'Created', name: 'created', type: 'datetime' },
-        ]
-      },
-      {
-        panelName: 'Network',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Public IP', name: 'public_ip', type: 'join', info: {
-            entityTypeId: 'aws_cloud_elastic_ip',
-            keyColumn: 'public_ip',
-            valueColumn: 'name',
-          } },
-          { labelName: 'Private IPs', name: 'private_ips', type: 'default' },
-          { labelName: 'Public DNS', name: 'public_dns', type: 'default' },
-          { labelName: 'Security groups', name: 'security_groups', type: 'default' },
-          { labelName: 'VPC ID', name: 'vpc_id', type: 'join', info: {
-            entityTypeId: 'aws_cloud_vpc',
-            keyColumn: 'vpc_id',
-            valueColumn: 'name',
-          } },
-          { labelName: 'Subnet ID', name: 'subnet_id', type: 'join', info: {
-            entityTypeId: 'aws_cloud_subnet',
-            keyColumn: 'subnet_id',
-            valueColumn: 'name',
-          } },
-          { labelName: 'Availability Zone', name: 'availability_zone', type: 'default' },
-          { labelName: 'Network interfaces', name: 'network_interfaces', type: 'array' },
-        ]
-      },
-      {
-        panelName: 'Storage',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Root Device Type', name: 'root_device_type', type: 'default' },
-          { labelName: 'Root Device', name: 'root_device', type: 'default' },
-          { labelName: 'EBS Optimized', name: 'ebs_optimized', type: 'boolean', value: ['On', 'Off'] },
-          { labelName: 'Volume', name: 'block_devices', type: 'default' },
-        ]
-      },
-      {
-        panelName: 'Tags',
-        tableRecordList: ['tags'],
-        keyValueRecords: [
-          { labelName: 'Tags', name: 'tags', type: 'default' },
-        ]
-      },
-      {
-        panelName: 'Option',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Termination protection', name: 'termination_protection', type: 'boolean', value: ['On', 'Off'] },
-          { labelName: 'AMI Launch Index', name: 'ami_launch_index', type: 'default' },
-          { labelName: 'Tenancy', name: 'tenancy', type: 'default' },
-        ]
-      },
-    ]
+export const MENU_TEMPLATE_LIST = [...AWS_MENU_LIST, ...K8S_MENU_LIST];
+
+export const getMenuTemplateList = (cloudServiceProvider: CloudServiceProvider) => {
+  switch (cloudServiceProvider) {
+    case 'aws_cloud':
+      return AWS_MENU_LIST;
+    case 'k8s':
+      return K8S_MENU_LIST;
+    default:
+      throw new Error('It is an unknown Cloud Context.');
   }
-];
-
-export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
-  {
-    cloudServiceProvider: 'k8s',
-    entityName: 'pod',
-    entityRecords: [
-      {
-        panelName: 'Metrics',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: '', name: '', type: 'metrics', column: [
-            { title: 'CPU Usage', yLabel: 'CPU (Cores)', name: 'cpu', type: 'default' },
-            { title: 'Memory Usage', yLabel: 'Memory (Bytes)', name: 'memory', type: 'memory' }
-          ] },
-        ]
-      },
-      {
-        panelName: 'Pod',
-        tableRecordList: ['labels', 'annotations'],
-        keyValueRecords: [
-          { labelName: 'Name', name: 'name', type: 'default' },
-          { labelName: 'Labels', name: 'labels', type: 'default' },
-          { labelName: 'Annotations', name: 'annotations', type: 'default' },
-          { labelName: 'Namespace', name: 'namespace', type: 'default' },
-          { labelName: 'Status', name: 'status', type: 'default' },
-          { labelName: 'Qos Class', name: 'qos_class', type: 'default' },
-          { labelName: 'Node', name: 'node_name', type: 'default' },
-          { labelName: 'Pod IP', name: 'pod_ip', type: 'default' },
-        ]
-      },
-      {
-        panelName: 'Metrics',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'CPU (Request)', name: 'cpu_request', type: 'cpu' },
-          { labelName: 'CPU (Limit)', name: 'cpu_limit', type: 'cpu' },
-          { labelName: 'CPU (Usage)', name: 'cpu_usage', type: 'cpu' },
-          { labelName: 'Memory (Request)', name: 'memory_request', type: 'memory' },
-          { labelName: 'Memory (Limit)', name: 'memory_limit', type: 'memory' },
-          { labelName: 'Memory (Usage)', name: 'memory_usage', type: 'memory' },
-        ]
-      },
-      {
-        panelName: 'Containers',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Containers', name: 'containers', type: 'array' },
-        ]
-      },
-      {
-        panelName: 'Detail',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Detail', name: 'detail', type: 'default' },
-        ]
-      },
-      {
-        panelName: 'Other',
-        tableRecordList: [],
-        keyValueRecords: [
-          { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-        ]
-      },
-    ]
-  }
-];
-
-export const ITEMS_PER_PAGE = 30;
-export const CACHE_EXPIRED_UNIXTIME = 1000 * 60 * 60 * 24;
-export const DEFAULT_CLOUD_CONTEXTS: CloudContext[] = [
-  { cloudServiceProvider: 'aws_cloud', name: 'ALL', labelName: 'AWS Cloud (ALL)' },
-  { cloudServiceProvider: 'k8s', name: 'ALL', labelName: 'K8s (ALL)' },
-];
-
-export const AWS_LAUNCH_TEMPLATE_LIST: EntityColumn[] = [
-  { labelName: 'Name', 'name': 'name', type: 'default' },
-  { labelName: 'AMI Name', 'name': 'field_image_id', type: 'default' },
-  { labelName: 'Instance type', 'name': 'field_instance_type', type: 'default' },
-  {
-    labelName: 'VPC', 'name': 'field_vpc', type: 'join', info: {
-      entityTypeId: 'aws_cloud_vpc',
-      keyColumn: 'vpc_id',
-      valueColumn: 'name',
-    }
-  },
-  { labelName: 'Max count', 'name': 'field_max_count', type: 'default' },
-  { labelName: 'Status', 'name': 'field_workflow_status', type: 'default' },
-];
-export const K8S_LAUNCH_TEMPLATE_LIST: EntityColumn[] = [
-  { labelName: 'Name', 'name': 'name', type: 'default' },
-  { labelName: 'Namespace', 'name': 'field_namespace', type: 'default' },
-  { labelName: 'Object', 'name': 'field_object', type: 'array' },
-  { labelName: 'Enable time scheduler', 'name': 'field_enable_time_scheduler', type: 'boolean', value: ['On', 'Off'] },
-  { labelName: 'Workflow status', 'name': 'field_workflow_status', type: 'default' },
-];
-export const K8S_PROJECT_LIST: EntityColumn[] = [
-  { labelName: 'Name', name: 'name', type: 'default' },
-  { labelName: 'K8s Cluster', name: 'field_k8s_clusters', type: 'default' },
-  { labelName: 'Enable resource scheduler', name: 'field_enable_resource_scheduler', type: 'default' },
-];
+}
