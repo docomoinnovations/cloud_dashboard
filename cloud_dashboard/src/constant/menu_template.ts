@@ -1,5 +1,6 @@
 import MenuTemplate from 'model/MenuTemplate';
 
+// Template for displaying a list of entities in AWS Cloud.
 export const AWS_MENU_LIST: MenuTemplate[] = [
   {
     cloudServiceProvider: 'aws_cloud',
@@ -240,6 +241,8 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
     ]
   },
 ];
+
+// Template for displaying a list of entities in K8s.
 export const K8S_MENU_LIST: MenuTemplate[] = [
   {
     cloudServiceProvider: 'k8s',

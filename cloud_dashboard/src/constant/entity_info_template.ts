@@ -1,5 +1,6 @@
 import EntityInfoTemplate from 'model/EntityInfoTemplate';
 
+// Template for displaying detailed information about entities in AWS Cloud.
 export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
   {
     cloudServiceProvider: 'aws_cloud',
@@ -84,6 +85,7 @@ export const AWS_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
   }
 ];
 
+// Template for displaying detailed information about entities in K8s.
 export const K8S_ENTITY_INFO_LIST: EntityInfoTemplate[] = [
   {
     cloudServiceProvider: 'k8s',

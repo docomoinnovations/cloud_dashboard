@@ -1,6 +1,6 @@
 import EntityColumn from 'model/EntityColumn';
 
-
+// Template for displaying the Launch template in AWS Cloud.
 export const AWS_LAUNCH_TEMPLATE_LIST: EntityColumn[] = [
   { labelName: 'Name', 'name': 'name', type: 'default' },
   { labelName: 'AMI Name', 'name': 'field_image_id', type: 'default' },
@@ -15,6 +15,8 @@ export const AWS_LAUNCH_TEMPLATE_LIST: EntityColumn[] = [
   { labelName: 'Max count', 'name': 'field_max_count', type: 'default' },
   { labelName: 'Status', 'name': 'field_workflow_status', type: 'default' },
 ];
+
+// Template for displaying the Launch template in K8s.
 export const K8S_LAUNCH_TEMPLATE_LIST: EntityColumn[] = [
   { labelName: 'Name', 'name': 'name', type: 'default' },
   { labelName: 'Namespace', 'name': 'field_namespace', type: 'default' },
