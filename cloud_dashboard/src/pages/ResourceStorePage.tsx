@@ -1,25 +1,25 @@
 import Col from 'bootstrap3-components/Col';
 import FluidContainer from 'bootstrap3-components/FluidContainer';
 import Row from 'bootstrap3-components/Row';
-import RESOURCE_STORE_LIST from 'constant/resource_store_template';
+import ResourceStoreTemplate from 'model/ResourceStoreTemplate';
 import MenuBar from 'organisms/MenuBar';
-import ResourceTable from 'organisms/ResourceTable';
+import ResourceStoreTable from 'organisms/ResourceStoreTable';
 import React from 'react';
 
 /**
- * Page of K8s namespace resource.
+ * Page of Cloud Resource.
  */
-const K8sNamespaceResourcePage = () => {
+const ResourceStorePage = ({ template }: { template: ResourceStoreTemplate }) => {
 
   return <FluidContainer className="px-0">
     <Row className="mx-0">
       <Col>
         <MenuBar />
-        <ResourceTable template={RESOURCE_STORE_LIST[1]} />
+        <ResourceStoreTable template={template} />
       </Col>
     </Row>
   </FluidContainer>;
 
 }
 
-export default K8sNamespaceResourcePage;
+export default ResourceStorePage;

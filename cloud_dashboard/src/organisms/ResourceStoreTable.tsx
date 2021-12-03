@@ -31,7 +31,7 @@ const readDataList = async (getEntityListAll: GetEntityListAllType, sortInfo: So
  *
  * @returns JSX of ResourceTable.
  */
-const ResourceTable = ({ template }: { template: ResourceStoreTemplate }) => {
+const ResourceStoreTable = ({ template }: { template: ResourceStoreTemplate }) => {
 
   const { cloudContextList } = useContext(AppContext);
   const { getEntityListAll } = useDrupalJsonApi();
@@ -62,4 +62,4 @@ const ResourceTable = ({ template }: { template: ResourceStoreTemplate }) => {
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;
 }
 
-export default ResourceTable;
+export default ResourceStoreTable;
