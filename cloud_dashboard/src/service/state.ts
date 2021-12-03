@@ -1,4 +1,4 @@
-import { DEFAULT_CLOUD_CONTEXTS } from 'constant';
+import { DEFAULT_CLOUD_CONTEXTS } from 'constant/constant';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import CloudServiceProvider from 'model/CloudServiceProvider';
@@ -43,7 +43,7 @@ export const useAppState = (): AppState => {
     if (languageName !== null) {
       i18n.changeLanguage(languageName);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Set cloud context list.
@@ -54,12 +54,12 @@ export const useAppState = (): AppState => {
       for (const cloudServiceProvider of cloudServiceProviderList) {
         const data = (await getEntityListAll('cloud_config', {}, cloudServiceProvider))
           .map((record: any) => {
-          return {
-            cloudServiceProvider: cloudServiceProvider as CloudServiceProvider,
-            name: record.attributes.cloud_context,
-            labelName: record.attributes.name
-          };
-        });
+            return {
+              cloudServiceProvider: cloudServiceProvider as CloudServiceProvider,
+              name: record.attributes.cloud_context,
+              labelName: record.attributes.name
+            };
+          });
         newCloudContextList = [...newCloudContextList, ...data];
       }
       setCloudContextList(newCloudContextList);
@@ -73,11 +73,11 @@ export const useAppState = (): AppState => {
       }
     };
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dispatch = (action: Action) => {
-    switch(action.type) {
+    switch (action.type) {
       case 'setCloudContext': {
         // Save new cloud Context.
         localStorage.setItem('cloudContext', JSON.stringify(action.message));
@@ -101,5 +101,5 @@ export const useAppState = (): AppState => {
 export const AppContext = createContext<AppState>({
   cloudContext: DEFAULT_CLOUD_CONTEXTS[0],
   cloudContextList: [],
-  dispatch: () => {}
+  dispatch: () => { }
 });

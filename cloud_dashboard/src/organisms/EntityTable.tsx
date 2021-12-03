@@ -1,4 +1,4 @@
-import { ITEMS_PER_PAGE } from 'constant';
+import { ITEMS_PER_PAGE } from 'constant/constant';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
@@ -19,7 +19,7 @@ import { convertEntityData, readDataCache } from 'service/utility';
  * @param pageIndex Entity item's page index.
  * @param detailInfo Information required to create a link to more information.
 */
-const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, pageIndex, detailInfo}: {
+const EntityTable = ({ entityTypeId, entityColumnList, namespace, namespaceName, pageIndex, detailInfo }: {
   entityTypeId: string,
   entityColumnList: EntityColumn[],
   namespace: string,
@@ -52,7 +52,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
       const dataCache = await readDataCache(getEntityListAll, entityColumnList);
 
       // Create function parameter.
-      const filter: {[key: string]: string} = {};
+      const filter: { [key: string]: string } = {};
       if (namespace !== '') {
         filter['namespace'] = namespace;
       }
@@ -74,7 +74,7 @@ const EntityTable = ({entityTypeId, entityColumnList, namespace, namespaceName, 
       setDataRecordList(convertEntityData(rawData, entityColumnList, cloudContextList, dataCache));
     };
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContextList, entityTypeId, entityColumnList, sortInfo, namespace, namespaceName, pageIndex]);
 
   return <DataTable

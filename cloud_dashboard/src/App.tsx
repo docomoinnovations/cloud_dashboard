@@ -3,8 +3,8 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import 'App.css';
 
 import {
-    AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL
-} from 'constant';
+  AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL
+} from 'constant/constant';
 import CallbackPage from 'pages/CallbackPage';
 import EntityInfoPage from 'pages/EntityInfoPage';
 import EntityPage from 'pages/EntityPage';
@@ -20,7 +20,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AppContext, useAppState } from 'service/state';
 import {
-    getEntityListViewUrl, getEntityTypeId, getLaunchTemplateViewUrl, getProjectViewUrl
+  getEntityListViewUrl, getEntityTypeId, getLaunchTemplateViewUrl, getProjectViewUrl
 } from 'service/utility';
 
 /**

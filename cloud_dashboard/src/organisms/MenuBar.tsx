@@ -1,5 +1,5 @@
 import NavBar from 'bootstrap3-components/NavBar';
-import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant';
+import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant/constant';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 import CloudContext from 'model/CloudContext';

@@ -1,4 +1,4 @@
-import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from 'constant';
+import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from 'constant/constant';
 import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
@@ -95,7 +95,7 @@ const LaunchTemplateTable = ({ cloudContext }: {
       setDataRecordList(convertEntityData(rawData, launchTemplateColumnList, cloudContextList, dataCache));
     };
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;

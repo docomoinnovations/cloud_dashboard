@@ -1,4 +1,4 @@
-import { K8S_PROJECT_LIST } from 'constant';
+import { K8S_PROJECT_LIST } from 'constant/constant';
 import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
@@ -24,7 +24,7 @@ const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[] => {
       return cloudContext.name !== 'ALL'
         ? K8S_PROJECT_LIST
         : [{ labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-          ...K8S_PROJECT_LIST];
+        ...K8S_PROJECT_LIST];
   }
 };
 
@@ -85,7 +85,7 @@ const ProjectTable = ({ cloudContext }: {
       setDataRecordList(convertEntityData(rawData, columnList, cloudContextList, {}));
     };
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContextList, sortInfo]);
 
   return <DataTable dataColumnList={dataColumnList} dataRecordList={dataRecordList} sortInfo={sortInfo} setSortInfo={setSortInfo} />;

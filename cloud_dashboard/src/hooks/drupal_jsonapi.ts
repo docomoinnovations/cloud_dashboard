@@ -1,4 +1,4 @@
-import { CACHE_EXPIRED_UNIXTIME, FETCH_TIMEOUT_MS } from 'constant';
+import { CACHE_EXPIRED_UNIXTIME, FETCH_TIMEOUT_MS } from 'constant/constant';
 import EntityData from 'model/EntityData';
 import SortInfo from 'model/SortInfo';
 import { useEffect, useState } from 'react';

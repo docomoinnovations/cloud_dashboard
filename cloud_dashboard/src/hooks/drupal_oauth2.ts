@@ -1,4 +1,4 @@
-import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant';
+import { OAUTH2_CLIENT_SECRET, ROUTE_URL } from 'constant/constant';
 import { useEffect, useState } from 'react';
 import { getLocalStorageItem, setLocalStorageItem } from 'service/utility';
 
@@ -90,7 +90,7 @@ const getTokenByAuthorizationCodeGrantImpl = async () => {
   console.log('Token Request : Yes');
 
   const response_json = await response.json();
-  if (!('access_token' in response_json)) { 
+  if (!('access_token' in response_json)) {
     console.log('Access Token : No');
     console.error('Authorization failed.');
     console.groupEnd();
@@ -148,7 +148,7 @@ const refreshTokenFunction = async (refreshToken: string) => {
   console.log('Token Request : Yes');
 
   const response_json = await response.json();
-  if (!('access_token' in response_json)) { 
+  if (!('access_token' in response_json)) {
     console.log('Access Token : No');
     console.error('Authorization failed.');
     console.groupEnd();
@@ -193,6 +193,8 @@ const useDrupalOAuth2 = () => {
     console.log('accessToken=', accessToken);
     console.log('refreshToken=', refreshToken);
     console.log('expiresDatetime=', expiresDatetime);
+    const dt = new Date(parseInt(expiresDatetime));
+    console.log(`(${dt.toString()})`);
     console.groupEnd();
   }, [accessToken, refreshToken, expiresDatetime]);
 
