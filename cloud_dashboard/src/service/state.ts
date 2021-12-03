@@ -1,4 +1,4 @@
-import { DEFAULT_CLOUD_CONTEXTS } from 'constant/other';
+import { CLOUD_SERVICE_PROVIDER_LIST, DEFAULT_CLOUD_CONTEXTS } from 'constant/other';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import CloudServiceProvider from 'model/CloudServiceProvider';
@@ -49,9 +49,8 @@ export const useAppState = (): AppState => {
   // Set cloud context list.
   useEffect(() => {
     const init = async () => {
-      const cloudServiceProviderList = ['aws_cloud', 'k8s'];
       let newCloudContextList = [...DEFAULT_CLOUD_CONTEXTS];
-      for (const cloudServiceProvider of cloudServiceProviderList) {
+      for (const cloudServiceProvider of CLOUD_SERVICE_PROVIDER_LIST) {
         const data = (await getEntityListAll('cloud_config', {}, cloudServiceProvider))
           .map((record: any) => {
             return {

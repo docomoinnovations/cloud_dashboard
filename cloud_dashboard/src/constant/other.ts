@@ -1,4 +1,5 @@
 import CloudContext from 'model/CloudContext';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 
 // The name of the client to be used for OAuth2 authentication,
 // corresponding to the description in INSTALL.md.
@@ -24,4 +25,8 @@ export const CACHE_EXPIRED_UNIXTIME = 1000 * 60 * 60 * 24;
 export const DEFAULT_CLOUD_CONTEXTS: CloudContext[] = [
   { cloudServiceProvider: 'aws_cloud', name: 'ALL', labelName: 'AWS Cloud (ALL)' },
   { cloudServiceProvider: 'k8s', name: 'ALL', labelName: 'K8s (ALL)' },
+];
+
+export const CLOUD_SERVICE_PROVIDER_LIST: CloudServiceProvider[] = [
+  'aws_cloud', 'k8s'
 ];
