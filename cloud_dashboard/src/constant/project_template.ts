@@ -1,4 +1,5 @@
 import CloudContext from 'model/CloudContext';
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import EntityColumn from 'model/EntityColumn';
 
 
@@ -9,6 +10,7 @@ const K8S_PROJECT_TEMPLATE_LIST: EntityColumn[] = [
   { labelName: 'Enable resource scheduler', name: 'field_enable_resource_scheduler', type: 'default' },
 ];
 
+// Default template of projects in K8s.
 const DEFAULT_K8S_PROJECT_TEMPLATE: EntityColumn = {
   labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default'
 };
@@ -30,3 +32,8 @@ export const getProjectColumnList = (cloudContext: CloudContext): EntityColumn[]
           ...K8S_PROJECT_TEMPLATE_LIST];
   }
 };
+
+// List of CloudServiceProvider where the Project resides.
+export const PROJECT_CLOUD_CONTEXT_LIST: CloudServiceProvider[] = [
+  'k8s'
+];

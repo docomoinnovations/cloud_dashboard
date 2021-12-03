@@ -74,9 +74,7 @@ const App = () => {
           })
         }
         {
-          appState.cloudContextList.filter((r) => {
-            return r.cloudServiceProvider === 'k8s';
-          }).map((cloudContext) => {
+          appState.cloudContextList.map((cloudContext) => {
             return <Route
               path={getProjectViewUrl(cloudContext)}
               key={cloudContext.labelName}

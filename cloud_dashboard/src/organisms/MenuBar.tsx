@@ -1,5 +1,6 @@
 import NavBar from 'bootstrap3-components/NavBar';
 import { getMenuTemplateList } from 'constant/menu_template';
+import { PROJECT_CLOUD_CONTEXT_LIST } from 'constant/project_template';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 import CloudContext from 'model/CloudContext';
@@ -74,7 +75,7 @@ const MenuBar = () => {
         <NavBar.Dropdown menuName="Project">
           {
             cloudContextList.filter((r) => {
-              return r.cloudServiceProvider === 'k8s';
+              return PROJECT_CLOUD_CONTEXT_LIST.includes((r.cloudServiceProvider));
             }).map((r, index) => {
               return <NavBar.Item key={index}>
                 <Link to={getProjectViewUrl(r)}
