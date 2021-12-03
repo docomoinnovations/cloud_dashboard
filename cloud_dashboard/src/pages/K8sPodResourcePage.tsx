@@ -1,8 +1,9 @@
 import Col from 'bootstrap3-components/Col';
 import FluidContainer from 'bootstrap3-components/FluidContainer';
 import Row from 'bootstrap3-components/Row';
-import K8sPodResourceTable from 'organisms/K8sPodResourceTable';
+import RESOURCE_STORE_LIST from 'constant/resource_store_template';
 import MenuBar from 'organisms/MenuBar';
+import ResourceTable from 'organisms/ResourceTable';
 import React from 'react';
 
 /**
@@ -14,7 +15,7 @@ const K8sPodResourcePage = () => {
     <Row className="mx-0">
       <Col>
         <MenuBar />
-        <K8sPodResourceTable />
+        <ResourceTable template={RESOURCE_STORE_LIST[3]} />
       </Col>
     </Row>
   </FluidContainer>;
