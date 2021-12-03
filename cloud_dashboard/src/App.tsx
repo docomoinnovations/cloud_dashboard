@@ -3,8 +3,10 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import 'App.css';
 
 import {
-  AWS_ENTITY_INFO_LIST, AWS_MENU_LIST, K8S_ENTITY_INFO_LIST, K8S_MENU_LIST, ROUTE_URL
+  ROUTE_URL
 } from 'constant/constant';
+import { AWS_ENTITY_INFO_LIST, K8S_ENTITY_INFO_LIST } from "constant/entity_info_template";
+import { AWS_MENU_LIST, K8S_MENU_LIST } from "constant/menu_template";
 import CallbackPage from 'pages/CallbackPage';
 import EntityInfoPage from 'pages/EntityInfoPage';
 import EntityPage from 'pages/EntityPage';

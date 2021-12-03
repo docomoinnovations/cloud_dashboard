@@ -1,6 +1,6 @@
 import EntityTab from 'atoms/EntityTab';
 import Tab from 'bootstrap3-components/Tab';
-import { AWS_MENU_LIST, K8S_MENU_LIST } from 'constant/constant';
+import { AWS_MENU_LIST, K8S_MENU_LIST } from "constant/menu_template";
 import CloudServiceProvider from 'model/CloudServiceProvider';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';

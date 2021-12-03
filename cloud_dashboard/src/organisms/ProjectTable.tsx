@@ -1,4 +1,4 @@
-import { K8S_PROJECT_LIST } from 'constant/constant';
+import { K8S_PROJECT_LIST } from "constant/project_template";
 import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
