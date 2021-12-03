@@ -5,8 +5,7 @@ import 'App.css';
 import {
   ROUTE_URL
 } from 'constant/other';
-import { AWS_ENTITY_INFO_LIST, K8S_ENTITY_INFO_LIST } from "constant/entity_info_template";
-import { AWS_MENU_LIST, K8S_MENU_LIST } from "constant/menu_template";
+import ENTITY_INFO_LIST from "constant/entity_info_template";
 import CallbackPage from 'pages/CallbackPage';
 import EntityInfoPage from 'pages/EntityInfoPage';
 import EntityPage from 'pages/EntityPage';
@@ -24,6 +23,7 @@ import { AppContext, useAppState } from 'service/state';
 import {
   getEntityListViewUrl, getEntityTypeId, getLaunchTemplateViewUrl, getProjectViewUrl
 } from 'service/utility';
+import { MENU_TEMPLATE_LIST } from 'constant/menu_template';
 
 /**
  * Component for application route.
@@ -45,7 +45,7 @@ const App = () => {
           <ProviderPage />
         </Route>
         {
-          [...AWS_ENTITY_INFO_LIST, ...K8S_ENTITY_INFO_LIST].map((record) => {
+          ENTITY_INFO_LIST.map((record) => {
             return <Route exact
               path={`/${record.cloudServiceProvider}/${record.entityName}/:uuid`}
               key={`/${record.cloudServiceProvider}/${record.entityName}`}>
@@ -54,7 +54,7 @@ const App = () => {
           })
         }
         {
-          ([...AWS_MENU_LIST, ...K8S_MENU_LIST]).map((record) => {
+          MENU_TEMPLATE_LIST.map((record) => {
             return <Route exact
               path={getEntityListViewUrl(record)}
               key={getEntityTypeId(record)}

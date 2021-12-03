@@ -1,39 +1,13 @@
-import { AWS_LAUNCH_TEMPLATE_LIST, K8S_LAUNCH_TEMPLATE_LIST } from "constant/launch_template";
+import getLaunchTemplateColumnList from 'constant/launch_template';
 import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import CloudContext from 'model/CloudContext';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
-import EntityColumn from 'model/EntityColumn';
 import SortInfo from 'model/SortInfo';
 import DataTable from 'organisms/DataTable';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'service/state';
 import { convertEntityData, readDataCache } from 'service/utility';
-
-/**
- * Get LaunchTemplateColumnList by cloud_context.
- * 
- * @param cloudContext cloud_context.
- * @returns LaunchTemplateColumnList.
- */
-const getLaunchTemplateColumnList = (cloudContext: CloudContext): EntityColumn[] => {
-  switch (cloudContext.cloudServiceProvider) {
-    case 'aws_cloud':
-      return cloudContext.name !== 'ALL'
-        ? AWS_LAUNCH_TEMPLATE_LIST
-        : [
-          { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-          ...AWS_LAUNCH_TEMPLATE_LIST
-        ];
-    case 'k8s':
-      return cloudContext.name !== 'ALL'
-        ? K8S_LAUNCH_TEMPLATE_LIST
-        : [
-          { labelName: 'Cloud Service Provider ID', name: 'cloud_context', type: 'default' },
-          ...K8S_LAUNCH_TEMPLATE_LIST
-        ];
-  }
-};
 
 /**
  * Read LaunchTemplateList by JSON:API.

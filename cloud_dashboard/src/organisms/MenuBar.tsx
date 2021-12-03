@@ -1,5 +1,5 @@
 import NavBar from 'bootstrap3-components/NavBar';
-import { AWS_MENU_LIST, K8S_MENU_LIST } from "constant/menu_template";
+import { getMenuTemplateList } from 'constant/menu_template';
 import useDrupalJsonApi from 'hooks/drupal_jsonapi';
 import useDrupalOAuth2 from 'hooks/drupal_oauth2';
 import CloudContext from 'model/CloudContext';
@@ -50,10 +50,8 @@ const MenuBar = () => {
         <NavBar.Dropdown menuName={cloudContext.labelName}>
           {
             cloudContextList.map((r, index) => {
-              const list = r.cloudServiceProvider === 'aws_cloud'
-                ? AWS_MENU_LIST : K8S_MENU_LIST;
               return <NavBar.Item key={index}>
-                <Link to={getEntityListViewUrl(list[0])}
+                <Link to={getEntityListViewUrl(getMenuTemplateList(r.cloudServiceProvider)[0])}
                   onClick={() => setCloudContext(r)}>
                   {r.labelName}
                 </Link>

@@ -1,8 +1,8 @@
 import EntityTab from 'atoms/EntityTab';
 import Tab from 'bootstrap3-components/Tab';
-import { AWS_MENU_LIST, K8S_MENU_LIST } from "constant/menu_template";
+import { getMenuTemplateList } from "constant/menu_template";
 import CloudServiceProvider from 'model/CloudServiceProvider';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { AppContext } from 'service/state';
 import { getEntityListViewUrl } from 'service/utility';
@@ -47,29 +47,36 @@ const EntityTabs = ({ menuType, menuName }: {
 }) => {
 
   const { cloudContext } = useContext(AppContext);
+  const [tabColumnList, setTabColumnList] = useState<{
+    isActive: boolean;
+    location: string;
+    children: string;
+  }[]>([]);
   const history = useHistory();
 
   useEffect(() => {
     if (cloudContext.cloudServiceProvider !== menuType) {
-      switch (cloudContext.cloudServiceProvider) {
-        case 'aws_cloud':
-          history.push(getEntityListViewUrl(AWS_MENU_LIST[0]));
-          break;
-        case 'k8s':
-          history.push(getEntityListViewUrl(K8S_MENU_LIST[0]));
-          break;
-      }
+      history.push(
+        getEntityListViewUrl(
+          getMenuTemplateList(cloudContext.cloudServiceProvider)[0]
+        )
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cloudContext]);
 
-  const tabColumnList = (menuType === 'aws_cloud' ? AWS_MENU_LIST : K8S_MENU_LIST).map((menu) => {
-    return {
-      isActive: menu.labelName === menuName,
-      location: getEntityListViewUrl(menu),
-      children: menu.labelName,
-    };
-  });
+  useEffect(() => {
+    setTabColumnList(
+      getMenuTemplateList(menuType)
+        .map((menu) => {
+          return {
+            isActive: menu.labelName === menuName,
+            location: getEntityListViewUrl(menu),
+            children: menu.labelName,
+          };
+        })
+    );
+  }, [menuType, menuName]);
 
   return <EntityTabsImpl tabColumnList={tabColumnList} />;
 

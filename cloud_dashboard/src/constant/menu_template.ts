@@ -1,7 +1,8 @@
+import CloudServiceProvider from 'model/CloudServiceProvider';
 import MenuTemplate from 'model/MenuTemplate';
 
 // Template for displaying a list of entities in AWS Cloud.
-export const AWS_MENU_LIST: MenuTemplate[] = [
+const AWS_MENU_LIST: MenuTemplate[] = [
   {
     cloudServiceProvider: 'aws_cloud',
     labelName: 'Instance',
@@ -243,7 +244,7 @@ export const AWS_MENU_LIST: MenuTemplate[] = [
 ];
 
 // Template for displaying a list of entities in K8s.
-export const K8S_MENU_LIST: MenuTemplate[] = [
+const K8S_MENU_LIST: MenuTemplate[] = [
   {
     cloudServiceProvider: 'k8s',
     labelName: 'Node',
@@ -591,3 +592,16 @@ export const K8S_MENU_LIST: MenuTemplate[] = [
     ],
   },
 ];
+
+export const MENU_TEMPLATE_LIST = [...AWS_MENU_LIST, ...K8S_MENU_LIST];
+
+export const getMenuTemplateList = (cloudServiceProvider: CloudServiceProvider) => {
+  switch (cloudServiceProvider) {
+    case 'aws_cloud':
+      return AWS_MENU_LIST;
+    case 'k8s':
+      return K8S_MENU_LIST;
+    default:
+      throw new Error('It is an unknown Cloud Context.');
+  }
+}
