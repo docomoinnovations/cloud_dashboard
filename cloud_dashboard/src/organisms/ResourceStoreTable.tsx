@@ -1,7 +1,6 @@
 import useDrupalJsonApi, { GetEntityListAllType } from 'hooks/drupal_jsonapi';
 import DataColumn from 'model/DataColumn';
 import DataRecord from 'model/DataRecord';
-import EntityColumn from 'model/EntityColumn';
 import ResourceStoreTemplate from 'model/ResourceStoreTemplate';
 import SortInfo from 'model/SortInfo';
 import DataTable from 'organisms/DataTable';
