@@ -65,12 +65,16 @@ SPA client Structure
 - `App.tsx` is called from `index.tsx`, and `App.tsx` switches pages for each endpoint.
   - Each page is defined in the pages directory.
 - `i18n.ts` defines the processing required for i18n support.
-- `constant.ts` defines the various constants required by the SPA client.
+- `constant` directory defines the various constants required by the SPA client.
 
-| Directory name | Description                                                    |
-|----------------|----------------------------------------------------------------|
-| atoms          | Definition of components that represents an element on the SPA |
-| molecules      | Defining a Component that consists of multiple `atoms`         |
-| organisms      | Defining a Component that consists of multiple `molecules`     |
-| pages          | Define a page-by-page Component                                |
-| service        | Defining service classes and utility functions                 |
+| Directory name        | Description                                                       |
+|-----------------------|-------------------------------------------------------------------|
+| atoms                 | Definition of components that represents an element on the SPA    |
+| bootstrap3-components | Wrapper Component for the part that depends on `Bootstrap3`       |
+| constant              | Definition of constants                                           |
+| hooks                 | Library called by the entire SPA, defined in Custom Hooks         |
+| model                 | The data model used by the SPA, defined by `interface` and `type` |
+| molecules             | Defining a Component that consists of multiple `atoms`            |
+| organisms             | Defining a Component that consists of multiple `molecules`        |
+| pages                 | Define a page-by-page Component                                   |
+| service               | Defining service classes and utility functions                    |
