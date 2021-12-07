@@ -1,0 +1,22 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function cloud_dashboard_help($route_name, RouteMatchInterface $route_match): string {
+  switch ($route_name) {
+    case 'help.page.cloud_dashboard':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<ul>';
+      $output .= '<li>' . \Drupal::service('cloud_dashboard')->getVersion() . '</li>';
+      $output .= '<li>' . t('The Cloud Dashboard module creates a user interface for users to manage clouds.') . '</li>';
+      $output .= '</ul>';
+      $output .= '<p>' . t('For more information, see the <a href=":cloud_documentation">online documentation for the Cloud module</a>.', [':cloud_documentation' => 'https://www.drupal.org/docs/8/modules/cloud']) . '</p>';
+      return $output;
+
+    default:
+      return '';
+  }
+}
