@@ -10,7 +10,7 @@ interface CloudDashboardServiceInterface {
   /**
    * The version signature string.
    */
-  public const VERSION = '4.0.0-rc1';
+  public const VERSION = '4.x';
 
   /**
    * Get the version number of the module.
