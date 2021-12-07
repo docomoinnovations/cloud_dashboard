@@ -131,5 +131,4 @@ class CloudDashboardConfigController extends ControllerBase {
 
     return new JsonResponse(['uri' => 'https://enjalot.github.io/wwsd/data/world/ne_50m_admin_0_countries.geojson']);
   }
-
 }

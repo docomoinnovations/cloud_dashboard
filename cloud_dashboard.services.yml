@@ -1,0 +1,4 @@
+services:
+  cloud_dashboard:
+    class: Drupal\cloud_dashboard\Service\CloudDashboardService
+    arguments: []

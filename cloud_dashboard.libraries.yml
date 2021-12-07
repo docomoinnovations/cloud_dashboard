@@ -1,4 +1,5 @@
 react_app:
+  version: 4.0.0-rc1
   js:
     js/2.chunk.js: { minified: true }
     js/3.chunk.js: { minified: true }
