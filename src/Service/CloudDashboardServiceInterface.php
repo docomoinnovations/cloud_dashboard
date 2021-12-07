@@ -3,7 +3,7 @@
 namespace Drupal\cloud_dashboard\Service;
 
 /**
- * Class CloudDashboardService.
+ * Interface of CloudDashboardService.
  */
 interface CloudDashboardServiceInterface {
 
