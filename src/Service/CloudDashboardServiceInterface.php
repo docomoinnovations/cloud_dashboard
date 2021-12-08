@@ -3,14 +3,14 @@
 namespace Drupal\cloud_dashboard\Service;
 
 /**
- * Class CloudDashboardService.
+ * An interface of CloudDashboardService.
  */
 interface CloudDashboardServiceInterface {
 
   /**
    * The version signature string.
    */
-  public const VERSION = '4.0.0-rc1';
+  public const VERSION = '4.x-dev';
 
   /**
    * Get the version number of the module.
