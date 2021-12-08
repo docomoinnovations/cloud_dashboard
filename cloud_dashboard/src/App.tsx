@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import 'App.css';
 
-import ENTITY_INFO_LIST from 'constant/entity_info_template';
+import ENTITY_INFO_LIST from 'constant/entity_info_template/entity_info_template';
 import { MENU_TEMPLATE_LIST } from 'constant/menu_template';
 import { ROUTE_URL } from 'constant/other';
 import RESOURCE_STORE_LIST from 'constant/resource_store_template';
